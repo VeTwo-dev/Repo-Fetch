@@ -1,0 +1,60 @@
+name: Bug Report
+description: Report a bug in repo-fetch
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of repo-fetch are you running?
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      description: What repository were you trying to fetch from?
+      placeholder: "user/repo"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+      placeholder: "When I run repo-fetch browse user/repo, it..."
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Include any relevant logs or error messages
+      render: shell
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce the issue?
+      placeholder: |
+        1. Run `repo-fetch browse user/repo`
+        2. Select a folder
+        3. See error
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options:
+        - GitHub
+        - GitLab
+        - Bitbucket
+        - Azure DevOps
+        - Gitea
+        - Forgejo
+    validations:
+      required: true

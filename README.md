@@ -16,6 +16,8 @@
 - **Parallel downloads** with progress tracking
 - **LRU caching** for repository trees
 - **Plugin system** with lifecycle hooks
+- **Vetwo Registry Client** - Full registry for plugins, modules, templates, presets, generators, snippets, recipes, blueprints, integrations, adapters, examples, themes, and configurations
+- **GitHub Repo URL Resolution** - Auto-detect repo from .env, wizard prompt, or git remote
 - **CLI** and **Node.js API**
 
 ---
@@ -53,6 +55,8 @@
 - [Error Handling](#error-handling)
 - [Configuration](#configuration)
 - [Plugin System](#plugin-system)
+- [Vetwo Registry Client](#vetwo-registry-client)
+- [GitHub Repo URL Resolution](#github-repo-url-resolution)
 - [Event System](#event-system)
 - [Architecture](#architecture)
 - [CLI Reference](#cli-reference)
@@ -873,6 +877,183 @@ See [Plugin Guide](PLUGIN_GUIDE.md) for detailed documentation.
 
 ---
 
+## Vetwo Registry Client
+
+Full-featured registry client for discovering, installing, and managing Vetwo ecosystem resources including plugins, modules, templates, presets, generators, snippets, recipes, blueprints, integrations, adapters, examples, themes, and configurations.
+
+### Search
+
+```bash
+# Search the registry
+repo-fetch registry search <query>
+
+# Search with options
+repo-fetch registry search "react template" --category templates --tag react --limit 10
+```
+
+```typescript
+import { RegistryClient } from "@vetwo/repo-fetch";
+
+const client = new RegistryClient();
+const results = await client.search("react template", {
+  category: "templates",
+  tag: "react",
+  limit: 10,
+});
+```
+
+### Install
+
+```bash
+# Install a resource from the registry
+repo-fetch registry install <resource>
+
+# Install with options
+repo-fetch registry install @vetwo/my-plugin --version latest --force
+```
+
+```typescript
+const result = await client.install("@vetwo/my-plugin", {
+  version: "latest",
+  force: true,
+});
+```
+
+### Info
+
+```bash
+# Show detailed info about a resource
+repo-fetch registry info <resource>
+```
+
+```typescript
+const info = await client.getInfo("@vetwo/my-plugin");
+console.log(info.manifest);
+console.log(info.versions);
+```
+
+### List
+
+```bash
+# List all installed resources
+repo-fetch registry list
+```
+
+### Compatibility Check
+
+```bash
+# Check environment compatibility
+repo-fetch registry check
+```
+
+```typescript
+const report = await client.checkCompatibility();
+console.log(report.compatible); // boolean
+console.log(report.missing);    // string[]
+```
+
+### Cache Management
+
+```bash
+# Show registry cache stats
+repo-fetch registry cache
+
+# Clear registry cache
+repo-fetch registry clear-cache
+```
+
+```typescript
+const stats = await client.getCacheStats();
+await client.clearCache();
+```
+
+### Categories and Tags
+
+```bash
+# List all categories
+repo-fetch registry categories
+
+# List all tags
+repo-fetch registry tags
+```
+
+### Node.js API
+
+```typescript
+import { RegistryClient } from "@vetwo/repo-fetch";
+
+const client = new RegistryClient();
+
+// Get the full registry index
+const index = await client.getIndex();
+
+// Search
+const results = await client.search("template", { category: "templates" });
+
+// Get manifest for a resource
+const manifest = await client.getManifest("@vetwo/my-plugin");
+
+// Resolve dependencies
+const deps = await client.resolveDependencies("@vetwo/my-plugin");
+
+// Install
+await client.install("@vetwo/my-plugin", { version: "1.0.0" });
+```
+
+---
+
+## GitHub Repo URL Resolution
+
+Automatically resolve repository URLs from environment variables, wizard prompts, or git remote detection. Useful when using `repo-fetch` as a dev dependency in scaffolding tools.
+
+### Resolution Chain
+
+The repository URL is resolved in this order:
+
+1. **`.env` variable** - Check for `GITHUB_REPO_URL` (configurable)
+2. **Wizard prompt** - Interactive prompt asking for the URL
+3. **Git remote auto-detect** - Detect from the current project's git remote
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `--env-var <name>` | Custom environment variable name (default: `GITHUB_REPO_URL`) |
+| `--no-prompt` | Skip wizard prompt |
+| `--no-auto-detect` | Skip git remote auto-detection |
+
+### CLI Usage
+
+```bash
+# Use repo-fetch browse with auto-detection
+repo-fetch browse
+
+# Use repo-fetch download with auto-detection
+repo-fetch download --output ./scaffold
+
+# Use repo-fetch tree with auto-detection
+repo-fetch tree
+```
+
+### Node.js API (`fetchFromConfig`)
+
+Use `fetchFromConfig()` as a dev dependency to fetch templates from a configurable repo:
+
+```typescript
+import { fetchFromConfig } from "@vetwo/repo-fetch";
+
+// Resolves repo URL via .env → prompt → git remote
+const result = await fetchFromConfig({
+  pattern: "templates/**",
+  output: "./scaffold",
+  envVar: "GITHUB_REPO_URL",  // default
+  prompt: true,                // default
+  autoDetect: true,            // default
+});
+```
+
+---
+
 ## Event System
 
 Listen to lifecycle events:
@@ -945,6 +1126,21 @@ src/
 │   ├── gitea/              # Gitea (stub)
 │   ├── github/             # GitHub (full)
 │   └── gitlab/             # GitLab (stub)
+├── registry/               # Vetwo Registry Client
+│   ├── index.ts            # Main RegistryClient class
+│   ├── types.ts            # Registry type definitions
+│   ├── cache/              # Registry index/manifest caching
+│   ├── compatibility/      # Environment detection & compatibility
+│   ├── core/               # Core client
+│   ├── integrity/          # Checksum verification
+│   ├── lifecycle/          # Lifecycle hooks
+│   ├── report/             # Installation reports
+│   ├── resolver/           # Dependency resolver
+│   ├── schema/             # Zod validation schemas
+│   ├── search/             # Fuzzy search engine
+│   ├── transforms/         # AST transformations
+│   └── variables/          # Template variable engine
+├── core/fetch-config/      # Dev dependency fetchFromConfig()
 ├── types/                  # TypeScript types
 │   └── index.ts
 ├── utils/                  # Utilities
@@ -1029,6 +1225,51 @@ Show cache statistics.
 
 Clear all cached data.
 
+### `repo-fetch registry search <query>`
+
+Search the Vetwo registry.
+
+**Options:**
+- `-c, --category <category>` - Filter by category
+- `-t, --tag <tag>` - Filter by tag
+- `-l, --limit <number>` - Maximum results (default: 20)
+
+### `repo-fetch registry install <resource>`
+
+Install a resource from the registry.
+
+**Options:**
+- `-v, --version <version>` - Specific version (default: latest)
+- `--force` - Force reinstall
+
+### `repo-fetch registry info <resource>`
+
+Show detailed info about a registry resource.
+
+### `repo-fetch registry list`
+
+List all installed registry resources.
+
+### `repo-fetch registry check`
+
+Check environment compatibility for registry resources.
+
+### `repo-fetch registry cache`
+
+Show registry cache statistics.
+
+### `repo-fetch registry clear-cache`
+
+Clear registry cache.
+
+### `repo-fetch registry categories`
+
+List all registry categories.
+
+### `repo-fetch registry tags`
+
+List all registry tags.
+
 ---
 
 ## API Reference
@@ -1051,6 +1292,42 @@ Clear all cached data.
 | `previewDownload(nodes, destination?)` | Generate download preview | `Promise<PreviewData>` |
 | `generatePreview(nodes, destination?)` | Create preview data | `PreviewData` |
 | `formatPreview(data)` | Format preview as string | `string` |
+| `RegistryClient.getIndex()` | Get full registry index | `Promise<RegistryIndex>` |
+| `RegistryClient.search(query, options?)` | Search registry resources | `Promise<SearchResult[]>` |
+| `RegistryClient.getById(id)` | Get resource by ID | `Promise<RegistryResourceEntry>` |
+| `RegistryClient.getManifest(id)` | Get resource manifest | `Promise<ResourceManifest>` |
+| `RegistryClient.checkCompatibility()` | Check environment compatibility | `Promise<CompatibilityReport>` |
+| `RegistryClient.resolveDependencies(id)` | Resolve resource dependencies | `Promise<DependencyGraph>` |
+| `RegistryClient.install(id, options?)` | Install a resource | `Promise<InstallationReport>` |
+| `searchRegistry(query, options?)` | Search the registry | `Promise<SearchResult[]>` |
+| `searchByCategory(category)` | Search by category | `Promise<SearchResult[]>` |
+| `searchByTag(tag)` | Search by tag | `Promise<SearchResult[]>` |
+| `searchByType(type)` | Search by resource type | `Promise<SearchResult[]>` |
+| `detectEnvironment()` | Detect runtime environment | `Promise<EnvironmentInfo>` |
+| `checkCompatibility()` | Check environment compatibility | `Promise<CompatibilityReport>` |
+| `resolveVariables(template, context)` | Resolve template variables | `VariableResolution` |
+| `applyVariables(template, variables)` | Apply variables to template | `string` |
+| `validateVariableValue(value, schema)` | Validate a variable value | `boolean` |
+| `applyTransforms(source, transforms)` | Apply AST transforms | `TransformResult` |
+| `verifyIntegrity(path, checksum)` | Verify file integrity | `IntegrityResult` |
+| `computeHash(data)` | Compute content hash | `string` |
+| `computeFileHash(path)` | Compute file hash | `Promise<string>` |
+| `computeDirectoryHash(path)` | Compute directory hash | `Promise<string>` |
+| `generateChecksum(data)` | Generate checksum | `string` |
+| `executeLifecycleHooks(hook, context)` | Execute lifecycle hooks | `Promise<LifecycleResult>` |
+| `getAvailableHooks()` | Get available hooks | `string[]` |
+| `hasHook(hook)` | Check if hook exists | `boolean` |
+| `getHookDescription(hook)` | Get hook description | `string` |
+| `createReport(name)` | Create installation report | `InstallationReport` |
+| `addInstalledResource(report, resource)` | Add resource to report | `void` |
+| `addWarning(report, message)` | Add warning to report | `void` |
+| `addError(report, message)` | Add error to report | `void` |
+| `finalizeReport(report)` | Finalize report | `InstallationReport` |
+| `formatReport(report)` | Format report as string | `string` |
+| `detectRepoFromGitRemote()` | Detect repo from git remote | `Promise<string \| null>` |
+| `resolveRepoUrl(options?)` | Resolve repo URL | `Promise<string>` |
+| `resolveRepoIdentifier(options?)` | Resolve repo identifier | `Promise<RepoIdentifier>` |
+| `fetchFromConfig(options?)` | Fetch using resolved config | `Promise<FetchConfigResult>` |
 
 ### Types
 
@@ -1068,6 +1345,21 @@ Clear all cached data.
 | `Provider` | Git provider interface |
 | `Plugin` | Plugin interface |
 | `Config` | Configuration object |
+| `ResourceManifest` | Registry resource manifest with metadata |
+| `RegistryIndex` | Full registry index of all resources |
+| `RegistryResourceEntry` | Individual resource entry in the index |
+| `SearchResult` | Search result with resource info and score |
+| `DependencyGraph` | Resolved dependency graph |
+| `DependencyNode` | Individual dependency node |
+| `CompatibilityReport` | Environment compatibility report |
+| `VariableResolution` | Resolved template variables |
+| `TransformResult` | Result of AST transformation |
+| `IntegrityResult` | File integrity check result |
+| `LifecycleResult` | Lifecycle hook execution result |
+| `InstallationReport` | Resource installation report |
+| `RegistryConfig` | Registry client configuration |
+| `InstallOptions` | Installation options |
+| `SearchOptions` | Registry search options |
 
 See [API Reference](API.md) for complete documentation.
 

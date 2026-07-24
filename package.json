@@ -1,0 +1,101 @@
+{
+  "name": "@vetwo/repo-fetch",
+  "version": "1.0.0",
+  "description": "Download selected files and folders from Git repositories without cloning the entire repository",
+  "keywords": [
+    "git",
+    "download",
+    "partial-clone",
+    "sparse-checkout",
+    "github",
+    "gitlab",
+    "bitbucket",
+    "azure-devops",
+    "gitea",
+    "forgejo"
+  ],
+  "homepage": "https://github.com/VeTwo-dev/Repo-Fetch/repo-fetch#readme",
+  "bugs": {
+    "url": "https://github.com/VeTwo-dev/Repo-Fetch/issues"
+  },
+  "license": "MIT",
+  "author": "Vetwo (https://vetwo.dev)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VeTwo-dev/Repo-Fetch.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "repo-fetch": "./dist/cli/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:fast": "tsup --no-dts",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "format:check": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run format &&  npm run test && npm run lint",
+    "release": "npm run build && npm run test && npm run lint && npm publish"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "commander": "^15.0.0",
+    "fs-extra": "^11.4.0",
+    "lru-cache": "^11.5.2",
+    "ohash": "2.0.11",
+    "ora": "^9.4.1",
+    "p-limit": "^7.3.1",
+    "p-retry": "^8.0.0",
+    "pathe": "^2.0.3",
+    "picocolors": "^1.1.1",
+    "undici": "^8.8.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.7.0 ",
+    "knip": "^6.27.0",
+    "prettier": "^3.9.6",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
