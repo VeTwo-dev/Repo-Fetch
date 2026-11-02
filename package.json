@@ -63,6 +63,9 @@
     "format:check": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build && npm run format &&  npm run test && npm run lint",
+    "link:local": "npm link",
+    "unlink:local": "npm unlink -g @vetwo/repo-fetch",
+    "relink": "npm unlink -g @vetwo/repo-fetch && npm link",
     "release": "npm run build && npm run test && npm run lint && npm publish"
   },
   "dependencies": {
