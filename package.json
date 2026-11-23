@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "Download selected files and folders from Git repositories without cloning the entire repository",
   "keywords": [
-    "git",
+    "azure-devops",
+    "bitbucket",
     "download",
-    "partial-clone",
-    "sparse-checkout",
+    "forgejo",
+    "git",
+    "gitea",
     "github",
     "gitlab",
-    "bitbucket",
-    "azure-devops",
-    "gitea",
-    "forgejo"
+    "partial-clone",
+    "sparse-checkout"
   ],
   "homepage": "https://github.com/VeTwo-dev/Repo-Fetch/repo-fetch#readme",
   "bugs": {
@@ -24,23 +24,6 @@
     "type": "git",
     "url": "git+https://github.com/VeTwo-dev/Repo-Fetch.git"
   },
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./cli": {
-      "types": "./dist/cli/index.d.ts",
-      "import": "./dist/cli/index.js",
-      "require": "./dist/cli/index.cjs"
-    },
-    "./package.json": "./package.json"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "bin": {
     "repo-fetch": "./dist/cli/index.js"
   },
@@ -50,6 +33,26 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "build:fast": "tsup --no-dts",
@@ -57,16 +60,19 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
-    "format:check": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
+    "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
+    "lint:fix": "oxlint -c .oxlintrc.json --fix . && eslint --config eslint.typeaware.config.js src/ tests/ --fix",
+    "format": "oxfmt --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "format:check": "oxfmt --check 'src/**/*.ts' 'tests/**/*.ts'",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build && npm run format &&  npm run test && npm run lint",
     "link:local": "npm link",
     "unlink:local": "npm unlink -g @vetwo/repo-fetch",
     "relink": "npm unlink -g @vetwo/repo-fetch && npm link",
-    "release": "npm run build && npm run test && npm run lint && npm publish"
+    "release": "npm run build && npm run test && npm run lint && npm publish",
+    "lint:oxlint": "oxlint -c .oxlintrc.json .",
+    "lint:eslint": "eslint --config eslint.typeaware.config.js src/ tests/",
+    "lint:eslint:legacy": "eslint ."
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
@@ -80,25 +86,23 @@
     "pathe": "^2.0.3",
     "picocolors": "^1.1.1",
     "undici": "^8.8.0",
-    "zod": "^4.4.3"
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.7.0 ",
-    "knip": "^6.27.0",
-    "prettier": "^3.9.6",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.65.0",
-    "vitest": "^4.1.10"
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=18.0.0"
   },
-  "publishConfig": {
-    "access": "public"
+  "pnpm": {
+    "onlyBuiltDependencies": []
   }
 }

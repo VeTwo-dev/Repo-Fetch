@@ -1,7 +1,11 @@
 import { describe, it, expect } from "vitest";
 import type { TreeItem } from "../src/types";
 import { buildTree, toggleNode } from "../src/core/tree";
-import { generatePreview, formatPreview, previewDownload } from "../src/core/preview";
+import {
+  generatePreview,
+  formatPreview,
+  previewDownload,
+} from "../src/core/preview";
 
 const mockItems: TreeItem[] = [
   { path: "package.json", type: "blob", sha: "a", size: 100, url: "" },

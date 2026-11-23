@@ -424,4 +424,6 @@ export type RegistryEventName =
   | "registry:install:complete"
   | "registry:install:error";
 
-export type RegistryEventHandler = (data: Record<string, unknown>) => Promise<void> | void;
+export type RegistryEventHandler = (
+  data: Record<string, unknown>,
+) => Promise<void> | void;

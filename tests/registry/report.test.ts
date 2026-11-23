@@ -1,5 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
-import type { DependencyNode, ResourceManifest } from "../../src/registry/types";
+import type {
+  DependencyNode,
+  ResourceManifest,
+} from "../../src/registry/types";
 import {
   createReport,
   addInstalledResource,
@@ -74,7 +77,13 @@ describe("createReport", () => {
 describe("addInstalledResource", () => {
   it("adds to resources array with correct shape", () => {
     const report = createReport();
-    addInstalledResource(report, testManifest, "/out/res-1", ["a.ts", "b.ts"], true);
+    addInstalledResource(
+      report,
+      testManifest,
+      "/out/res-1",
+      ["a.ts", "b.ts"],
+      true,
+    );
     expect(report.resources).toHaveLength(1);
     expect(report.resources[0]).toEqual({
       id: "res-1",
@@ -145,7 +154,13 @@ describe("addError", () => {
 describe("addSkipped", () => {
   it("adds to skipped with reason", () => {
     const report = createReport();
-    addSkipped(report, "res-2", "Resource Two", "incompatible", "Requires Node 20+");
+    addSkipped(
+      report,
+      "res-2",
+      "Resource Two",
+      "incompatible",
+      "Requires Node 20+",
+    );
     expect(report.skipped).toHaveLength(1);
     expect(report.skipped[0]).toEqual({
       id: "res-2",

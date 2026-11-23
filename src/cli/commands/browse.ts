@@ -10,7 +10,11 @@ export function registerBrowseCommand(program: Command): void {
     .description("Open interactive repository browser")
     .option("-t, --token <token>", "Authentication token")
     .option("-b, --branch <branch>", "Branch name")
-    .option("--env-var <name>", "Environment variable name for repo URL", "GITHUB_REPO_URL")
+    .option(
+      "--env-var <name>",
+      "Environment variable name for repo URL",
+      "GITHUB_REPO_URL",
+    )
     .option("--no-prompt", "Disable interactive prompt")
     .option("--no-auto-detect", "Disable auto-detection from git remote")
     .action(

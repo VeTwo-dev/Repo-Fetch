@@ -12,7 +12,9 @@ import {
   getHookDescription,
 } from "../../src/registry/lifecycle";
 
-function createManifestWithHooks(hooks: LifecycleHookDef[] = []): ResourceManifest {
+function createManifestWithHooks(
+  hooks: LifecycleHookDef[] = [],
+): ResourceManifest {
   return {
     id: "test",
     name: "Test",
@@ -65,7 +67,10 @@ describe("getAvailableHooks", () => {
       { name: "beforeInstall", script: "echo before" },
       { name: "afterInstall", script: "echo after" },
     ]);
-    expect(getAvailableHooks(manifest)).toEqual(["beforeInstall", "afterInstall"]);
+    expect(getAvailableHooks(manifest)).toEqual([
+      "beforeInstall",
+      "afterInstall",
+    ]);
   });
 
   it("returns empty array when no hooks", () => {
@@ -76,12 +81,16 @@ describe("getAvailableHooks", () => {
 
 describe("hasHook", () => {
   it("returns true when hook exists", () => {
-    const manifest = createManifestWithHooks([{ name: "afterInstall", script: "echo done" }]);
+    const manifest = createManifestWithHooks([
+      { name: "afterInstall", script: "echo done" },
+    ]);
     expect(hasHook(manifest, "afterInstall")).toBe(true);
   });
 
   it("returns false when hook doesn't exist", () => {
-    const manifest = createManifestWithHooks([{ name: "afterInstall", script: "echo done" }]);
+    const manifest = createManifestWithHooks([
+      { name: "afterInstall", script: "echo done" },
+    ]);
     expect(hasHook(manifest, "beforeInstall")).toBe(false);
   });
 });
@@ -89,27 +98,37 @@ describe("hasHook", () => {
 describe("getHookDescription", () => {
   it("returns description when available", () => {
     const manifest = createManifestWithHooks([
-      { name: "beforeInstall", script: "echo setup", description: "Runs setup" },
+      {
+        name: "beforeInstall",
+        script: "echo setup",
+        description: "Runs setup",
+      },
     ]);
     expect(getHookDescription(manifest, "beforeInstall")).toBe("Runs setup");
   });
 
   it("returns hook name as fallback when no description", () => {
-    const manifest = createManifestWithHooks([{ name: "beforeInstall", script: "echo setup" }]);
+    const manifest = createManifestWithHooks([
+      { name: "beforeInstall", script: "echo setup" },
+    ]);
     expect(getHookDescription(manifest, "beforeInstall")).toBe("beforeInstall");
   });
 });
 
 describe("executeLifecycleHooks", () => {
   it("returns empty results when no hooks for phase", async () => {
-    const manifest = createManifestWithHooks([{ name: "beforeInstall", script: "echo before" }]);
+    const manifest = createManifestWithHooks([
+      { name: "beforeInstall", script: "echo before" },
+    ]);
     const context = createContext();
     const results = await executeLifecycleHooks(manifest, context, "remove");
     expect(results).toEqual([]);
   });
 
   it("returns result with success=false when hook fails", async () => {
-    const manifest = createManifestWithHooks([{ name: "beforeInstall", script: "exit 1" }]);
+    const manifest = createManifestWithHooks([
+      { name: "beforeInstall", script: "exit 1" },
+    ]);
     const context = createContext();
     const results = await executeLifecycleHooks(manifest, context, "install");
     expect(results).toHaveLength(1);
@@ -119,7 +138,9 @@ describe("executeLifecycleHooks", () => {
   });
 
   it("returns result with success=true when hook succeeds", async () => {
-    const manifest = createManifestWithHooks([{ name: "afterInstall", script: "echo hello" }]);
+    const manifest = createManifestWithHooks([
+      { name: "afterInstall", script: "echo hello" },
+    ]);
     const context = createContext();
     const results = await executeLifecycleHooks(manifest, context, "install");
     expect(results).toHaveLength(1);

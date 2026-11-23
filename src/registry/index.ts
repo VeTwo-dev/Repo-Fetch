@@ -134,7 +134,9 @@ export class RegistryClient {
       );
     }
 
-    logger.success(`Registry index downloaded: ${parsed.data.resources.length} resources`);
+    logger.success(
+      `Registry index downloaded: ${parsed.data.resources.length} resources`,
+    );
     return parsed.data;
   }
 
@@ -148,7 +150,9 @@ export class RegistryClient {
     return index.resources.find((r) => r.id === id);
   }
 
-  async getManifest(resource: RegistryResourceEntry): Promise<ResourceManifest> {
+  async getManifest(
+    resource: RegistryResourceEntry,
+  ): Promise<ResourceManifest> {
     const cached = await this.cache.getManifest(resource.id);
     if (cached) {
       return cached;
@@ -163,7 +167,9 @@ export class RegistryClient {
         });
 
         if (!res.statusCode.toString().startsWith("2")) {
-          throw new NetworkError(`Failed to fetch manifest for ${resource.id}: ${res.statusCode}`);
+          throw new NetworkError(
+            `Failed to fetch manifest for ${resource.id}: ${res.statusCode}`,
+          );
         }
 
         return (await res.body.json()) as unknown;
@@ -183,11 +189,15 @@ export class RegistryClient {
     return parsed.data;
   }
 
-  async checkCompatibility(manifest: ResourceManifest): Promise<CompatibilityReport> {
+  async checkCompatibility(
+    manifest: ResourceManifest,
+  ): Promise<CompatibilityReport> {
     return checkCompatibility(manifest);
   }
 
-  async resolveDependencies(manifest: ResourceManifest): Promise<DependencyGraph> {
+  async resolveDependencies(
+    manifest: ResourceManifest,
+  ): Promise<DependencyGraph> {
     const index = await this.getIndex();
     const resolver = new DependencyResolver(index);
 
@@ -212,13 +222,20 @@ export class RegistryClient {
     return resolver.resolve(manifest);
   }
 
-  async install(resourceId: string, options: InstallOptions): Promise<InstallationReport> {
+  async install(
+    resourceId: string,
+    options: InstallOptions,
+  ): Promise<InstallationReport> {
     const report = createReport();
 
     try {
       const resource = await this.getById(resourceId);
       if (!resource) {
-        addError(report, "RESOURCE_NOT_FOUND", `Resource "${resourceId}" not found in registry`);
+        addError(
+          report,
+          "RESOURCE_NOT_FOUND",
+          `Resource "${resourceId}" not found in registry`,
+        );
         finalizeReport(report);
         return report;
       }
@@ -232,7 +249,11 @@ export class RegistryClient {
         report.compatibility = compatibility;
 
         if (!compatibility.compatible) {
-          addError(report, "INCOMPATIBLE", `Resource is not compatible with your environment`);
+          addError(
+            report,
+            "INCOMPATIBLE",
+            `Resource is not compatible with your environment`,
+          );
           for (const error of compatibility.errors) {
             addWarning(report, "COMPATIBILITY", error);
           }
@@ -244,15 +265,25 @@ export class RegistryClient {
       const graph = await this.resolveDependencies(manifest);
 
       if (graph.cycles.length > 0) {
-        addError(report, "CIRCULAR_DEPENDENCY", `Circular dependencies detected`);
+        addError(
+          report,
+          "CIRCULAR_DEPENDENCY",
+          `Circular dependencies detected`,
+        );
         finalizeReport(report);
         return report;
       }
 
-      const missingDeps = graph.nodes.filter((n) => !n.resolved && n.type === "required");
+      const missingDeps = graph.nodes.filter(
+        (n) => !n.resolved && n.type === "required",
+      );
       if (missingDeps.length > 0) {
         for (const dep of missingDeps) {
-          addError(report, "MISSING_DEPENDENCY", `Required dependency "${dep.name}" not found`);
+          addError(
+            report,
+            "MISSING_DEPENDENCY",
+            `Required dependency "${dep.name}" not found`,
+          );
         }
         finalizeReport(report);
         return report;
@@ -284,18 +315,30 @@ export class RegistryClient {
         report.integrity.push(integrity);
 
         if (!integrity.valid) {
-          addError(report, "INTEGRITY_CHECK_FAILED", `Integrity verification failed`);
+          addError(
+            report,
+            "INTEGRITY_CHECK_FAILED",
+            `Integrity verification failed`,
+          );
         }
       }
 
       if (!options.skipTransforms && manifest.transforms.length > 0) {
-        const transformResults = await applyTransforms(manifest, options.output, variables);
+        const transformResults = await applyTransforms(
+          manifest,
+          options.output,
+          variables,
+        );
         report.transformResults = transformResults;
 
         const failedTransforms = transformResults.filter((r) => !r.success);
         if (failedTransforms.length > 0) {
           for (const t of failedTransforms) {
-            addWarning(report, "TRANSFORM_FAILED", `Transform failed: ${t.message}`);
+            addWarning(
+              report,
+              "TRANSFORM_FAILED",
+              `Transform failed: ${t.message}`,
+            );
           }
         }
       }
@@ -317,15 +360,25 @@ export class RegistryClient {
         const failedHooks = lifecycleResults.filter((r) => !r.success);
         if (failedHooks.length > 0) {
           for (const h of failedHooks) {
-            addWarning(report, "LIFECYCLE_FAILED", `Lifecycle hook "${h.hook}" failed: ${h.error}`);
+            addWarning(
+              report,
+              "LIFECYCLE_FAILED",
+              `Lifecycle hook "${h.hook}" failed: ${h.error}`,
+            );
           }
         }
       }
 
       addInstalledResource(report, manifest, outputPath, [], true);
 
-      for (const dep of graph.nodes.filter((n) => n.resolved && n.type === "required")) {
-        addInstalledDependency(report, dep, resolve(outputPath, "node_modules", dep.name));
+      for (const dep of graph.nodes.filter(
+        (n) => n.resolved && n.type === "required",
+      )) {
+        addInstalledDependency(
+          report,
+          dep,
+          resolve(outputPath, "node_modules", dep.name),
+        );
       }
 
       logger.success(`Installed ${manifest.name}@${manifest.version}`);
@@ -357,7 +410,9 @@ export class RegistryClient {
         });
 
         if (!res.statusCode.toString().startsWith("2")) {
-          throw new NetworkError(`Failed to download ${manifest.name}: ${res.statusCode}`);
+          throw new NetworkError(
+            `Failed to download ${manifest.name}: ${res.statusCode}`,
+          );
         }
 
         return res;

@@ -9,10 +9,14 @@ export function generatePreview(
 ): PreviewData {
   const selected = getSelectedNodes(nodes);
   const files = selected.filter((f) => f.type === "file").map((f) => f.path);
-  const folders = selected.filter((f) => f.type === "directory").map((f) => f.path);
+  const folders = selected
+    .filter((f) => f.type === "directory")
+    .map((f) => f.path);
   const totalFiles = files.length;
   const totalFolders = folders.length;
-  const totalSize = selected.filter((f) => f.type === "file").reduce((acc, f) => acc + f.size, 0);
+  const totalSize = selected
+    .filter((f) => f.type === "file")
+    .reduce((acc, f) => acc + f.size, 0);
   const estimatedTime = estimateDownloadTime(totalSize);
 
   return {

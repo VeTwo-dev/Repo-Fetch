@@ -41,13 +41,13 @@ repo-fetch download user/repo --glob "*.ts"
 
 ### Benefits
 
-| Aspect | Git Clone | repo-fetch |
-|--------|-----------|------------|
-| Download size | Entire repository | Only selected files |
-| Speed | Slow for large repos | Fast |
-| Network usage | High | Low |
-| Disk usage | High | Low |
-| Complexity | Git knowledge required | Simple CLI |
+| Aspect        | Git Clone              | repo-fetch          |
+| ------------- | ---------------------- | ------------------- |
+| Download size | Entire repository      | Only selected files |
+| Speed         | Slow for large repos   | Fast                |
+| Network usage | High                   | Low                 |
+| Disk usage    | High                   | Low                 |
+| Complexity    | Git knowledge required | Simple CLI          |
 
 ### Code Migration
 
@@ -102,12 +102,12 @@ repo-fetch download user/repo --glob "tests/**"
 
 ### Benefits
 
-| Aspect | Sparse Checkout | repo-fetch |
-|--------|-----------------|------------|
-| Setup complexity | High | Low |
-| Git knowledge required | Yes | No |
-| Command count | Multiple | Single |
-| Configuration | Complex | Simple |
+| Aspect                 | Sparse Checkout | repo-fetch |
+| ---------------------- | --------------- | ---------- |
+| Setup complexity       | High            | Low        |
+| Git knowledge required | Yes             | No         |
+| Command count          | Multiple        | Single     |
+| Configuration          | Complex         | Simple     |
 
 ---
 
@@ -299,20 +299,20 @@ npm run build
 
 ### Large Repository (10,000 files, 500MB)
 
-| Operation | Git Clone | repo-fetch |
-|-----------|-----------|------------|
+| Operation     | Git Clone  | repo-fetch |
+| ------------- | ---------- | ---------- |
 | Full download | 500MB, 30s | 500MB, 25s |
-| Single file | 500MB, 30s | 1KB, 1s |
-| 10 files | 500MB, 30s | 10KB, 2s |
-| 100 files | 500MB, 30s | 1MB, 5s |
+| Single file   | 500MB, 30s | 1KB, 1s    |
+| 10 files      | 500MB, 30s | 10KB, 2s   |
+| 100 files     | 500MB, 30s | 1MB, 5s    |
 
 ### Small Repository (100 files, 5MB)
 
-| Operation | Git Clone | repo-fetch |
-|-----------|-----------|------------|
-| Full download | 5MB, 2s | 5MB, 2s |
-| Single file | 5MB, 2s | 1KB, 1s |
-| 10 files | 5MB, 2s | 10KB, 1s |
+| Operation     | Git Clone | repo-fetch |
+| ------------- | --------- | ---------- |
+| Full download | 5MB, 2s   | 5MB, 2s    |
+| Single file   | 5MB, 2s   | 1KB, 1s    |
+| 10 files      | 5MB, 2s   | 10KB, 1s   |
 
 ---
 

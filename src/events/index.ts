@@ -27,7 +27,11 @@ export class EventEmitter {
     }
 
     for (const handler of handlers) {
-      await handler({ event, data, plugin: { name: "core", version: "0.1.0", hooks: {} } });
+      await handler({
+        event,
+        data,
+        plugin: { name: "core", version: "0.1.0", hooks: {} },
+      });
     }
   }
 
@@ -50,7 +54,9 @@ export class EventEmitter {
       const handlers = this.handlers.get(event as EventName);
       if (handlers) {
         for (const handler of handlers) {
-          if ((handler as unknown as { pluginName?: string }).pluginName === name) {
+          if (
+            (handler as unknown as { pluginName?: string }).pluginName === name
+          ) {
             handlers.delete(handler);
           }
         }

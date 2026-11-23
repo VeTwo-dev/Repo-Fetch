@@ -13,7 +13,9 @@ import type {
 function levenshteinDistance(a: string, b: string): number {
   const m = a.length;
   const n = b.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+  const dp: number[][] = Array.from({ length: m + 1 }, () =>
+    Array(n + 1).fill(0),
+  );
 
   for (let i = 0; i <= m; i++) {
     const row = dp[i];
@@ -82,11 +84,17 @@ function calculateFuzzyScore(query: string, target: string): number {
   return 0;
 }
 
-function calculateKeywordScore(queryTokens: string[], entry: SearchIndexEntry): number {
+function calculateKeywordScore(
+  queryTokens: string[],
+  entry: SearchIndexEntry,
+): number {
   let score = 0;
-  const allTerms = [entry.name, entry.displayName, ...entry.keywords, ...entry.tags].map(
-    normalizeString,
-  );
+  const allTerms = [
+    entry.name,
+    entry.displayName,
+    ...entry.keywords,
+    ...entry.tags,
+  ].map(normalizeString);
 
   for (const token of queryTokens) {
     for (const term of allTerms) {
@@ -107,7 +115,10 @@ function calculateKeywordScore(queryTokens: string[], entry: SearchIndexEntry): 
   return score / Math.max(queryTokens.length, 1);
 }
 
-export function searchRegistry(index: RegistryIndex, options: SearchOptions): SearchResult[] {
+export function searchRegistry(
+  index: RegistryIndex,
+  options: SearchOptions,
+): SearchResult[] {
   const {
     query,
     type,
@@ -167,7 +178,10 @@ export function searchRegistry(index: RegistryIndex, options: SearchOptions): Se
     if (framework && !matchesFramework(resourceEntry, framework)) {
       continue;
     }
-    if (packageManager && !matchesPackageManager(resourceEntry, packageManager)) {
+    if (
+      packageManager &&
+      !matchesPackageManager(resourceEntry, packageManager)
+    ) {
       continue;
     }
 
@@ -182,26 +196,41 @@ export function searchRegistry(index: RegistryIndex, options: SearchOptions): Se
   return results.slice(0, limit);
 }
 
-function matchesRuntime(resource: RegistryResourceEntry, runtime: Runtime): boolean {
+function matchesRuntime(
+  resource: RegistryResourceEntry,
+  runtime: Runtime,
+): boolean {
   const manifest = resource as unknown as { supportedRuntimes?: Runtime[] };
   if (!manifest.supportedRuntimes) {
     return true;
   }
-  return manifest.supportedRuntimes.includes(runtime) || manifest.supportedRuntimes.includes("any");
+  return (
+    manifest.supportedRuntimes.includes(runtime) ||
+    manifest.supportedRuntimes.includes("any")
+  );
 }
 
-function matchesFramework(resource: RegistryResourceEntry, framework: Framework): boolean {
+function matchesFramework(
+  resource: RegistryResourceEntry,
+  framework: Framework,
+): boolean {
   const manifest = resource as unknown as { supportedFrameworks?: Framework[] };
   if (!manifest.supportedFrameworks) {
     return true;
   }
   return (
-    manifest.supportedFrameworks.includes(framework) || manifest.supportedFrameworks.includes("any")
+    manifest.supportedFrameworks.includes(framework) ||
+    manifest.supportedFrameworks.includes("any")
   );
 }
 
-function matchesPackageManager(resource: RegistryResourceEntry, pm: PackageManager): boolean {
-  const manifest = resource as unknown as { supportedPackageManagers?: PackageManager[] };
+function matchesPackageManager(
+  resource: RegistryResourceEntry,
+  pm: PackageManager,
+): boolean {
+  const manifest = resource as unknown as {
+    supportedPackageManagers?: PackageManager[];
+  };
   if (!manifest.supportedPackageManagers) {
     return true;
   }
@@ -211,15 +240,24 @@ function matchesPackageManager(resource: RegistryResourceEntry, pm: PackageManag
   );
 }
 
-export function searchByCategory(index: RegistryIndex, category: string): RegistryResourceEntry[] {
+export function searchByCategory(
+  index: RegistryIndex,
+  category: string,
+): RegistryResourceEntry[] {
   return index.resources.filter((r) => r.category === category);
 }
 
-export function searchByTag(index: RegistryIndex, tag: string): RegistryResourceEntry[] {
+export function searchByTag(
+  index: RegistryIndex,
+  tag: string,
+): RegistryResourceEntry[] {
   return index.resources.filter((r) => r.tags.includes(tag));
 }
 
-export function searchByType(index: RegistryIndex, type: ResourceType): RegistryResourceEntry[] {
+export function searchByType(
+  index: RegistryIndex,
+  type: ResourceType,
+): RegistryResourceEntry[] {
   return index.resources.filter((r) => r.type === type);
 }
 
@@ -231,7 +269,10 @@ export function getTags(index: RegistryIndex) {
   return index.tags;
 }
 
-export function getPopularResources(index: RegistryIndex, limit = 10): RegistryResourceEntry[] {
+export function getPopularResources(
+  index: RegistryIndex,
+  limit = 10,
+): RegistryResourceEntry[] {
   return index.resources
     .slice()
     .sort((a, b) => {

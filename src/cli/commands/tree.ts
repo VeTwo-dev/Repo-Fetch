@@ -13,7 +13,11 @@ export function registerTreeCommand(program: Command): void {
     .option("-b, --branch <branch>", "Branch name")
     .option("-d, --depth <depth>", "Maximum depth", "10")
     .option("--no-color", "Disable colored output")
-    .option("--env-var <name>", "Environment variable name for repo URL", "GITHUB_REPO_URL")
+    .option(
+      "--env-var <name>",
+      "Environment variable name for repo URL",
+      "GITHUB_REPO_URL",
+    )
     .option("--no-prompt", "Disable interactive prompt")
     .option("--no-auto-detect", "Disable auto-detection from git remote")
     .action(

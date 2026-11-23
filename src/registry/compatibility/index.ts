@@ -82,7 +82,9 @@ export function detectEnvironment(): EnvironmentInfo {
 
 function detectFramework(): Framework {
   try {
-    const pkgPath = require.resolve("./package.json", { paths: [process.cwd()] });
+    const pkgPath = require.resolve("./package.json", {
+      paths: [process.cwd()],
+    });
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const pkg = require(pkgPath) as {
       dependencies?: Record<string, string>;
@@ -204,7 +206,9 @@ function compareVersions(a: number[], b: number[]): number {
   return 0;
 }
 
-export function checkCompatibility(manifest: ResourceManifest): CompatibilityReport {
+export function checkCompatibility(
+  manifest: ResourceManifest,
+): CompatibilityReport {
   const env = detectEnvironment();
 
   const runtimeCheck = checkRuntime(manifest, env);
@@ -247,7 +251,9 @@ export function checkCompatibility(manifest: ResourceManifest): CompatibilityRep
   const compatible = errors.length === 0;
 
   if (!compatible) {
-    logger.warn(`Resource "${manifest.name}" is not compatible with your environment`);
+    logger.warn(
+      `Resource "${manifest.name}" is not compatible with your environment`,
+    );
     for (const error of errors) {
       logger.error(`  ${error}`);
     }
@@ -268,9 +274,13 @@ export function checkCompatibility(manifest: ResourceManifest): CompatibilityRep
   };
 }
 
-function checkRuntime(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkRuntime(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const supported =
-    manifest.supportedRuntimes.includes("any") || manifest.supportedRuntimes.includes(env.runtime);
+    manifest.supportedRuntimes.includes("any") ||
+    manifest.supportedRuntimes.includes(env.runtime);
   return {
     supported,
     current: env.runtime,
@@ -281,7 +291,10 @@ function checkRuntime(manifest: ResourceManifest, env: EnvironmentInfo): Compati
   };
 }
 
-function checkFramework(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkFramework(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const supported =
     manifest.supportedFrameworks.includes("any") ||
     manifest.supportedFrameworks.includes(env.framework);
@@ -295,7 +308,10 @@ function checkFramework(manifest: ResourceManifest, env: EnvironmentInfo): Compa
   };
 }
 
-function checkPackageManager(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkPackageManager(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const supported =
     manifest.supportedPackageManagers.includes("any") ||
     manifest.supportedPackageManagers.includes(env.packageManager);
@@ -309,7 +325,10 @@ function checkPackageManager(manifest: ResourceManifest, env: EnvironmentInfo): 
   };
 }
 
-function checkNodeVersion(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkNodeVersion(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const required = manifest.engines.node;
   if (!required) {
     return {
@@ -330,7 +349,10 @@ function checkNodeVersion(manifest: ResourceManifest, env: EnvironmentInfo): Com
   };
 }
 
-function checkBunVersion(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkBunVersion(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const required = manifest.engines.bun;
   if (!required) {
     return {
@@ -359,7 +381,10 @@ function checkBunVersion(manifest: ResourceManifest, env: EnvironmentInfo): Comp
   };
 }
 
-function checkOS(_manifest: ResourceManifest, _env: EnvironmentInfo): CompatibilityCheck {
+function checkOS(
+  _manifest: ResourceManifest,
+  _env: EnvironmentInfo,
+): CompatibilityCheck {
   return {
     supported: true,
     current: process.platform,
@@ -368,7 +393,10 @@ function checkOS(_manifest: ResourceManifest, _env: EnvironmentInfo): Compatibil
   };
 }
 
-function checkArchitecture(_manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkArchitecture(
+  _manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   return {
     supported: true,
     current: env.architecture,
@@ -377,7 +405,10 @@ function checkArchitecture(_manifest: ResourceManifest, env: EnvironmentInfo): C
   };
 }
 
-function checkVetwoVersion(manifest: ResourceManifest, env: EnvironmentInfo): CompatibilityCheck {
+function checkVetwoVersion(
+  manifest: ResourceManifest,
+  env: EnvironmentInfo,
+): CompatibilityCheck {
   const required = manifest.vetwo.minVersion;
   const supported = versionSatisfies(env.vetwoVersion, `>=${required}`);
   return {

@@ -3,7 +3,13 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "**/*.config.*", "examples/**"],
+    ignores: [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/coverage/**",
+      "**/*.config.*",
+      "examples/**",
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -36,7 +42,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ["src/cli/**/*.ts", "src/logger/**/*.ts", "src/core/progress/**/*.ts", "src/core/browser/**/*.ts"],
+    files: [
+      "src/cli/**/*.ts",
+      "src/logger/**/*.ts",
+      "src/core/progress/**/*.ts",
+      "src/core/browser/**/*.ts",
+    ],
     rules: {
       "no-console": "off",
     },

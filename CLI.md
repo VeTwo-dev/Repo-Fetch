@@ -56,13 +56,13 @@ npx @vetwo/repo-fetch --help
 
 ## Global Options
 
-| Option | Description |
-|--------|-------------|
-| `-v, --version` | Output the current version |
-| `-h, --help` | Display help for command |
+| Option                 | Description                            |
+| ---------------------- | -------------------------------------- |
+| `-v, --version`        | Output the current version             |
+| `-h, --help`           | Display help for command               |
 | `--env-var <variable>` | Environment variable name for repo URL |
-| `--no-prompt` | Disable interactive prompts |
-| `--no-auto-detect` | Disable auto-detection from git remote |
+| `--no-prompt`          | Disable interactive prompts            |
+| `--no-auto-detect`     | Disable auto-detection from git remote |
 
 ---
 
@@ -78,16 +78,16 @@ repo-fetch browse [repository] [options]
 
 **Arguments:**
 
-| Argument | Description |
-|----------|-------------|
+| Argument       | Description                                     |
+| -------------- | ----------------------------------------------- |
 | `[repository]` | Repository URL or shorthand (e.g., `user/repo`) |
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `-t, --token <token>` | Authentication token |
-| `-b, --branch <branch>` | Branch name |
+| Option                  | Description          |
+| ----------------------- | -------------------- |
+| `-t, --token <token>`   | Authentication token |
+| `-b, --branch <branch>` | Branch name          |
 
 **Examples:**
 
@@ -124,28 +124,28 @@ repo-fetch download [repository] [options]
 
 **Arguments:**
 
-| Argument | Description |
-|----------|-------------|
+| Argument       | Description                 |
+| -------------- | --------------------------- |
 | `[repository]` | Repository URL or shorthand |
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-t, --token <token>` | Authentication token | - |
-| `-b, --branch <branch>` | Branch name | - |
-| `-o, --output <path>` | Output directory | `./download` |
-| `--overwrite` | Overwrite existing files | `false` |
-| `--merge` | Merge with existing files | `false` |
-| `--skip-existing` | Skip files that already exist | `false` |
-| `--clean` | Clean output directory before download | `false` |
-| `--concurrency <number>` | Download concurrency | `5` |
-| `--timeout <ms>` | Timeout per file in ms | `30000` |
-| `--retries <number>` | Retry count | `3` |
-| `--yes` | Skip confirmation | `false` |
-| `--path <path>` | Specific path to download | - |
-| `--glob <pattern>` | Glob pattern for file selection | - |
-| `--ext <extensions>` | File extensions (comma-separated) | - |
+| Option                   | Description                            | Default      |
+| ------------------------ | -------------------------------------- | ------------ |
+| `-t, --token <token>`    | Authentication token                   | -            |
+| `-b, --branch <branch>`  | Branch name                            | -            |
+| `-o, --output <path>`    | Output directory                       | `./download` |
+| `--overwrite`            | Overwrite existing files               | `false`      |
+| `--merge`                | Merge with existing files              | `false`      |
+| `--skip-existing`        | Skip files that already exist          | `false`      |
+| `--clean`                | Clean output directory before download | `false`      |
+| `--concurrency <number>` | Download concurrency                   | `5`          |
+| `--timeout <ms>`         | Timeout per file in ms                 | `30000`      |
+| `--retries <number>`     | Retry count                            | `3`          |
+| `--yes`                  | Skip confirmation                      | `false`      |
+| `--path <path>`          | Specific path to download              | -            |
+| `--glob <pattern>`       | Glob pattern for file selection        | -            |
+| `--ext <extensions>`     | File extensions (comma-separated)      | -            |
 
 **Examples:**
 
@@ -183,12 +183,12 @@ repo-fetch download octocat/hello-world --timeout 60000
 
 **Download Strategies:**
 
-| Strategy | Command | Description |
-|----------|---------|-------------|
-| Full download | `repo-fetch download user/repo` | Downloads everything |
-| Path-specific | `--path src` | Downloads specific directory |
-| Glob pattern | `--glob "*.ts"` | Downloads matching files |
-| Extension filter | `--ext ts,tsx` | Downloads by file extension |
+| Strategy         | Command                         | Description                  |
+| ---------------- | ------------------------------- | ---------------------------- |
+| Full download    | `repo-fetch download user/repo` | Downloads everything         |
+| Path-specific    | `--path src`                    | Downloads specific directory |
+| Glob pattern     | `--glob "*.ts"`                 | Downloads matching files     |
+| Extension filter | `--ext ts,tsx`                  | Downloads by file extension  |
 
 ---
 
@@ -202,18 +202,18 @@ repo-fetch tree [repository] [options]
 
 **Arguments:**
 
-| Argument | Description |
-|----------|-------------|
+| Argument       | Description                 |
+| -------------- | --------------------------- |
 | `[repository]` | Repository URL or shorthand |
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-t, --token <token>` | Authentication token | - |
-| `-b, --branch <branch>` | Branch name | - |
-| `-d, --depth <depth>` | Maximum depth | `10` |
-| `--no-color` | Disable colored output | `false` |
+| Option                  | Description            | Default |
+| ----------------------- | ---------------------- | ------- |
+| `-t, --token <token>`   | Authentication token   | -       |
+| `-b, --branch <branch>` | Branch name            | -       |
+| `-d, --depth <depth>`   | Maximum depth          | `10`    |
+| `--no-color`            | Disable colored output | `false` |
 
 **Examples:**
 
@@ -262,19 +262,19 @@ repo-fetch search <repository> <query> [options]
 
 **Arguments:**
 
-| Argument | Description |
-|----------|-------------|
+| Argument       | Description                 |
+| -------------- | --------------------------- |
 | `<repository>` | Repository URL or shorthand |
-| `<query>` | Search query |
+| `<query>`      | Search query                |
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-t, --token <token>` | Authentication token | - |
-| `-b, --branch <branch>` | Branch name | - |
-| `--case-sensitive` | Case-sensitive search | `false` |
-| `--max <number>` | Maximum results | `50` |
+| Option                  | Description           | Default |
+| ----------------------- | --------------------- | ------- |
+| `-t, --token <token>`   | Authentication token  | -       |
+| `-b, --branch <branch>` | Branch name           | -       |
+| `--case-sensitive`      | Case-sensitive search | `false` |
+| `--max <number>`        | Maximum results       | `50`    |
 
 **Examples:**
 
@@ -340,14 +340,14 @@ All checks passed!
 
 **Checks Performed:**
 
-| Check | Description |
-|-------|-------------|
-| Internet | Tests internet connectivity |
-| GitHub API | Tests GitHub API access |
-| Node.js | Checks Node.js version (≥18) |
-| Permissions | Tests write permissions |
+| Check            | Description                   |
+| ---------------- | ----------------------------- |
+| Internet         | Tests internet connectivity   |
+| GitHub API       | Tests GitHub API access       |
+| Node.js          | Checks Node.js version (≥18)  |
+| Permissions      | Tests write permissions       |
 | Output Directory | Tests output directory access |
-| Cache | Tests cache health |
+| Cache            | Tests cache health            |
 
 ---
 
@@ -421,13 +421,13 @@ repo-fetch registry search <query> [options]
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-t, --type <type>` | Filter by resource type | - |
-| `-c, --category <category>` | Filter by category | - |
-| `--tags <tags>` | Filter by tags (comma-separated) | - |
-| `-l, --limit <number>` | Maximum results | `20` |
-| `--fuzzy` | Enable fuzzy search | `true` |
+| Option                      | Description                      | Default |
+| --------------------------- | -------------------------------- | ------- |
+| `-t, --type <type>`         | Filter by resource type          | -       |
+| `-c, --category <category>` | Filter by category               | -       |
+| `--tags <tags>`             | Filter by tags (comma-separated) | -       |
+| `-l, --limit <number>`      | Maximum results                  | `20`    |
+| `--fuzzy`                   | Enable fuzzy search              | `true`  |
 
 **Examples:**
 
@@ -447,15 +447,15 @@ repo-fetch registry install <resource> [options]
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-o, --output <path>` | Output directory | `./` |
-| `--dry-run` | Show what would be installed | `false` |
-| `--force` | Force reinstall | `false` |
-| `--skip-compatibility` | Skip compatibility check | `false` |
-| `--skip-integrity` | Skip integrity check | `false` |
-| `--skip-lifecycle` | Skip lifecycle hooks | `false` |
-| `--skip-transforms` | Skip AST transforms | `false` |
+| Option                 | Description                  | Default |
+| ---------------------- | ---------------------------- | ------- |
+| `-o, --output <path>`  | Output directory             | `./`    |
+| `--dry-run`            | Show what would be installed | `false` |
+| `--force`              | Force reinstall              | `false` |
+| `--skip-compatibility` | Skip compatibility check     | `false` |
+| `--skip-integrity`     | Skip integrity check         | `false` |
+| `--skip-lifecycle`     | Skip lifecycle hooks         | `false` |
+| `--skip-transforms`    | Skip AST transforms          | `false` |
 
 **Examples:**
 
@@ -525,15 +525,15 @@ repo-fetch registry clear-cache
 
 ## Environment Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `GITHUB_TOKEN` | GitHub authentication token | `ghp_xxxxxxxxxxxx` |
-| `REPO_FETCH_TOKEN` | Generic authentication token | `xxxxxxxxxxxxxxxx` |
-| `GITLAB_TOKEN` | GitLab authentication token | `glpat-xxxxxxxxxxxx` |
-| `BITBUCKET_TOKEN` | Bitbucket authentication token | `xxxxxxxxxxxxxxxx` |
-| `NODE_DEBUG` | Enable debug output | `repo-fetch` |
-| `GITHUB_REPO_URL` | Default repository URL | `https://github.com/user/repo` |
-| `VETWO_VAR_*` | Template variable overrides | `VETWO_VAR_APIKEY=secret` |
+| Variable           | Description                    | Example                        |
+| ------------------ | ------------------------------ | ------------------------------ |
+| `GITHUB_TOKEN`     | GitHub authentication token    | `ghp_xxxxxxxxxxxx`             |
+| `REPO_FETCH_TOKEN` | Generic authentication token   | `xxxxxxxxxxxxxxxx`             |
+| `GITLAB_TOKEN`     | GitLab authentication token    | `glpat-xxxxxxxxxxxx`           |
+| `BITBUCKET_TOKEN`  | Bitbucket authentication token | `xxxxxxxxxxxxxxxx`             |
+| `NODE_DEBUG`       | Enable debug output            | `repo-fetch`                   |
+| `GITHUB_REPO_URL`  | Default repository URL         | `https://github.com/user/repo` |
+| `VETWO_VAR_*`      | Template variable overrides    | `VETWO_VAR_APIKEY=secret`      |
 
 **Token Priority:**
 
@@ -569,11 +569,11 @@ GITHUB_TOKEN=ghp_xxxxxxxxxxxx repo-fetch download octocat/hello-world
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
+| Option                 | Description                            |
+| ---------------------- | -------------------------------------- |
 | `--env-var <variable>` | Environment variable name for repo URL |
-| `--no-prompt` | Disable interactive prompts |
-| `--no-auto-detect` | Disable auto-detection from git remote |
+| `--no-prompt`          | Disable interactive prompts            |
+| `--no-auto-detect`     | Disable auto-detection from git remote |
 
 **Examples:**
 

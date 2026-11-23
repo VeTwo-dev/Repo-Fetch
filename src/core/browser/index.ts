@@ -1,7 +1,12 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import type { TreeNode, RepoIdentifier, FetchOptions } from "../../types";
-import { listRepositoryTree, flattenTree, toggleNode, selectAll } from "../tree";
+import {
+  listRepositoryTree,
+  flattenTree,
+  toggleNode,
+  selectAll,
+} from "../tree";
 import { generatePreview, formatPreview } from "../preview";
 import { filterBySearch } from "../filters";
 import { globalEmitter } from "../../events";
@@ -19,7 +24,9 @@ interface BrowseState {
 
 function renderTree(state: BrowseState): string {
   const lines: string[] = [];
-  lines.push(pc.bold(`\n  Repository: ${state.repo.owner}/${state.repo.repo}\n`));
+  lines.push(
+    pc.bold(`\n  Repository: ${state.repo.owner}/${state.repo.repo}\n`),
+  );
 
   if (state.mode !== "search") {
     lines.push(
@@ -46,7 +53,11 @@ function renderTree(state: BrowseState): string {
     const icon = node.type === "directory" ? "\ud83d\udcc1" : "\ud83d\udcc4";
     const selectMark = node.selected ? pc.green("\u2713") : pc.dim("\u25cb");
     const expandMark =
-      node.type === "directory" ? (node.expanded ? pc.dim("\u25bc") : pc.dim("\u25b6")) : " ";
+      node.type === "directory"
+        ? node.expanded
+          ? pc.dim("\u25bc")
+          : pc.dim("\u25b6")
+        : " ";
     const line = `${prefix}${indent}${expandMark} ${selectMark} ${icon} ${node.name}`;
     lines.push(isCursor ? pc.bold(line) : line);
   }
@@ -74,9 +85,13 @@ function updateVisible(state: BrowseState): void {
   if (state.mode === "search" && state.searchQuery) {
     state.visibleNodes = filterBySearch(state.nodes, state.searchQuery);
   } else if (state.filterMode === "files") {
-    state.visibleNodes = flattenTree(state.nodes).filter((n) => n.type === "file");
+    state.visibleNodes = flattenTree(state.nodes).filter(
+      (n) => n.type === "file",
+    );
   } else if (state.filterMode === "folders") {
-    state.visibleNodes = flattenTree(state.nodes).filter((n) => n.type === "directory");
+    state.visibleNodes = flattenTree(state.nodes).filter(
+      (n) => n.type === "directory",
+    );
   } else {
     state.visibleNodes = getVisibleNodes(state.nodes);
   }
@@ -227,7 +242,11 @@ export async function browseRepository(
     }
   }
 
-  await globalEmitter.emit("afterBrowse", { repo, options: options ?? {}, nodes: state.nodes });
+  await globalEmitter.emit("afterBrowse", {
+    repo,
+    options: options ?? {},
+    nodes: state.nodes,
+  });
 
   return state.nodes;
 }

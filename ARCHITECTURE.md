@@ -7,6 +7,7 @@ This document describes the internal architecture of `@vetwo/repo-fetch`.
 ### 1. Framework Agnostic
 
 The core library has zero framework dependencies. It works with:
+
 - Node.js (any version >= 18)
 - Deno
 - Bun
@@ -20,13 +21,17 @@ The core download engine knows nothing about GitHub, GitLab, or any specific pro
 // Core only knows about the Provider interface
 interface Provider {
   getTree(repo: RepoIdentifier, options?: FetchOptions): Promise<TreeItem[]>;
-  getDownloadUrl(repo: RepoIdentifier, path: string, options?: FetchOptions): string;
+  getDownloadUrl(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): string;
   // ...
 }
 
 // Providers are registered at startup
-registerProvider("github", new GitHubProvider());
-registerProvider("gitlab", new GitLabProvider());
+registerProvider('github', new GitHubProvider());
+registerProvider('gitlab', new GitLabProvider());
 ```
 
 ### 3. Modular Architecture
@@ -61,7 +66,7 @@ The library uses functional composition rather than deep inheritance:
 ```typescript
 // Functions compose to build functionality
 const tree = await listRepositoryTree(repo);
-const filtered = await filterRepository(tree, { glob: "**/*.ts" });
+const filtered = await filterRepository(tree, { glob: '**/*.ts' });
 const preview = generatePreview(filtered);
 const results = await downloadSelection(filtered, repo);
 ```
@@ -90,19 +95,19 @@ The `RegistryClient` class (`src/registry/index.ts`) orchestrates the entire pip
 
 ### Registry Modules
 
-| Module | Path | Responsibility |
-|--------|------|----------------|
-| `types.ts` | `src/registry/types.ts` | All type definitions: `ResourceManifest`, `RegistryIndex`, `SearchResult`, `DependencyGraph`, `CompatibilityReport`, `InstallationReport`, etc. |
-| `schema/` | `src/registry/schema/` | Zod validation schemas for the registry index and resource manifests. Used at runtime to validate every network response before it enters the system. |
-| `cache/` | `src/registry/cache/` | TTL-based filesystem cache (`~/.vetwo/registry-cache/`). Caches the index and individual manifests. Default TTL: 1 hour. Checks `mtime` on read; returns `null` on expiry. |
-| `search/` | `src/registry/search/` | Fuzzy search engine with Levenshtein distance, tokenization, and keyword scoring. Supports exact, prefix, fuzzy, tag, and category match types. Filters by runtime, framework, package manager, type, and tags. |
-| `resolver/` | `src/registry/resolver/` | Dependency resolver with topological sort (Kahn's algorithm) and cycle detection (DFS with visited/visiting sets). Produces a `DependencyGraph` with nodes, edges, install order, and detected cycles. |
-| `compatibility/` | `src/registry/compatibility/` | Environment detection (Node, Bun, Deno, OS, architecture, package manager, framework) and compatibility checking against a manifest's engine requirements, supported runtimes, frameworks, and Vetwo version. |
-| `variables/` | `src/registry/variables/` | Template variable resolution with a four-source chain: context → env (`VETWO_VAR_*`) → default → prompt. Supports string, number, boolean, and select types. Uses `@clack/prompts` for interactive input. |
-| `transforms/` | `src/registry/transforms/` | AST transformations for `package.json`, `tsconfig.json`, imports, routes, config files, and custom transforms. Actions include merge, prepend, append, replace, and remove. Creates `.bak` backups before modifying files. |
-| `integrity/` | `src/registry/integrity/` | SHA-256, SHA-512, and MD5 checksum verification. Verifies individual files and directories. Also validates the manifest schema itself. Warns when MD5 is used. |
-| `lifecycle/` | `src/registry/lifecycle/` | 8 lifecycle hooks: `beforeInstall`, `afterInstall`, `beforeUpdate`, `afterUpdate`, `beforeRemove`, `afterRemove`, `beforeGenerate`, `afterGenerate`. Executes scripts via `execSync` with resource metadata injected as environment variables. |
-| `report/` | `src/registry/report/` | Typed installation report generation and formatting. Tracks installed resources, dependencies, warnings, errors, skipped items, compatibility results, integrity checks, lifecycle results, and transform results. |
+| Module           | Path                          | Responsibility                                                                                                                                                                                                                                 |
+| ---------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `types.ts`       | `src/registry/types.ts`       | All type definitions: `ResourceManifest`, `RegistryIndex`, `SearchResult`, `DependencyGraph`, `CompatibilityReport`, `InstallationReport`, etc.                                                                                                |
+| `schema/`        | `src/registry/schema/`        | Zod validation schemas for the registry index and resource manifests. Used at runtime to validate every network response before it enters the system.                                                                                          |
+| `cache/`         | `src/registry/cache/`         | TTL-based filesystem cache (`~/.vetwo/registry-cache/`). Caches the index and individual manifests. Default TTL: 1 hour. Checks `mtime` on read; returns `null` on expiry.                                                                     |
+| `search/`        | `src/registry/search/`        | Fuzzy search engine with Levenshtein distance, tokenization, and keyword scoring. Supports exact, prefix, fuzzy, tag, and category match types. Filters by runtime, framework, package manager, type, and tags.                                |
+| `resolver/`      | `src/registry/resolver/`      | Dependency resolver with topological sort (Kahn's algorithm) and cycle detection (DFS with visited/visiting sets). Produces a `DependencyGraph` with nodes, edges, install order, and detected cycles.                                         |
+| `compatibility/` | `src/registry/compatibility/` | Environment detection (Node, Bun, Deno, OS, architecture, package manager, framework) and compatibility checking against a manifest's engine requirements, supported runtimes, frameworks, and Vetwo version.                                  |
+| `variables/`     | `src/registry/variables/`     | Template variable resolution with a four-source chain: context → env (`VETWO_VAR_*`) → default → prompt. Supports string, number, boolean, and select types. Uses `@clack/prompts` for interactive input.                                      |
+| `transforms/`    | `src/registry/transforms/`    | AST transformations for `package.json`, `tsconfig.json`, imports, routes, config files, and custom transforms. Actions include merge, prepend, append, replace, and remove. Creates `.bak` backups before modifying files.                     |
+| `integrity/`     | `src/registry/integrity/`     | SHA-256, SHA-512, and MD5 checksum verification. Verifies individual files and directories. Also validates the manifest schema itself. Warns when MD5 is used.                                                                                 |
+| `lifecycle/`     | `src/registry/lifecycle/`     | 8 lifecycle hooks: `beforeInstall`, `afterInstall`, `beforeUpdate`, `afterUpdate`, `beforeRemove`, `afterRemove`, `beforeGenerate`, `afterGenerate`. Executes scripts via `execSync` with resource metadata injected as environment variables. |
+| `report/`        | `src/registry/report/`        | Typed installation report generation and formatting. Tracks installed resources, dependencies, warnings, errors, skipped items, compatibility results, integrity checks, lifecycle results, and transform results.                             |
 
 ### Key Design Decisions
 
@@ -141,9 +146,9 @@ Each step can be individually enabled or disabled:
 
 ```typescript
 const url = await resolveRepoUrl({
-  envVar: "GITHUB_REPO_URL",  // environment variable name
-  autoDetect: true,             // try git remote
-  prompt: true,                 // interactive fallback
+  envVar: 'GITHUB_REPO_URL', // environment variable name
+  autoDetect: true, // try git remote
+  prompt: true, // interactive fallback
 });
 ```
 
@@ -152,11 +157,11 @@ const url = await resolveRepoUrl({
 The `fetchFromConfig()` function (`src/core/fetch-config/index.ts`) enables usage as a dev dependency with zero configuration:
 
 ```typescript
-import { fetchFromConfig } from "@vetwo/repo-fetch/core/fetch-config";
+import { fetchFromConfig } from '@vetwo/repo-fetch/core/fetch-config';
 
 const result = await fetchFromConfig({
-  output: "./templates",
-  folders: ["src/components"],
+  output: './templates',
+  folders: ['src/components'],
 });
 ```
 
@@ -208,20 +213,20 @@ Resolved variables use `{{ variableName }}` template syntax in transforms and ar
 
 The `InstallationReport` (`src/registry/types.ts`) is a comprehensive, typed record of everything that happened during an installation:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `success` | `boolean` | Overall success status (set to `false` on any error) |
-| `startTime` / `endTime` | `string` | ISO 8601 timestamps |
-| `duration` | `number` | Total time in milliseconds |
-| `resources` | `InstalledResource[]` | Successfully installed resources with path, files, and checksum verification status |
-| `dependencies` | `InstalledDependency[]` | Resolved and installed dependencies with type and path |
-| `warnings` | `InstallationWarning[]` | Non-fatal issues (compatibility warnings, failed transforms, failed lifecycle hooks) |
-| `errors` | `InstallationError[]` | Fatal errors with codes, messages, and optional stack traces |
-| `skipped` | `SkippedResource[]` | Resources skipped due to incompatibility, conflicts, already-installed, or missing peer dependencies |
-| `compatibility` | `CompatibilityReport` | Full environment compatibility check results |
-| `integrity` | `IntegrityResult[]` | Checksum and manifest schema verification results |
-| `lifecycleResults` | `LifecycleResult[]` | Per-hook success/failure, duration, and output |
-| `transformResults` | `TransformResult[]` | Per-transform success/failure, type, target, action, and backup path |
+| Field                   | Type                    | Description                                                                                          |
+| ----------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------- |
+| `success`               | `boolean`               | Overall success status (set to `false` on any error)                                                 |
+| `startTime` / `endTime` | `string`                | ISO 8601 timestamps                                                                                  |
+| `duration`              | `number`                | Total time in milliseconds                                                                           |
+| `resources`             | `InstalledResource[]`   | Successfully installed resources with path, files, and checksum verification status                  |
+| `dependencies`          | `InstalledDependency[]` | Resolved and installed dependencies with type and path                                               |
+| `warnings`              | `InstallationWarning[]` | Non-fatal issues (compatibility warnings, failed transforms, failed lifecycle hooks)                 |
+| `errors`                | `InstallationError[]`   | Fatal errors with codes, messages, and optional stack traces                                         |
+| `skipped`               | `SkippedResource[]`     | Resources skipped due to incompatibility, conflicts, already-installed, or missing peer dependencies |
+| `compatibility`         | `CompatibilityReport`   | Full environment compatibility check results                                                         |
+| `integrity`             | `IntegrityResult[]`     | Checksum and manifest schema verification results                                                    |
+| `lifecycleResults`      | `LifecycleResult[]`     | Per-hook success/failure, duration, and output                                                       |
+| `transformResults`      | `TransformResult[]`     | Per-transform success/failure, type, target, action, and backup path                                 |
 
 The report is finalized by `finalizeReport()` which stamps the end time and computes duration. `formatReport()` produces a human-readable text summary, and `printReport()` outputs it to the console.
 
@@ -237,7 +242,7 @@ The resolver parses various input formats into a normalized `RepoIdentifier`:
 
 ```typescript
 interface RepoIdentifier {
-  provider: "github" | "gitlab" | "bitbucket" | "azure" | "gitea" | "forgejo";
+  provider: 'github' | 'gitlab' | 'bitbucket' | 'azure' | 'gitea' | 'forgejo';
   owner: string;
   repo: string;
   branch?: string;
@@ -283,11 +288,26 @@ interface Provider {
   name: string;
   config: ProviderConfig;
   getTree(repo: RepoIdentifier, options?: FetchOptions): Promise<TreeItem[]>;
-  getFile(repo: RepoIdentifier, path: string, options?: FetchOptions): Promise<Readable | null>;
-  getDownloadUrl(repo: RepoIdentifier, path: string, options?: FetchOptions): string;
+  getFile(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): Promise<Readable | null>;
+  getDownloadUrl(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): string;
   resolveRepository(input: string): Promise<RepoIdentifier>;
-  getDefaultBranch(repo: RepoIdentifier, options?: FetchOptions): Promise<string>;
-  search(repo: RepoIdentifier, query: string, options?: FetchOptions): Promise<TreeItem[]>;
+  getDefaultBranch(
+    repo: RepoIdentifier,
+    options?: FetchOptions,
+  ): Promise<string>;
+  search(
+    repo: RepoIdentifier,
+    query: string,
+    options?: FetchOptions,
+  ): Promise<TreeItem[]>;
   testConnection(token?: string): Promise<boolean>;
 }
 ```
@@ -312,8 +332,11 @@ All stub providers implement the `Provider` interface but throw `ProviderNotImpl
 
 ```typescript
 class GitLabProvider implements Provider {
-  async getTree(repo: RepoIdentifier, options?: FetchOptions): Promise<TreeItem[]> {
-    throw new ProviderNotImplementedError("gitlab");
+  async getTree(
+    repo: RepoIdentifier,
+    options?: FetchOptions,
+  ): Promise<TreeItem[]> {
+    throw new ProviderNotImplementedError('gitlab');
   }
   // ...
 }
@@ -325,11 +348,14 @@ The event system provides lifecycle hooks:
 
 ```typescript
 // Types
-type EventName = 
-  | "beforeBrowse" | "afterBrowse"
-  | "beforeDownload" | "afterDownload"
-  | "beforeWrite" | "afterWrite"
-  | "error";
+type EventName =
+  | 'beforeBrowse'
+  | 'afterBrowse'
+  | 'beforeDownload'
+  | 'afterDownload'
+  | 'beforeWrite'
+  | 'afterWrite'
+  | 'error';
 
 interface PluginContext {
   event: string;
@@ -338,8 +364,8 @@ interface PluginContext {
 }
 
 // Usage
-globalEmitter.on("beforeDownload", async (ctx) => {
-  console.log("Download starting...");
+globalEmitter.on('beforeDownload', async (ctx) => {
+  console.log('Download starting...');
 });
 ```
 
@@ -371,11 +397,11 @@ All errors extend `RepoFetchError`:
 
 ```typescript
 class RepoFetchError extends Error {
-  code: string;           // Machine-readable code
-  reason: string;         // Human-readable explanation
-  suggestion: string;     // What to try
-  recovery: string;       // How to fix it
-  docsUrl: string;        // Link to documentation
+  code: string; // Machine-readable code
+  reason: string; // Human-readable explanation
+  suggestion: string; // What to try
+  recovery: string; // How to fix it
+  docsUrl: string; // Link to documentation
 }
 ```
 
@@ -395,9 +421,7 @@ class RepoFetchError extends Error {
 const limit = pLimit(concurrency);
 
 // Downloads run in parallel
-const tasks = items.map((item) =>
-  limit(async () => downloadSingleFile(item))
-);
+const tasks = items.map((item) => limit(async () => downloadSingleFile(item)));
 await Promise.all(tasks);
 ```
 
@@ -405,10 +429,7 @@ await Promise.all(tasks);
 
 ```typescript
 // Configurable retries (default: 3)
-const response = await pRetry(
-  async () => fetch(url),
-  { retries: 3 }
-);
+const response = await pRetry(async () => fetch(url), { retries: 3 });
 ```
 
 ### Progress Tracking
@@ -445,7 +466,14 @@ Zod schemas validate all inputs:
 
 ```typescript
 const RepoIdentifierSchema = z.object({
-  provider: z.enum(["github", "gitlab", "bitbucket", "azure", "gitea", "forgejo"]),
+  provider: z.enum([
+    'github',
+    'gitlab',
+    'bitbucket',
+    'azure',
+    'gitea',
+    'forgejo',
+  ]),
   owner: z.string().min(1).max(255),
   repo: z.string().min(1).max(255),
   branch: z.string().optional(),

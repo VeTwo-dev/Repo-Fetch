@@ -22,7 +22,9 @@ describe("normalizeRepoUrl", () => {
   });
 
   it("parses GitHub URL with branch and path", () => {
-    const result = normalizeRepoUrl("https://github.com/user/repo/tree/main/templates/react");
+    const result = normalizeRepoUrl(
+      "https://github.com/user/repo/tree/main/templates/react",
+    );
     expect(result.type).toBe("full-url");
     if (result.type === "full-url") {
       expect(result.repo.owner).toBe("user");
@@ -33,7 +35,9 @@ describe("normalizeRepoUrl", () => {
   });
 
   it("parses GitHub blob URL", () => {
-    const result = normalizeRepoUrl("https://github.com/user/repo/blob/main/package.json");
+    const result = normalizeRepoUrl(
+      "https://github.com/user/repo/blob/main/package.json",
+    );
     expect(result.type).toBe("full-url");
     if (result.type === "full-url") {
       expect(result.repo.owner).toBe("user");
@@ -108,7 +112,8 @@ describe("formatBytes", () => {
 
 describe("formatDuration", () => {
   it("formats seconds", () => expect(formatDuration(5000)).toBe("5s"));
-  it("formats minutes and seconds", () => expect(formatDuration(125000)).toBe("2m 5s"));
+  it("formats minutes and seconds", () =>
+    expect(formatDuration(125000)).toBe("2m 5s"));
   it("formats hours", () => expect(formatDuration(3661000)).toBe("1h 1m 1s"));
 });
 

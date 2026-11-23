@@ -212,11 +212,15 @@ describe("DependencyResolver", () => {
 
       resolver.setManifest(
         "a",
-        createManifest("a", [{ id: "b", version: "1.0.0", name: "b", type: "required" }]),
+        createManifest("a", [
+          { id: "b", version: "1.0.0", name: "b", type: "required" },
+        ]),
       );
       resolver.setManifest(
         "b",
-        createManifest("b", [{ id: "c", version: "1.0.0", name: "c", type: "required" }]),
+        createManifest("b", [
+          { id: "c", version: "1.0.0", name: "c", type: "required" },
+        ]),
       );
       resolver.setManifest("c", createManifest("c"));
 
@@ -228,8 +232,16 @@ describe("DependencyResolver", () => {
 
       expect(graph.nodes).toHaveLength(3);
       expect(graph.edges).toHaveLength(2);
-      expect(graph.edges).toContainEqual({ from: "a", to: "b", type: "required" });
-      expect(graph.edges).toContainEqual({ from: "b", to: "c", type: "required" });
+      expect(graph.edges).toContainEqual({
+        from: "a",
+        to: "b",
+        type: "required",
+      });
+      expect(graph.edges).toContainEqual({
+        from: "b",
+        to: "c",
+        type: "required",
+      });
 
       expect(graph.order).toHaveLength(3);
       expect(graph.order).toContain("a");
@@ -242,7 +254,12 @@ describe("DependencyResolver", () => {
       const resolver = new DependencyResolver(index);
 
       const root = createManifest("root", [
-        { id: "not-in-index", version: "1.0.0", name: "not-in-index", type: "required" },
+        {
+          id: "not-in-index",
+          version: "1.0.0",
+          name: "not-in-index",
+          type: "required",
+        },
       ]);
 
       const graph = await resolver.resolve(root);
@@ -260,11 +277,15 @@ describe("DependencyResolver", () => {
 
       resolver.setManifest(
         "a",
-        createManifest("a", [{ id: "b", version: "1.0.0", name: "b", type: "required" }]),
+        createManifest("a", [
+          { id: "b", version: "1.0.0", name: "b", type: "required" },
+        ]),
       );
       resolver.setManifest(
         "b",
-        createManifest("b", [{ id: "a", version: "1.0.0", name: "a", type: "required" }]),
+        createManifest("b", [
+          { id: "a", version: "1.0.0", name: "a", type: "required" },
+        ]),
       );
 
       const root = createManifest("root", [
@@ -341,11 +362,15 @@ describe("DependencyResolver", () => {
 
       resolver.setManifest(
         "a",
-        createManifest("a", [{ id: "b", version: "1.0.0", name: "b", type: "required" }]),
+        createManifest("a", [
+          { id: "b", version: "1.0.0", name: "b", type: "required" },
+        ]),
       );
       resolver.setManifest(
         "b",
-        createManifest("b", [{ id: "a", version: "1.0.0", name: "a", type: "required" }]),
+        createManifest("b", [
+          { id: "a", version: "1.0.0", name: "a", type: "required" },
+        ]),
       );
 
       const root = createManifest("root", [
@@ -380,15 +405,21 @@ describe("DependencyResolver", () => {
 
       resolver.setManifest(
         "x",
-        createManifest("x", [{ id: "y", version: "1.0.0", name: "y", type: "required" }]),
+        createManifest("x", [
+          { id: "y", version: "1.0.0", name: "y", type: "required" },
+        ]),
       );
       resolver.setManifest(
         "y",
-        createManifest("y", [{ id: "z", version: "1.0.0", name: "z", type: "required" }]),
+        createManifest("y", [
+          { id: "z", version: "1.0.0", name: "z", type: "required" },
+        ]),
       );
       resolver.setManifest(
         "z",
-        createManifest("z", [{ id: "x", version: "1.0.0", name: "x", type: "required" }]),
+        createManifest("z", [
+          { id: "x", version: "1.0.0", name: "x", type: "required" },
+        ]),
       );
 
       const root = createManifest("root", [

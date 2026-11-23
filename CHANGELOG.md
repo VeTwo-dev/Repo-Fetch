@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Added
 
 #### Vetwo Registry Client
+
 - Full registry system for plugins, modules, templates, presets, generators, snippets, recipes, blueprints, integrations, adapters, examples, themes, and configurations
 - Registry type system (`src/registry/types.ts`) — 427 lines of typed interfaces
 - Zod schema validation for manifests and registry index
@@ -24,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Registry cache — TTL-based index and manifest caching
 
 #### GitHub Repo URL Resolution
+
 - Resolution chain: `.env` (`GITHUB_REPO_URL`) → wizard prompt → auto-detect from git remote
 - `detectRepoFromGitRemote()` — extract repo URL from git remote origin
 - `resolveRepoUrl()` — full resolution chain with options
@@ -31,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `fetchFromConfig()` — dev dependency helper for fetching from configured repo
 
 #### CLI Commands
+
 - `repo-fetch registry search <query>` — search registry with filters
 - `repo-fetch registry install <resource>` — install resource with options
 - `repo-fetch registry info <resource>` — show detailed resource info
@@ -43,10 +46,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `--env-var`, `--no-prompt`, `--no-auto-detect` options for browse, download, tree
 
 #### Tests
+
 - 128 new unit tests across 10 registry test suites
 - Tests for: schema validation, search engine, dependency resolver, compatibility engine, variable engine, AST transforms, integrity system, lifecycle hooks, installation report, registry cache
 
 #### Documentation
+
 - Updated README.md with registry system and GitHub repo URL resolution
 - Updated ARCHITECTURE.md with registry architecture details
 - Updated API.md with all new APIs
@@ -54,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Updated CONTRIBUTING.md with registry contribution guidelines
 
 ### Changed
+
 - Version bumped from `0.1.0` to `1.0.0`
 - Package description updated to reflect registry capabilities
 - Keywords expanded to include registry-related terms

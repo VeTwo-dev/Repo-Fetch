@@ -21,7 +21,10 @@ export function getProvider(name: ProviderName): Provider {
   return provider;
 }
 
-export function getProviderForRepo(repo: RepoIdentifier, options?: FetchOptions): Provider {
+export function getProviderForRepo(
+  repo: RepoIdentifier,
+  options?: FetchOptions,
+): Provider {
   const name = options?.provider ?? repo.provider;
   return getProvider(name);
 }

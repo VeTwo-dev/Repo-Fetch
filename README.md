@@ -271,12 +271,12 @@ import {
   listRepositoryTree,
   selectAll,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 selectAll(tree, true);
-await downloadSelection(tree, repo, { output: "./download" });
+await downloadSelection(tree, repo, { output: './download' });
 ```
 
 ### Single File
@@ -286,15 +286,15 @@ import {
   resolveRepository,
   listRepositoryTree,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("https://github.com/user/repo");
-const tree = await listRepositoryTree(repo, { branch: "main" });
+const repo = resolveRepository('https://github.com/user/repo');
+const tree = await listRepositoryTree(repo, { branch: 'main' });
 
-const readme = tree.find((node) => node.path === "README.md");
+const readme = tree.find((node) => node.path === 'README.md');
 if (readme) readme.selected = true;
 
-await downloadSelection(tree, repo, { output: "./download" });
+await downloadSelection(tree, repo, { output: './download' });
 ```
 
 ### Multiple Files
@@ -304,18 +304,18 @@ import {
   resolveRepository,
   listRepositoryTree,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 
-const paths = ["package.json", "tsconfig.json", "README.md"];
+const paths = ['package.json', 'tsconfig.json', 'README.md'];
 for (const path of paths) {
   const node = tree.find((n) => n.path === path);
   if (node) node.selected = true;
 }
 
-await downloadSelection(tree, repo, { output: "./output", overwrite: true });
+await downloadSelection(tree, repo, { output: './output', overwrite: true });
 ```
 
 ### Single Folder
@@ -325,15 +325,15 @@ import {
   resolveRepository,
   listRepositoryTree,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo#main");
+const repo = resolveRepository('user/repo#main');
 const tree = await listRepositoryTree(repo);
 
-const src = tree.find((node) => node.path === "src");
+const src = tree.find((node) => node.path === 'src');
 if (src) src.selected = true;
 
-await downloadSelection(tree, repo, { output: "./src-output" });
+await downloadSelection(tree, repo, { output: './src-output' });
 ```
 
 ### Multiple Folders
@@ -343,12 +343,12 @@ import {
   resolveRepository,
   listRepositoryTree,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 
-for (const folder of ["src", "templates", "config"]) {
+for (const folder of ['src', 'templates', 'config']) {
   const node = tree.find((n) => n.path === folder);
   if (node) node.selected = true;
 }
@@ -364,12 +364,12 @@ import {
   listRepositoryTree,
   filterRepository,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 
-const typescriptFiles = await filterRepository(tree, { glob: "**/*.ts" });
+const typescriptFiles = await filterRepository(tree, { glob: '**/*.ts' });
 for (const node of typescriptFiles) node.selected = true;
 
 await downloadSelection(tree, repo);
@@ -383,12 +383,12 @@ import {
   listRepositoryTree,
   filterRepository,
   downloadSelection,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 
-const filtered = await filterRepository(tree, { extensions: [".ts", ".tsx"] });
+const filtered = await filterRepository(tree, { extensions: ['.ts', '.tsx'] });
 for (const node of filtered) node.selected = true;
 
 await downloadSelection(tree, repo);
@@ -397,10 +397,10 @@ await downloadSelection(tree, repo);
 ### Search Files
 
 ```typescript
-import { resolveRepository, searchRepository } from "@vetwo/repo-fetch";
+import { resolveRepository, searchRepository } from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
-const results = await searchRepository(repo, "docker");
+const repo = resolveRepository('user/repo');
+const results = await searchRepository(repo, 'docker');
 
 for (const item of results) {
   console.log(item.path);
@@ -416,13 +416,13 @@ import {
   selectAll,
   generatePreview,
   formatPreview,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("user/repo");
+const repo = resolveRepository('user/repo');
 const tree = await listRepositoryTree(repo);
 selectAll(tree, true);
 
-const preview = generatePreview(tree, "./download");
+const preview = generatePreview(tree, './download');
 console.log(formatPreview(preview));
 // Will download:
 //   📁 src
@@ -440,7 +440,7 @@ console.log(formatPreview(preview));
 
 ```typescript
 await downloadSelection(tree, repo, {
-  output: "./custom-output",
+  output: './custom-output',
   overwrite: true,
   concurrency: 10,
   timeout: 60000,
@@ -454,34 +454,34 @@ await downloadSelection(tree, repo, {
 
 `repo-fetch` accepts any of these formats:
 
-| Format | Example |
-|--------|---------|
-| Full URL | `https://github.com/user/repo` |
-| With branch | `https://github.com/user/repo/tree/main` |
-| With path | `https://github.com/user/repo/tree/main/templates/react` |
-| Blob URL | `https://github.com/user/repo/blob/main/package.json` |
-| Shorthand | `user/repo` |
-| With branch | `user/repo#main` |
-| With branch (@) | `user/repo@develop` |
-| With branch (:) | `user/repo:feature` |
-| GitLab | `https://gitlab.com/user/repo` |
-| Bitbucket | `https://bitbucket.org/user/repo` |
-| Azure DevOps | `https://dev.azure.com/org/project/git/repo` |
-| Gitea | `https://gitea.com/user/repo` |
-| Forgejo | `https://codeberg.org/user/repo` |
+| Format          | Example                                                  |
+| --------------- | -------------------------------------------------------- |
+| Full URL        | `https://github.com/user/repo`                           |
+| With branch     | `https://github.com/user/repo/tree/main`                 |
+| With path       | `https://github.com/user/repo/tree/main/templates/react` |
+| Blob URL        | `https://github.com/user/repo/blob/main/package.json`    |
+| Shorthand       | `user/repo`                                              |
+| With branch     | `user/repo#main`                                         |
+| With branch (@) | `user/repo@develop`                                      |
+| With branch (:) | `user/repo:feature`                                      |
+| GitLab          | `https://gitlab.com/user/repo`                           |
+| Bitbucket       | `https://bitbucket.org/user/repo`                        |
+| Azure DevOps    | `https://dev.azure.com/org/project/git/repo`             |
+| Gitea           | `https://gitea.com/user/repo`                            |
+| Forgejo         | `https://codeberg.org/user/repo`                         |
 
 ---
 
 ## Providers
 
-| Provider | Status | Token Required |
-|----------|--------|----------------|
-| GitHub | Full implementation | Optional (recommended) |
-| GitLab | Architecture ready | Yes |
-| Bitbucket | Architecture ready | Yes |
-| Azure DevOps | Architecture ready | Yes |
-| Gitea | Architecture ready | Yes |
-| Forgejo | Architecture ready | Yes |
+| Provider     | Status              | Token Required         |
+| ------------ | ------------------- | ---------------------- |
+| GitHub       | Full implementation | Optional (recommended) |
+| GitLab       | Architecture ready  | Yes                    |
+| Bitbucket    | Architecture ready  | Yes                    |
+| Azure DevOps | Architecture ready  | Yes                    |
+| Gitea        | Architecture ready  | Yes                    |
+| Forgejo      | Architecture ready  | Yes                    |
 
 ### Authentication
 
@@ -512,19 +512,19 @@ The browser is a fully interactive file explorer built with `@clack/prompts`.
 
 ### Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `↑` `↓` | Navigate up/down through items |
-| `→` | Expand folder (or navigate into) |
-| `←` | Collapse folder (or navigate to parent) |
-| `Space` | Toggle selection of current item |
-| `Enter` | Confirm selection and exit browser |
-| `/` | Open search mode |
-| `F` | Cycle filter: None → Files only → Folders only → None |
-| `P` | Preview download (shows what will be downloaded) |
-| `A` | Select all items |
-| `D` | Clear all selections |
-| `Esc` / `q` | Cancel and exit browser |
+| Key         | Action                                                |
+| ----------- | ----------------------------------------------------- |
+| `↑` `↓`     | Navigate up/down through items                        |
+| `→`         | Expand folder (or navigate into)                      |
+| `←`         | Collapse folder (or navigate to parent)               |
+| `Space`     | Toggle selection of current item                      |
+| `Enter`     | Confirm selection and exit browser                    |
+| `/`         | Open search mode                                      |
+| `F`         | Cycle filter: None → Files only → Folders only → None |
+| `P`         | Preview download (shows what will be downloaded)      |
+| `A`         | Select all items                                      |
+| `D`         | Clear all selections                                  |
+| `Esc` / `q` | Cancel and exit browser                               |
 
 ### Multi-Selection
 
@@ -594,13 +594,13 @@ Continue? (y/n)
 Apply filters when using the Node.js API:
 
 ```typescript
-import { filterRepository } from "@vetwo/repo-fetch";
+import { filterRepository } from '@vetwo/repo-fetch';
 
 // Filter by glob pattern
-await filterRepository(tree, { glob: "**/*.ts" });
+await filterRepository(tree, { glob: '**/*.ts' });
 
 // Filter by extension
-await filterRepository(tree, { extensions: [".ts", ".tsx"] });
+await filterRepository(tree, { extensions: ['.ts', '.tsx'] });
 
 // Filter by regex
 await filterRepository(tree, { regex: /\.test\.ts$/ });
@@ -613,8 +613,8 @@ await filterRepository(tree, { filesOnly: true });
 
 // With exclusions
 await filterRepository(tree, {
-  glob: "**/*.ts",
-  excludeGlob: "**/*.test.ts",
+  glob: '**/*.ts',
+  excludeGlob: '**/*.test.ts',
 });
 ```
 
@@ -625,9 +625,9 @@ await filterRepository(tree, {
 Generate a preview before downloading:
 
 ```typescript
-import { generatePreview, formatPreview } from "@vetwo/repo-fetch";
+import { generatePreview, formatPreview } from '@vetwo/repo-fetch';
 
-const preview = generatePreview(tree, "./download");
+const preview = generatePreview(tree, './download');
 
 // preview contains:
 // {
@@ -659,14 +659,14 @@ The download engine features:
 
 ```typescript
 await downloadSelection(tree, repo, {
-  output: "./download",     // Output directory
-  overwrite: false,         // Overwrite existing files
-  merge: false,             // Merge with existing files
-  skipExisting: true,       // Skip files that already exist
-  clean: false,             // Clean output directory first
-  concurrency: 5,           // Parallel downloads
-  timeout: 30000,           // Per-file timeout in ms
-  retries: 3,               // Retry failed downloads
+  output: './download', // Output directory
+  overwrite: false, // Overwrite existing files
+  merge: false, // Merge with existing files
+  skipExisting: true, // Skip files that already exist
+  clean: false, // Clean output directory first
+  concurrency: 5, // Parallel downloads
+  timeout: 30000, // Per-file timeout in ms
+  retries: 3, // Retry failed downloads
 });
 ```
 
@@ -691,13 +691,13 @@ repo-fetch clear-cache
 Programmatic cache control:
 
 ```typescript
-import { cache } from "@vetwo/repo-fetch";
+import { cache } from '@vetwo/repo-fetch';
 
 // Check cache
-const cached = cache.get("my-repo:main");
+const cached = cache.get('my-repo:main');
 
 // Clear specific entry
-cache.delete("my-repo:main");
+cache.delete('my-repo:main');
 
 // Clear all cache
 cache.clear();
@@ -713,36 +713,40 @@ const stats = cache.getStats();
 All errors extend `RepoFetchError` with structured information:
 
 ```typescript
-import { RepositoryNotFoundError, RepoFetchError } from "@vetwo/repo-fetch";
+import { RepositoryNotFoundError, RepoFetchError } from '@vetwo/repo-fetch';
 
 try {
-  await listRepositoryTree({ provider: "github", owner: "unknown", repo: "nope" });
+  await listRepositoryTree({
+    provider: 'github',
+    owner: 'unknown',
+    repo: 'nope',
+  });
 } catch (error) {
   if (error instanceof RepositoryNotFoundError) {
-    console.log(error.code);       // "REPOSITORY_NOT_FOUND"
-    console.log(error.reason);     // "The repository "unknown/nope" does not exist"
+    console.log(error.code); // "REPOSITORY_NOT_FOUND"
+    console.log(error.reason); // "The repository "unknown/nope" does not exist"
     console.log(error.suggestion); // "Verify the repository name and owner"
-    console.log(error.recovery);   // "Check the URL or use repo-fetch browse"
-    console.log(error.docsUrl);    // "https://github.com/vetwo/repo-fetch#errors"
+    console.log(error.recovery); // "Check the URL or use repo-fetch browse"
+    console.log(error.docsUrl); // "https://github.com/vetwo/repo-fetch#errors"
   }
 }
 ```
 
 ### Error Types
 
-| Error Class | Code | Description |
-|-------------|------|-------------|
-| `RepositoryNotFoundError` | `REPOSITORY_NOT_FOUND` | Repository does not exist |
-| `BranchNotFoundError` | `BRANCH_NOT_FOUND` | Branch does not exist |
-| `PathNotFoundError` | `PATH_NOT_FOUND` | File or folder path does not exist |
-| `RateLimitedError` | `RATE_LIMITED` | API rate limit exceeded |
-| `InvalidRepositoryError` | `INVALID_REPOSITORY` | Invalid repository reference |
-| `InvalidURLError` | `INVALID_URL` | Invalid URL format |
-| `PermissionDeniedError` | `PERMISSION_DENIED` | Access denied |
-| `NetworkError` | `NETWORK_ERROR` | Network connectivity issue |
-| `TimeoutError` | `TIMEOUT` | Request timed out |
-| `ValidationError` | `VALIDATION_ERROR` | Invalid input value |
-| `ProviderNotImplementedError` | `PROVIDER_NOT_IMPLEMENTED` | Provider not yet implemented |
+| Error Class                   | Code                       | Description                        |
+| ----------------------------- | -------------------------- | ---------------------------------- |
+| `RepositoryNotFoundError`     | `REPOSITORY_NOT_FOUND`     | Repository does not exist          |
+| `BranchNotFoundError`         | `BRANCH_NOT_FOUND`         | Branch does not exist              |
+| `PathNotFoundError`           | `PATH_NOT_FOUND`           | File or folder path does not exist |
+| `RateLimitedError`            | `RATE_LIMITED`             | API rate limit exceeded            |
+| `InvalidRepositoryError`      | `INVALID_REPOSITORY`       | Invalid repository reference       |
+| `InvalidURLError`             | `INVALID_URL`              | Invalid URL format                 |
+| `PermissionDeniedError`       | `PERMISSION_DENIED`        | Access denied                      |
+| `NetworkError`                | `NETWORK_ERROR`            | Network connectivity issue         |
+| `TimeoutError`                | `TIMEOUT`                  | Request timed out                  |
+| `ValidationError`             | `VALIDATION_ERROR`         | Invalid input value                |
+| `ProviderNotImplementedError` | `PROVIDER_NOT_IMPLEMENTED` | Provider not yet implemented       |
 
 ### Error Recovery
 
@@ -763,13 +767,13 @@ Every error includes:
 Create `repo-fetch.config.ts` in your project root:
 
 ```typescript
-import { defineConfig } from "@vetwo/repo-fetch";
+import { defineConfig } from '@vetwo/repo-fetch';
 
 export default defineConfig({
-  provider: "github",
+  provider: 'github',
   token: process.env.GITHUB_TOKEN,
   cache: true,
-  output: "./download",
+  output: './download',
   overwrite: false,
   merge: false,
   skipExisting: true,
@@ -777,19 +781,19 @@ export default defineConfig({
   concurrency: 5,
   timeout: 30000,
   retries: 3,
-  plugins: ["my-plugin"],
+  plugins: ['my-plugin'],
 });
 ```
 
 ### Programmatic Configuration
 
 ```typescript
-import { setConfig, getConfig, resetConfig } from "@vetwo/repo-fetch";
+import { setConfig, getConfig, resetConfig } from '@vetwo/repo-fetch';
 
 // Set configuration
 setConfig({
-  provider: "github",
-  output: "./downloads",
+  provider: 'github',
+  output: './downloads',
   cache: true,
 });
 
@@ -802,20 +806,20 @@ resetConfig();
 
 ### Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `provider` | `ProviderName` | `"github"` | Git provider to use |
-| `token` | `string` | `undefined` | Authentication token |
-| `cache` | `boolean` | `true` | Enable caching |
-| `output` | `string` | `"./download"` | Output directory |
-| `overwrite` | `boolean` | `false` | Overwrite existing files |
-| `merge` | `boolean` | `false` | Merge with existing files |
-| `skipExisting` | `boolean` | `false` | Skip existing files |
-| `clean` | `boolean` | `false` | Clean output before download |
-| `concurrency` | `number` | `5` | Parallel download count |
-| `timeout` | `number` | `30000` | Per-file timeout (ms) |
-| `retries` | `number` | `3` | Retry count |
-| `plugins` | `string[]` | `[]` | Plugin names |
+| Option         | Type           | Default        | Description                  |
+| -------------- | -------------- | -------------- | ---------------------------- |
+| `provider`     | `ProviderName` | `"github"`     | Git provider to use          |
+| `token`        | `string`       | `undefined`    | Authentication token         |
+| `cache`        | `boolean`      | `true`         | Enable caching               |
+| `output`       | `string`       | `"./download"` | Output directory             |
+| `overwrite`    | `boolean`      | `false`        | Overwrite existing files     |
+| `merge`        | `boolean`      | `false`        | Merge with existing files    |
+| `skipExisting` | `boolean`      | `false`        | Skip existing files          |
+| `clean`        | `boolean`      | `false`        | Clean output before download |
+| `concurrency`  | `number`       | `5`            | Parallel download count      |
+| `timeout`      | `number`       | `30000`        | Per-file timeout (ms)        |
+| `retries`      | `number`       | `3`            | Retry count                  |
+| `plugins`      | `string[]`     | `[]`           | Plugin names                 |
 
 ---
 
@@ -826,11 +830,11 @@ Extend `repo-fetch` with plugins that hook into the download lifecycle.
 ### Creating a Plugin
 
 ```typescript
-import { BasePlugin } from "@vetwo/repo-fetch";
+import { BasePlugin } from '@vetwo/repo-fetch';
 
 class LoggingPlugin extends BasePlugin {
-  name = "logging-plugin";
-  version = "1.0.0";
+  name = 'logging-plugin';
+  version = '1.0.0';
 
   hooks = {
     beforeDownload: async (ctx) => {
@@ -849,12 +853,12 @@ class LoggingPlugin extends BasePlugin {
 ### Registering a Plugin
 
 ```typescript
-import { BasePlugin, registerPlugin } from "@vetwo/repo-fetch";
+import { BasePlugin, registerPlugin } from '@vetwo/repo-fetch';
 
 class MyPlugin extends BasePlugin {
-  name = "my-plugin";
-  version = "1.0.0";
-  hooks = { /* ... */ };
+  name = 'my-plugin';
+  version = '1.0.0';
+  hooks = {/* ... */};
 }
 
 const plugin = new MyPlugin();
@@ -863,15 +867,15 @@ plugin.register();
 
 ### Lifecycle Hooks
 
-| Hook | When | Data |
-|------|------|------|
-| `beforeBrowse` | Before opening the browser | `repo`, `options` |
-| `afterBrowse` | After browser closes | `repo`, `options`, `nodes` |
-| `beforeDownload` | Before download starts | `repo`, `items`, `options` |
-| `afterDownload` | After download completes | `repo`, `items`, `results` |
-| `beforeWrite` | Before writing a file | `path`, `data` |
-| `afterWrite` | After writing a file | `path`, `bytes` |
-| `onError` | When any error occurs | `error`, `context` |
+| Hook             | When                       | Data                       |
+| ---------------- | -------------------------- | -------------------------- |
+| `beforeBrowse`   | Before opening the browser | `repo`, `options`          |
+| `afterBrowse`    | After browser closes       | `repo`, `options`, `nodes` |
+| `beforeDownload` | Before download starts     | `repo`, `items`, `options` |
+| `afterDownload`  | After download completes   | `repo`, `items`, `results` |
+| `beforeWrite`    | Before writing a file      | `path`, `data`             |
+| `afterWrite`     | After writing a file       | `path`, `bytes`            |
+| `onError`        | When any error occurs      | `error`, `context`         |
 
 See [Plugin Guide](PLUGIN_GUIDE.md) for detailed documentation.
 
@@ -892,12 +896,12 @@ repo-fetch registry search "react template" --category templates --tag react --l
 ```
 
 ```typescript
-import { RegistryClient } from "@vetwo/repo-fetch";
+import { RegistryClient } from '@vetwo/repo-fetch';
 
 const client = new RegistryClient();
-const results = await client.search("react template", {
-  category: "templates",
-  tag: "react",
+const results = await client.search('react template', {
+  category: 'templates',
+  tag: 'react',
   limit: 10,
 });
 ```
@@ -913,8 +917,8 @@ repo-fetch registry install @vetwo/my-plugin --version latest --force
 ```
 
 ```typescript
-const result = await client.install("@vetwo/my-plugin", {
-  version: "latest",
+const result = await client.install('@vetwo/my-plugin', {
+  version: 'latest',
   force: true,
 });
 ```
@@ -927,7 +931,7 @@ repo-fetch registry info <resource>
 ```
 
 ```typescript
-const info = await client.getInfo("@vetwo/my-plugin");
+const info = await client.getInfo('@vetwo/my-plugin');
 console.log(info.manifest);
 console.log(info.versions);
 ```
@@ -949,7 +953,7 @@ repo-fetch registry check
 ```typescript
 const report = await client.checkCompatibility();
 console.log(report.compatible); // boolean
-console.log(report.missing);    // string[]
+console.log(report.missing); // string[]
 ```
 
 ### Cache Management
@@ -980,7 +984,7 @@ repo-fetch registry tags
 ### Node.js API
 
 ```typescript
-import { RegistryClient } from "@vetwo/repo-fetch";
+import { RegistryClient } from '@vetwo/repo-fetch';
 
 const client = new RegistryClient();
 
@@ -988,16 +992,16 @@ const client = new RegistryClient();
 const index = await client.getIndex();
 
 // Search
-const results = await client.search("template", { category: "templates" });
+const results = await client.search('template', { category: 'templates' });
 
 // Get manifest for a resource
-const manifest = await client.getManifest("@vetwo/my-plugin");
+const manifest = await client.getManifest('@vetwo/my-plugin');
 
 // Resolve dependencies
-const deps = await client.resolveDependencies("@vetwo/my-plugin");
+const deps = await client.resolveDependencies('@vetwo/my-plugin');
 
 // Install
-await client.install("@vetwo/my-plugin", { version: "1.0.0" });
+await client.install('@vetwo/my-plugin', { version: '1.0.0' });
 ```
 
 ---
@@ -1016,11 +1020,11 @@ The repository URL is resolved in this order:
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
+| Option             | Description                                                   |
+| ------------------ | ------------------------------------------------------------- |
 | `--env-var <name>` | Custom environment variable name (default: `GITHUB_REPO_URL`) |
-| `--no-prompt` | Skip wizard prompt |
-| `--no-auto-detect` | Skip git remote auto-detection |
+| `--no-prompt`      | Skip wizard prompt                                            |
+| `--no-auto-detect` | Skip git remote auto-detection                                |
 
 ### CLI Usage
 
@@ -1040,15 +1044,15 @@ repo-fetch tree
 Use `fetchFromConfig()` as a dev dependency to fetch templates from a configurable repo:
 
 ```typescript
-import { fetchFromConfig } from "@vetwo/repo-fetch";
+import { fetchFromConfig } from '@vetwo/repo-fetch';
 
 // Resolves repo URL via .env → prompt → git remote
 const result = await fetchFromConfig({
-  pattern: "templates/**",
-  output: "./scaffold",
-  envVar: "GITHUB_REPO_URL",  // default
-  prompt: true,                // default
-  autoDetect: true,            // default
+  pattern: 'templates/**',
+  output: './scaffold',
+  envVar: 'GITHUB_REPO_URL', // default
+  prompt: true, // default
+  autoDetect: true, // default
 });
 ```
 
@@ -1059,14 +1063,14 @@ const result = await fetchFromConfig({
 Listen to lifecycle events:
 
 ```typescript
-import { globalEmitter } from "@vetwo/repo-fetch";
+import { globalEmitter } from '@vetwo/repo-fetch';
 
-globalEmitter.on("beforeDownload", async (ctx) => {
-  console.log("Download starting...");
+globalEmitter.on('beforeDownload', async (ctx) => {
+  console.log('Download starting...');
 });
 
-globalEmitter.on("afterDownload", async (ctx) => {
-  console.log("Download complete!");
+globalEmitter.on('afterDownload', async (ctx) => {
+  console.log('Download complete!');
 });
 ```
 
@@ -1171,6 +1175,7 @@ See [Architecture](ARCHITECTURE.md) for detailed design documentation.
 Open interactive repository browser.
 
 **Options:**
+
 - `-t, --token <token>` - Authentication token
 - `-b, --branch <branch>` - Branch name
 
@@ -1179,6 +1184,7 @@ Open interactive repository browser.
 Download files/folders from a repository.
 
 **Options:**
+
 - `-t, --token <token>` - Authentication token
 - `-b, --branch <branch>` - Branch name
 - `-o, --output <path>` - Output directory (default: `./download`)
@@ -1199,6 +1205,7 @@ Download files/folders from a repository.
 Display repository tree.
 
 **Options:**
+
 - `-t, --token <token>` - Authentication token
 - `-b, --branch <branch>` - Branch name
 - `-d, --depth <depth>` - Maximum depth (default: 10)
@@ -1208,6 +1215,7 @@ Display repository tree.
 Search files in repository.
 
 **Options:**
+
 - `-t, --token <token>` - Authentication token
 - `-b, --branch <branch>` - Branch name
 - `--case-sensitive` - Case-sensitive search
@@ -1230,6 +1238,7 @@ Clear all cached data.
 Search the Vetwo registry.
 
 **Options:**
+
 - `-c, --category <category>` - Filter by category
 - `-t, --tag <tag>` - Filter by tag
 - `-l, --limit <number>` - Maximum results (default: 20)
@@ -1239,6 +1248,7 @@ Search the Vetwo registry.
 Install a resource from the registry.
 
 **Options:**
+
 - `-v, --version <version>` - Specific version (default: latest)
 - `--force` - Force reinstall
 
@@ -1276,90 +1286,90 @@ List all registry tags.
 
 ### Functions
 
-| Function | Description | Returns |
-|----------|-------------|---------|
-| `fetchRepo(repo, options?)` | Download entire repository | `Promise<DownloadResult[]>` |
-| `fetchFiles(repo, paths, options?)` | Download specific files | `Promise<DownloadResult[]>` |
-| `fetchFolders(repo, folders, options?)` | Download specific folders | `Promise<DownloadResult[]>` |
-| `browseRepository(repo, options?)` | Open interactive browser | `Promise<TreeNode[]>` |
-| `resolveRepository(input)` | Parse repository input | `RepoIdentifier` |
-| `listRepositoryTree(repo, options?)` | Get repository tree | `Promise<TreeNode[]>` |
-| `downloadFile(repo, path, options?)` | Download a single file | `Promise<DownloadResult>` |
-| `downloadFolder(repo, path, options?)` | Download a folder | `Promise<DownloadResult[]>` |
-| `downloadSelection(nodes, repo, options?)` | Download selected nodes | `Promise<DownloadResult[]>` |
-| `searchRepository(repo, query, options?)` | Search files in repository | `Promise<TreeItem[]>` |
-| `filterRepository(nodes, options?)` | Filter tree nodes | `Promise<TreeNode[]>` |
-| `previewDownload(nodes, destination?)` | Generate download preview | `Promise<PreviewData>` |
-| `generatePreview(nodes, destination?)` | Create preview data | `PreviewData` |
-| `formatPreview(data)` | Format preview as string | `string` |
-| `RegistryClient.getIndex()` | Get full registry index | `Promise<RegistryIndex>` |
-| `RegistryClient.search(query, options?)` | Search registry resources | `Promise<SearchResult[]>` |
-| `RegistryClient.getById(id)` | Get resource by ID | `Promise<RegistryResourceEntry>` |
-| `RegistryClient.getManifest(id)` | Get resource manifest | `Promise<ResourceManifest>` |
-| `RegistryClient.checkCompatibility()` | Check environment compatibility | `Promise<CompatibilityReport>` |
-| `RegistryClient.resolveDependencies(id)` | Resolve resource dependencies | `Promise<DependencyGraph>` |
-| `RegistryClient.install(id, options?)` | Install a resource | `Promise<InstallationReport>` |
-| `searchRegistry(query, options?)` | Search the registry | `Promise<SearchResult[]>` |
-| `searchByCategory(category)` | Search by category | `Promise<SearchResult[]>` |
-| `searchByTag(tag)` | Search by tag | `Promise<SearchResult[]>` |
-| `searchByType(type)` | Search by resource type | `Promise<SearchResult[]>` |
-| `detectEnvironment()` | Detect runtime environment | `Promise<EnvironmentInfo>` |
-| `checkCompatibility()` | Check environment compatibility | `Promise<CompatibilityReport>` |
-| `resolveVariables(template, context)` | Resolve template variables | `VariableResolution` |
-| `applyVariables(template, variables)` | Apply variables to template | `string` |
-| `validateVariableValue(value, schema)` | Validate a variable value | `boolean` |
-| `applyTransforms(source, transforms)` | Apply AST transforms | `TransformResult` |
-| `verifyIntegrity(path, checksum)` | Verify file integrity | `IntegrityResult` |
-| `computeHash(data)` | Compute content hash | `string` |
-| `computeFileHash(path)` | Compute file hash | `Promise<string>` |
-| `computeDirectoryHash(path)` | Compute directory hash | `Promise<string>` |
-| `generateChecksum(data)` | Generate checksum | `string` |
-| `executeLifecycleHooks(hook, context)` | Execute lifecycle hooks | `Promise<LifecycleResult>` |
-| `getAvailableHooks()` | Get available hooks | `string[]` |
-| `hasHook(hook)` | Check if hook exists | `boolean` |
-| `getHookDescription(hook)` | Get hook description | `string` |
-| `createReport(name)` | Create installation report | `InstallationReport` |
-| `addInstalledResource(report, resource)` | Add resource to report | `void` |
-| `addWarning(report, message)` | Add warning to report | `void` |
-| `addError(report, message)` | Add error to report | `void` |
-| `finalizeReport(report)` | Finalize report | `InstallationReport` |
-| `formatReport(report)` | Format report as string | `string` |
-| `detectRepoFromGitRemote()` | Detect repo from git remote | `Promise<string \| null>` |
-| `resolveRepoUrl(options?)` | Resolve repo URL | `Promise<string>` |
-| `resolveRepoIdentifier(options?)` | Resolve repo identifier | `Promise<RepoIdentifier>` |
-| `fetchFromConfig(options?)` | Fetch using resolved config | `Promise<FetchConfigResult>` |
+| Function                                   | Description                     | Returns                          |
+| ------------------------------------------ | ------------------------------- | -------------------------------- |
+| `fetchRepo(repo, options?)`                | Download entire repository      | `Promise<DownloadResult[]>`      |
+| `fetchFiles(repo, paths, options?)`        | Download specific files         | `Promise<DownloadResult[]>`      |
+| `fetchFolders(repo, folders, options?)`    | Download specific folders       | `Promise<DownloadResult[]>`      |
+| `browseRepository(repo, options?)`         | Open interactive browser        | `Promise<TreeNode[]>`            |
+| `resolveRepository(input)`                 | Parse repository input          | `RepoIdentifier`                 |
+| `listRepositoryTree(repo, options?)`       | Get repository tree             | `Promise<TreeNode[]>`            |
+| `downloadFile(repo, path, options?)`       | Download a single file          | `Promise<DownloadResult>`        |
+| `downloadFolder(repo, path, options?)`     | Download a folder               | `Promise<DownloadResult[]>`      |
+| `downloadSelection(nodes, repo, options?)` | Download selected nodes         | `Promise<DownloadResult[]>`      |
+| `searchRepository(repo, query, options?)`  | Search files in repository      | `Promise<TreeItem[]>`            |
+| `filterRepository(nodes, options?)`        | Filter tree nodes               | `Promise<TreeNode[]>`            |
+| `previewDownload(nodes, destination?)`     | Generate download preview       | `Promise<PreviewData>`           |
+| `generatePreview(nodes, destination?)`     | Create preview data             | `PreviewData`                    |
+| `formatPreview(data)`                      | Format preview as string        | `string`                         |
+| `RegistryClient.getIndex()`                | Get full registry index         | `Promise<RegistryIndex>`         |
+| `RegistryClient.search(query, options?)`   | Search registry resources       | `Promise<SearchResult[]>`        |
+| `RegistryClient.getById(id)`               | Get resource by ID              | `Promise<RegistryResourceEntry>` |
+| `RegistryClient.getManifest(id)`           | Get resource manifest           | `Promise<ResourceManifest>`      |
+| `RegistryClient.checkCompatibility()`      | Check environment compatibility | `Promise<CompatibilityReport>`   |
+| `RegistryClient.resolveDependencies(id)`   | Resolve resource dependencies   | `Promise<DependencyGraph>`       |
+| `RegistryClient.install(id, options?)`     | Install a resource              | `Promise<InstallationReport>`    |
+| `searchRegistry(query, options?)`          | Search the registry             | `Promise<SearchResult[]>`        |
+| `searchByCategory(category)`               | Search by category              | `Promise<SearchResult[]>`        |
+| `searchByTag(tag)`                         | Search by tag                   | `Promise<SearchResult[]>`        |
+| `searchByType(type)`                       | Search by resource type         | `Promise<SearchResult[]>`        |
+| `detectEnvironment()`                      | Detect runtime environment      | `Promise<EnvironmentInfo>`       |
+| `checkCompatibility()`                     | Check environment compatibility | `Promise<CompatibilityReport>`   |
+| `resolveVariables(template, context)`      | Resolve template variables      | `VariableResolution`             |
+| `applyVariables(template, variables)`      | Apply variables to template     | `string`                         |
+| `validateVariableValue(value, schema)`     | Validate a variable value       | `boolean`                        |
+| `applyTransforms(source, transforms)`      | Apply AST transforms            | `TransformResult`                |
+| `verifyIntegrity(path, checksum)`          | Verify file integrity           | `IntegrityResult`                |
+| `computeHash(data)`                        | Compute content hash            | `string`                         |
+| `computeFileHash(path)`                    | Compute file hash               | `Promise<string>`                |
+| `computeDirectoryHash(path)`               | Compute directory hash          | `Promise<string>`                |
+| `generateChecksum(data)`                   | Generate checksum               | `string`                         |
+| `executeLifecycleHooks(hook, context)`     | Execute lifecycle hooks         | `Promise<LifecycleResult>`       |
+| `getAvailableHooks()`                      | Get available hooks             | `string[]`                       |
+| `hasHook(hook)`                            | Check if hook exists            | `boolean`                        |
+| `getHookDescription(hook)`                 | Get hook description            | `string`                         |
+| `createReport(name)`                       | Create installation report      | `InstallationReport`             |
+| `addInstalledResource(report, resource)`   | Add resource to report          | `void`                           |
+| `addWarning(report, message)`              | Add warning to report           | `void`                           |
+| `addError(report, message)`                | Add error to report             | `void`                           |
+| `finalizeReport(report)`                   | Finalize report                 | `InstallationReport`             |
+| `formatReport(report)`                     | Format report as string         | `string`                         |
+| `detectRepoFromGitRemote()`                | Detect repo from git remote     | `Promise<string \| null>`        |
+| `resolveRepoUrl(options?)`                 | Resolve repo URL                | `Promise<string>`                |
+| `resolveRepoIdentifier(options?)`          | Resolve repo identifier         | `Promise<RepoIdentifier>`        |
+| `fetchFromConfig(options?)`                | Fetch using resolved config     | `Promise<FetchConfigResult>`     |
 
 ### Types
 
-| Type | Description |
-|------|-------------|
-| `RepoIdentifier` | Repository reference (provider, owner, repo, branch, path) |
-| `TreeItem` | Raw tree item from provider API |
-| `TreeNode` | Processed tree node with selection state |
-| `DownloadItem` | Item to download |
-| `DownloadResult` | Result of a download operation |
-| `DownloadOptions` | Download configuration |
-| `FetchOptions` | Fetch configuration |
-| `FilterOptions` | Filter configuration |
-| `PreviewData` | Preview information |
-| `Provider` | Git provider interface |
-| `Plugin` | Plugin interface |
-| `Config` | Configuration object |
-| `ResourceManifest` | Registry resource manifest with metadata |
-| `RegistryIndex` | Full registry index of all resources |
-| `RegistryResourceEntry` | Individual resource entry in the index |
-| `SearchResult` | Search result with resource info and score |
-| `DependencyGraph` | Resolved dependency graph |
-| `DependencyNode` | Individual dependency node |
-| `CompatibilityReport` | Environment compatibility report |
-| `VariableResolution` | Resolved template variables |
-| `TransformResult` | Result of AST transformation |
-| `IntegrityResult` | File integrity check result |
-| `LifecycleResult` | Lifecycle hook execution result |
-| `InstallationReport` | Resource installation report |
-| `RegistryConfig` | Registry client configuration |
-| `InstallOptions` | Installation options |
-| `SearchOptions` | Registry search options |
+| Type                    | Description                                                |
+| ----------------------- | ---------------------------------------------------------- |
+| `RepoIdentifier`        | Repository reference (provider, owner, repo, branch, path) |
+| `TreeItem`              | Raw tree item from provider API                            |
+| `TreeNode`              | Processed tree node with selection state                   |
+| `DownloadItem`          | Item to download                                           |
+| `DownloadResult`        | Result of a download operation                             |
+| `DownloadOptions`       | Download configuration                                     |
+| `FetchOptions`          | Fetch configuration                                        |
+| `FilterOptions`         | Filter configuration                                       |
+| `PreviewData`           | Preview information                                        |
+| `Provider`              | Git provider interface                                     |
+| `Plugin`                | Plugin interface                                           |
+| `Config`                | Configuration object                                       |
+| `ResourceManifest`      | Registry resource manifest with metadata                   |
+| `RegistryIndex`         | Full registry index of all resources                       |
+| `RegistryResourceEntry` | Individual resource entry in the index                     |
+| `SearchResult`          | Search result with resource info and score                 |
+| `DependencyGraph`       | Resolved dependency graph                                  |
+| `DependencyNode`        | Individual dependency node                                 |
+| `CompatibilityReport`   | Environment compatibility report                           |
+| `VariableResolution`    | Resolved template variables                                |
+| `TransformResult`       | Result of AST transformation                               |
+| `IntegrityResult`       | File integrity check result                                |
+| `LifecycleResult`       | Lifecycle hook execution result                            |
+| `InstallationReport`    | Resource installation report                               |
+| `RegistryConfig`        | Registry client configuration                              |
+| `InstallOptions`        | Installation options                                       |
+| `SearchOptions`         | Registry search options                                    |
 
 See [API Reference](API.md) for complete documentation.
 
@@ -1428,4 +1438,5 @@ See [SECURITY.md](SECURITY.md) for information about reporting security vulnerab
 ## License
 
 [MIT](LICENSE) © [Vetwo](https://vetwo.dev)
+
 # repo-fetch

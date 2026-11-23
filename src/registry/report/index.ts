@@ -22,12 +22,27 @@ export function createReport(): InstallationReport {
       compatible: true,
       runtime: { supported: true, current: "", required: "*", message: "" },
       framework: { supported: true, current: "", required: "*", message: "" },
-      packageManager: { supported: true, current: "", required: "*", message: "" },
+      packageManager: {
+        supported: true,
+        current: "",
+        required: "*",
+        message: "",
+      },
       nodeVersion: { supported: true, current: "", required: "*", message: "" },
       bunVersion: { supported: true, current: "", required: "*", message: "" },
       os: { supported: true, current: "", required: "*", message: "" },
-      architecture: { supported: true, current: "", required: "*", message: "" },
-      vetwoVersion: { supported: true, current: "", required: "*", message: "" },
+      architecture: {
+        supported: true,
+        current: "",
+        required: "*",
+        message: "",
+      },
+      vetwoVersion: {
+        supported: true,
+        current: "",
+        required: "*",
+        message: "",
+      },
       warnings: [],
       errors: [],
     },
@@ -102,7 +117,8 @@ export function addSkipped(
 
 export function finalizeReport(report: InstallationReport): void {
   report.endTime = new Date().toISOString();
-  report.duration = new Date(report.endTime).getTime() - new Date(report.startTime).getTime();
+  report.duration =
+    new Date(report.endTime).getTime() - new Date(report.startTime).getTime();
 }
 
 export function formatReport(report: InstallationReport): string {
@@ -125,7 +141,9 @@ export function formatReport(report: InstallationReport): string {
     lines.push("  Installed Resources:");
     for (const resource of report.resources) {
       const check = resource.checksumVerified ? " [verified]" : "";
-      lines.push(`    - ${resource.name}@${resource.version} (${resource.type})${check}`);
+      lines.push(
+        `    - ${resource.name}@${resource.version} (${resource.type})${check}`,
+      );
       lines.push(`      Path: ${resource.path}`);
       lines.push(`      Files: ${resource.files.length}`);
     }
@@ -161,7 +179,9 @@ export function formatReport(report: InstallationReport): string {
   if (report.skipped.length > 0) {
     lines.push("  Skipped:");
     for (const skipped of report.skipped) {
-      lines.push(`    - ${skipped.name}: ${skipped.reason} (${skipped.details})`);
+      lines.push(
+        `    - ${skipped.name}: ${skipped.reason} (${skipped.details})`,
+      );
     }
     lines.push("");
   }
@@ -170,7 +190,9 @@ export function formatReport(report: InstallationReport): string {
     lines.push("  Lifecycle Hooks:");
     for (const result of report.lifecycleResults) {
       const status = result.success ? "OK" : "FAILED";
-      lines.push(`    - ${result.hook}: ${status} (${formatDuration(result.duration)})`);
+      lines.push(
+        `    - ${result.hook}: ${status} (${formatDuration(result.duration)})`,
+      );
     }
     lines.push("");
   }
@@ -200,7 +222,9 @@ export function printReport(report: InstallationReport): void {
   console.log(formatted);
 
   if (report.success) {
-    logger.success(`Installation completed: ${report.resources.length} resources installed`);
+    logger.success(
+      `Installation completed: ${report.resources.length} resources installed`,
+    );
   } else {
     logger.error(`Installation failed: ${report.errors.length} errors`);
   }

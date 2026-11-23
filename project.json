@@ -1,0 +1,5 @@
+{
+  "tags": ["domain:shared", "type:util", "scope:shared"],
+  "name": "@vetwo/repo-fetch",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json"
+}

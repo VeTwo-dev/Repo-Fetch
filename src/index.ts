@@ -67,7 +67,10 @@ export {
   downloadItems,
 } from "./core/download";
 
-export { fetchFromConfig, type FetchFromConfigOptions } from "./core/fetch-config";
+export {
+  fetchFromConfig,
+  type FetchFromConfigOptions,
+} from "./core/fetch-config";
 
 export { browseRepository } from "./core/browser";
 
@@ -81,11 +84,20 @@ export {
   toggleNode,
 } from "./core/tree";
 
-export { filterRepository, filterTreeItems, filterTreeNodes, filterBySearch } from "./core/filters";
+export {
+  filterRepository,
+  filterTreeItems,
+  filterTreeNodes,
+  filterBySearch,
+} from "./core/filters";
 
 export { resolveRepository, parseRepositoryInput } from "./core/resolver";
 
-export { generatePreview, formatPreview, previewDownload } from "./core/preview";
+export {
+  generatePreview,
+  formatPreview,
+  previewDownload,
+} from "./core/preview";
 
 export { cache, CacheStore } from "./core/cache";
 
@@ -108,8 +120,15 @@ export {
   getPopularResources,
 } from "./registry/search";
 export { DependencyResolver } from "./registry/resolver";
-export { checkCompatibility, detectEnvironment } from "./registry/compatibility";
-export { resolveVariables, promptVariables, applyVariables } from "./registry/variables";
+export {
+  checkCompatibility,
+  detectEnvironment,
+} from "./registry/compatibility";
+export {
+  resolveVariables,
+  promptVariables,
+  applyVariables,
+} from "./registry/variables";
 export { applyTransforms } from "./registry/transforms";
 export {
   verifyIntegrity,
@@ -118,7 +137,11 @@ export {
   computeDirectoryHash,
   generateChecksum,
 } from "./registry/integrity";
-export { executeLifecycleHooks, getAvailableHooks, hasHook } from "./registry/lifecycle";
+export {
+  executeLifecycleHooks,
+  getAvailableHooks,
+  hasHook,
+} from "./registry/lifecycle";
 export {
   createReport,
   addInstalledResource,

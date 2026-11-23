@@ -72,7 +72,9 @@ async function downloadByGlob(): Promise<void> {
 async function downloadByExtension(): Promise<void> {
   const repo = resolveRepository("user/repo");
   const tree = await listRepositoryTree(repo);
-  const filtered = await filterRepository(tree, { extensions: [".ts", ".tsx"] });
+  const filtered = await filterRepository(tree, {
+    extensions: [".ts", ".tsx"],
+  });
 
   for (const node of filtered) {
     node.selected = true;

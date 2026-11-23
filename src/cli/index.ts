@@ -5,7 +5,9 @@ import { registerCommands } from "./commands";
 
 program
   .name("repo-fetch")
-  .description("Download selected files/folders from Git repositories without cloning")
+  .description(
+    "Download selected files/folders from Git repositories without cloning",
+  )
   .version(PACKAGE_VERSION, "-v, --version", "Output the current version")
   .usage("[command] [options] [repository]")
   .helpCommand(false);

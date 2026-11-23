@@ -183,7 +183,10 @@ describe("searchRegistry", () => {
   });
 
   it("filters by type", () => {
-    const results = searchRegistry(index, { query: "template", type: "plugin" });
+    const results = searchRegistry(index, {
+      query: "template",
+      type: "plugin",
+    });
     expect(results.every((r) => r.resource.type === "plugin")).toBe(true);
   });
 
@@ -210,7 +213,9 @@ describe("searchRegistry", () => {
   it("returns results sorted by score descending", () => {
     const results = searchRegistry(index, { query: "plugin" });
     for (let i = 1; i < results.length; i++) {
-      expect(results[i - 1]?.score).toBeGreaterThanOrEqual(results[i]?.score ?? 0);
+      expect(results[i - 1]?.score).toBeGreaterThanOrEqual(
+        results[i]?.score ?? 0,
+      );
     }
   });
 });
@@ -281,7 +286,9 @@ describe("getPopularResources", () => {
   it("returns resources sorted by tag count descending", () => {
     const results = getPopularResources(index);
     for (let i = 1; i < results.length; i++) {
-      expect(results[i - 1]?.tags.length).toBeGreaterThanOrEqual(results[i]?.tags.length ?? 0);
+      expect(results[i - 1]?.tags.length).toBeGreaterThanOrEqual(
+        results[i]?.tags.length ?? 0,
+      );
     }
   });
 

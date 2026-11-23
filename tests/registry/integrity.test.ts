@@ -54,7 +54,9 @@ function makeManifest(checksum: {
 describe("computeHash", () => {
   it("computes sha256 of a string", () => {
     const hash = computeHash("hello world", "sha256");
-    expect(hash).toBe("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+    expect(hash).toBe(
+      "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+    );
   });
 
   it("computes md5 of a buffer", () => {
@@ -86,14 +88,18 @@ describe("computeFileHash", () => {
     const filePath = resolve(tmpDir, "file.txt");
     await fs.writeFile(filePath, "hello world");
     const hash = await computeFileHash(filePath, "sha256");
-    expect(hash).toBe("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+    expect(hash).toBe(
+      "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+    );
   });
 
   it("defaults to sha256", async () => {
     const filePath = resolve(tmpDir, "file.txt");
     await fs.writeFile(filePath, "hello world");
     const hash = await computeFileHash(filePath);
-    expect(hash).toBe("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+    expect(hash).toBe(
+      "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+    );
   });
 });
 
@@ -202,7 +208,10 @@ describe("verifyIntegrity", () => {
 
   it("missing file fails", async () => {
     const manifest = makeManifest({ algorithm: "sha256", value: "abc" });
-    const result = await verifyIntegrity(manifest, resolve(tmpDir, "nonexistent.txt"));
+    const result = await verifyIntegrity(
+      manifest,
+      resolve(tmpDir, "nonexistent.txt"),
+    );
     expect(result.valid).toBe(false);
     expect(result.checksumMatch).toBe(false);
   });

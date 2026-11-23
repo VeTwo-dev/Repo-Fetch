@@ -16,7 +16,12 @@ export function registerSearchCommand(program: Command): void {
       async (
         repository: string,
         query: string,
-        options: { token?: string; branch?: string; caseSensitive?: boolean; max?: string },
+        options: {
+          token?: string;
+          branch?: string;
+          caseSensitive?: boolean;
+          max?: string;
+        },
       ) => {
         try {
           const repo = resolveRepository(repository);
@@ -42,12 +47,15 @@ export function registerSearchCommand(program: Command): void {
 
           console.log(`\nFound ${results.length} result(s):\n`);
           for (const item of limited) {
-            const size = item.type === "blob" ? `(${formatBytes(item.size)})` : "";
+            const size =
+              item.type === "blob" ? `(${formatBytes(item.size)})` : "";
             console.log(`  📄 ${item.path} ${size}`);
           }
 
           if (results.length > maxResults) {
-            console.log(`\n... and ${results.length - maxResults} more results`);
+            console.log(
+              `\n... and ${results.length - maxResults} more results`,
+            );
           }
         } catch (error) {
           logger.error(error instanceof Error ? error.message : String(error));

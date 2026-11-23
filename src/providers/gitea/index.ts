@@ -13,7 +13,10 @@ export class GiteaProvider implements Provider {
     defaultBranch: "main",
   };
 
-  async getTree(_repo: RepoIdentifier, _options?: FetchOptions): Promise<TreeItem[]> {
+  async getTree(
+    _repo: RepoIdentifier,
+    _options?: FetchOptions,
+  ): Promise<TreeItem[]> {
     throw new ProviderNotImplementedError("gitea");
   }
   async getFile(
@@ -23,14 +26,21 @@ export class GiteaProvider implements Provider {
   ): Promise<Readable | null> {
     throw new ProviderNotImplementedError("gitea");
   }
-  getDownloadUrl(_repo: RepoIdentifier, _path: string, _options?: FetchOptions): string {
+  getDownloadUrl(
+    _repo: RepoIdentifier,
+    _path: string,
+    _options?: FetchOptions,
+  ): string {
     throw new ProviderNotImplementedError("gitea");
   }
   async resolveRepository(input: string): Promise<RepoIdentifier> {
     const { parseRepoUrl } = await import("../../utils");
     return parseRepoUrl(input);
   }
-  async getDefaultBranch(_repo: RepoIdentifier, _options?: FetchOptions): Promise<string> {
+  async getDefaultBranch(
+    _repo: RepoIdentifier,
+    _options?: FetchOptions,
+  ): Promise<string> {
     throw new ProviderNotImplementedError("gitea");
   }
   async search(

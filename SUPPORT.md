@@ -29,6 +29,7 @@
 **Problem:** `403 Forbidden` or "Rate limit exceeded"
 
 **Solution:**
+
 ```bash
 # Set a GitHub token
 export GITHUB_TOKEN=your_token_here
@@ -42,6 +43,7 @@ repo-fetch browse user/repo --token ghp_xxxx
 **Problem:** `401 Unauthorized` or "Permission denied"
 
 **Solution:**
+
 1. Create a Personal Access Token:
    - GitHub: Settings → Developer settings → Personal access tokens
    - GitLab: Settings → Access Tokens
@@ -56,6 +58,7 @@ repo-fetch browse user/repo --token ghp_xxxx
 **Problem:** `404 Not Found` or "Path not found"
 
 **Solution:**
+
 ```bash
 # Check repository structure first
 repo-fetch tree user/repo
@@ -69,6 +72,7 @@ repo-fetch search user/repo filename
 **Problem:** `NetworkError` or timeout
 
 **Solution:**
+
 1. Check internet connection
 2. Try with increased timeout:
    ```bash
@@ -84,6 +88,7 @@ repo-fetch search user/repo filename
 **Problem:** Cannot write to output directory
 
 **Solution:**
+
 ```bash
 # Check permissions
 repo-fetch doctor
@@ -101,6 +106,7 @@ repo-fetch doctor
 ```
 
 This checks:
+
 - Internet connectivity
 - GitHub API access
 - Node.js version
@@ -115,6 +121,7 @@ Have an idea? [Open a feature request](https://github.com/vetwo/repo-fetch/issue
 ## Bug Reports
 
 Found a bug? [Open a bug report](https://github.com/vetwo/repo-fetch/issues/new?template=bug_report.yml) with:
+
 - Steps to reproduce
 - Expected vs actual behavior
 - Environment details (OS, Node version, package version)

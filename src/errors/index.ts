@@ -31,7 +31,8 @@ export class RepositoryNotFoundError extends RepoFetchError {
       code: "REPOSITORY_NOT_FOUND",
       reason: `The repository "${owner}/${repo}" does not exist or is inaccessible.`,
       suggestion: "Verify the repository name and owner are correct.",
-      recovery: "Check the URL or use `repo-fetch browse` to explore available repositories.",
+      recovery:
+        "Check the URL or use `repo-fetch browse` to explore available repositories.",
       docsUrl: "https://github.com/vetwo/repo-fetch#errors",
     });
     this.name = "RepositoryNotFoundError";
@@ -44,7 +45,8 @@ export class BranchNotFoundError extends RepoFetchError {
       code: "BRANCH_NOT_FOUND",
       reason: `The branch "${branch}" does not exist in this repository.`,
       suggestion: "Check the branch name for typos.",
-      recovery: "Use the default branch (main/master) or verify the branch exists.",
+      recovery:
+        "Use the default branch (main/master) or verify the branch exists.",
       docsUrl: "https://github.com/vetwo/repo-fetch#errors",
     });
     this.name = "BranchNotFoundError";
@@ -69,7 +71,8 @@ export class RateLimitedError extends RepoFetchError {
     super("Rate limit exceeded", {
       code: "RATE_LIMITED",
       reason: "API rate limit has been exceeded.",
-      suggestion: "Authenticate with a token to increase limits or wait until the reset time.",
+      suggestion:
+        "Authenticate with a token to increase limits or wait until the reset time.",
       recovery: `Rate limit resets at ${new Date(resetAt * 1000).toISOString()}. Provide a token via --token or REPO_FETCH_TOKEN env var.`,
       docsUrl: "https://github.com/vetwo/repo-fetch#rate-limiting",
     });
@@ -109,7 +112,8 @@ export class PermissionDeniedError extends RepoFetchError {
     super(`Permission denied: ${resource}`, {
       code: "PERMISSION_DENIED",
       reason: `Access to "${resource}" was denied.`,
-      suggestion: "Provide an authentication token with the required permissions.",
+      suggestion:
+        "Provide an authentication token with the required permissions.",
       recovery: "Set REPO_FETCH_TOKEN environment variable or use --token.",
       docsUrl: "https://github.com/vetwo/repo-fetch#authentication",
     });
@@ -135,7 +139,8 @@ export class TimeoutError extends RepoFetchError {
     super(`Request timed out after ${ms}ms`, {
       code: "TIMEOUT",
       reason: `The request exceeded the ${ms}ms timeout.`,
-      suggestion: "Increase the timeout with --timeout or check your connection.",
+      suggestion:
+        "Increase the timeout with --timeout or check your connection.",
       recovery: "Use a larger timeout value or a faster internet connection.",
       docsUrl: "https://github.com/vetwo/repo-fetch#configuration",
     });
@@ -161,7 +166,8 @@ export class ProviderNotImplementedError extends RepoFetchError {
     super(`Provider "${provider}" is not yet implemented`, {
       code: "PROVIDER_NOT_IMPLEMENTED",
       reason: `Support for "${provider}" is architecture-ready but not yet implemented.`,
-      suggestion: "Use GitHub as the provider or implement the provider interface.",
+      suggestion:
+        "Use GitHub as the provider or implement the provider interface.",
       recovery: "Check the provider guide at the documentation URL.",
       docsUrl: "https://github.com/vetwo/repo-fetch#provider-guide",
     });

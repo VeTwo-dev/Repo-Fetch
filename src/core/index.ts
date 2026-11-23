@@ -17,7 +17,12 @@ export {
   getSelectedFolders,
   getSelectedDownloadItems,
 } from "./selection";
-export { filterTreeItems, filterTreeNodes, filterBySearch, filterRepository } from "./filters";
+export {
+  filterTreeItems,
+  filterTreeNodes,
+  filterBySearch,
+  filterRepository,
+} from "./filters";
 export { cache, CacheStore } from "./cache/index";
 export { generatePreview, formatPreview, previewDownload } from "./preview";
 export { resolveRepository, parseRepositoryInput } from "./resolver";

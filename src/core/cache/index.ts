@@ -24,7 +24,12 @@ class CacheStore {
     return entry.data as T;
   }
 
-  set<T>(key: string, data: T, etag: string | null = null, ttl: number = CACHE_TTL): void {
+  set<T>(
+    key: string,
+    data: T,
+    etag: string | null = null,
+    ttl: number = CACHE_TTL,
+  ): void {
     this.cache.set(key, {
       key,
       data,

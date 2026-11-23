@@ -12,10 +12,25 @@ export interface Provider {
   };
 
   getTree(repo: RepoIdentifier, options?: FetchOptions): Promise<TreeItem[]>;
-  getFile(repo: RepoIdentifier, path: string, options?: FetchOptions): Promise<Readable | null>;
-  getDownloadUrl(repo: RepoIdentifier, path: string, options?: FetchOptions): string;
+  getFile(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): Promise<Readable | null>;
+  getDownloadUrl(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): string;
   resolveRepository(input: string): Promise<RepoIdentifier>;
-  getDefaultBranch(repo: RepoIdentifier, options?: FetchOptions): Promise<string>;
-  search(repo: RepoIdentifier, query: string, options?: FetchOptions): Promise<TreeItem[]>;
+  getDefaultBranch(
+    repo: RepoIdentifier,
+    options?: FetchOptions,
+  ): Promise<string>;
+  search(
+    repo: RepoIdentifier,
+    query: string,
+    options?: FetchOptions,
+  ): Promise<TreeItem[]>;
   testConnection(token?: string): Promise<boolean>;
 }

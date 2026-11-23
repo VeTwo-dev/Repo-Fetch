@@ -9,7 +9,13 @@ const mockItems: TreeItem[] = [
   { path: "src/utils.ts", type: "blob", sha: "c", size: 300, url: "" },
   { path: "src/styles.css", type: "blob", sha: "d", size: 50, url: "" },
   { path: "dist/bundle.js", type: "blob", sha: "e", size: 1000, url: "" },
-  { path: "node_modules/pkg/index.js", type: "blob", sha: "f", size: 500, url: "" },
+  {
+    path: "node_modules/pkg/index.js",
+    type: "blob",
+    sha: "f",
+    size: 500,
+    url: "",
+  },
 ];
 
 describe("filterTreeItems", () => {

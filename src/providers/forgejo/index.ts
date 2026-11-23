@@ -13,7 +13,10 @@ export class ForgejoProvider implements Provider {
     defaultBranch: "main",
   };
 
-  async getTree(_repo: RepoIdentifier, _options?: FetchOptions): Promise<TreeItem[]> {
+  async getTree(
+    _repo: RepoIdentifier,
+    _options?: FetchOptions,
+  ): Promise<TreeItem[]> {
     throw new ProviderNotImplementedError("forgejo");
   }
   async getFile(
@@ -23,14 +26,21 @@ export class ForgejoProvider implements Provider {
   ): Promise<Readable | null> {
     throw new ProviderNotImplementedError("forgejo");
   }
-  getDownloadUrl(_repo: RepoIdentifier, _path: string, _options?: FetchOptions): string {
+  getDownloadUrl(
+    _repo: RepoIdentifier,
+    _path: string,
+    _options?: FetchOptions,
+  ): string {
     throw new ProviderNotImplementedError("forgejo");
   }
   async resolveRepository(input: string): Promise<RepoIdentifier> {
     const { parseRepoUrl } = await import("../../utils");
     return parseRepoUrl(input);
   }
-  async getDefaultBranch(_repo: RepoIdentifier, _options?: FetchOptions): Promise<string> {
+  async getDefaultBranch(
+    _repo: RepoIdentifier,
+    _options?: FetchOptions,
+  ): Promise<string> {
     throw new ProviderNotImplementedError("forgejo");
   }
   async search(

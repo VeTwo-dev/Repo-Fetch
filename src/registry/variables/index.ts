@@ -1,4 +1,9 @@
-import type { ResourceManifest, VariableDef, VariableContext, VariableResolution } from "../types";
+import type {
+  ResourceManifest,
+  VariableDef,
+  VariableContext,
+  VariableResolution,
+} from "../types";
 
 export function resolveVariables(
   manifest: ResourceManifest,
@@ -14,7 +19,10 @@ export function resolveVariables(
   return resolutions;
 }
 
-function resolveVariable(variable: VariableDef, context?: VariableContext): VariableResolution {
+function resolveVariable(
+  variable: VariableDef,
+  context?: VariableContext,
+): VariableResolution {
   if (context) {
     const ctxValue = context[variable.name];
     if (ctxValue !== undefined) {
@@ -51,7 +59,10 @@ function resolveVariable(variable: VariableDef, context?: VariableContext): Vari
   };
 }
 
-function castValue(value: string, type: VariableDef["type"]): string | number | boolean {
+function castValue(
+  value: string,
+  type: VariableDef["type"],
+): string | number | boolean {
   switch (type) {
     case "number":
       return Number(value) || 0;
@@ -121,7 +132,8 @@ export async function promptVariables(
       if (prompts.isCancel(result)) {
         throw new Error("Cancelled by user");
       }
-      value = Number(result as string) || (variable.defaultValue as number) || 0;
+      value =
+        Number(result as string) || (variable.defaultValue as number) || 0;
     } else {
       const result = await prompts.text({
         message: variable.prompt ?? variable.description,
@@ -151,11 +163,17 @@ export async function promptVariables(
   return resolutions;
 }
 
-export function applyVariables(template: string, variables: VariableResolution[]): string {
+export function applyVariables(
+  template: string,
+  variables: VariableResolution[],
+): string {
   let result = template;
 
   for (const variable of variables) {
-    const pattern = new RegExp(`\\{\\{\\s*${escapeRegex(variable.name)}\\s*\\}\\}`, "g");
+    const pattern = new RegExp(
+      `\\{\\{\\s*${escapeRegex(variable.name)}\\s*\\}\\}`,
+      "g",
+    );
     result = result.replace(pattern, String(variable.value));
   }
 
@@ -166,11 +184,15 @@ function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export function getRequiredVariables(manifest: ResourceManifest): VariableDef[] {
+export function getRequiredVariables(
+  manifest: ResourceManifest,
+): VariableDef[] {
   return manifest.variables.filter((v) => v.required);
 }
 
-export function getOptionalVariables(manifest: ResourceManifest): VariableDef[] {
+export function getOptionalVariables(
+  manifest: ResourceManifest,
+): VariableDef[] {
   return manifest.variables.filter((v) => !v.required);
 }
 
@@ -178,7 +200,10 @@ export function validateVariableValue(
   variable: VariableDef,
   value: string | number | boolean,
 ): { valid: boolean; error?: string } {
-  if (variable.required && (value === "" || value === undefined || value === null)) {
+  if (
+    variable.required &&
+    (value === "" || value === undefined || value === null)
+  ) {
     return { valid: false, error: `${variable.name} is required` };
   }
 

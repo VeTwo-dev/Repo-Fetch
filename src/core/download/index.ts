@@ -47,7 +47,9 @@ async function downloadSingleFile(
       await fs.remove(outputDir);
     }
 
-    await fs.ensureDir(resolve(outputDir, item.path.split("/").slice(0, -1).join("/")));
+    await fs.ensureDir(
+      resolve(outputDir, item.path.split("/").slice(0, -1).join("/")),
+    );
 
     const response = await pRetry(
       async () => {
@@ -56,14 +58,18 @@ async function downloadSingleFile(
           headers: {
             "User-Agent": "@vetwo/repo-fetch",
           },
-          signal: options.timeout ? AbortSignal.timeout(options.timeout) : undefined,
+          signal: options.timeout
+            ? AbortSignal.timeout(options.timeout)
+            : undefined,
         });
 
         if (res.statusCode === 403) {
           throw new PermissionDeniedError(item.path);
         }
         if (!res.statusCode.toString().startsWith("2")) {
-          throw new NetworkError(`Download failed for ${item.path}: ${res.statusCode}`);
+          throw new NetworkError(
+            `Download failed for ${item.path}: ${res.statusCode}`,
+          );
         }
 
         return res;
@@ -129,7 +135,13 @@ export async function downloadFile(
     type: "file",
   };
 
-  return downloadSingleFile(provider, repo, item, outputDir, mergeOptions(options, {}));
+  return downloadSingleFile(
+    provider,
+    repo,
+    item,
+    outputDir,
+    mergeOptions(options, {}),
+  );
 }
 
 export async function downloadFolder(

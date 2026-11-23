@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { ResourceManifestSchema, RegistryIndexSchema } from "../../src/registry/schema";
+import {
+  ResourceManifestSchema,
+  RegistryIndexSchema,
+} from "../../src/registry/schema";
 
 function createValidManifest() {
   return {
@@ -102,31 +105,47 @@ describe("ResourceManifestSchema", () => {
 
   it("rejects invalid version format", () => {
     const base = createValidManifest();
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "1.0" }).success).toBe(false);
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "v1.0.0" }).success).toBe(false);
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "abc" }).success).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "1.0" }).success,
+    ).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "v1.0.0" }).success,
+    ).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "abc" }).success,
+    ).toBe(false);
   });
 
   it("accepts valid semver with prerelease", () => {
     const base = createValidManifest();
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "1.0.0-beta.1" }).success).toBe(
-      true,
-    );
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "2.3.4-alpha.12" }).success).toBe(
-      true,
-    );
-    expect(ResourceManifestSchema.safeParse({ ...base, version: "0.1.0-rc.1" }).success).toBe(true);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "1.0.0-beta.1" })
+        .success,
+    ).toBe(true);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "2.3.4-alpha.12" })
+        .success,
+    ).toBe(true);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, version: "0.1.0-rc.1" })
+        .success,
+    ).toBe(true);
   });
 
   it("rejects invalid type", () => {
     const base = createValidManifest();
-    expect(ResourceManifestSchema.safeParse({ ...base, type: "invalid" }).success).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, type: "invalid" }).success,
+    ).toBe(false);
   });
 
   it("rejects invalid runtime in supportedRuntimes", () => {
     const base = createValidManifest();
     expect(
-      ResourceManifestSchema.safeParse({ ...base, supportedRuntimes: ["invalid"] }).success,
+      ResourceManifestSchema.safeParse({
+        ...base,
+        supportedRuntimes: ["invalid"],
+      }).success,
     ).toBe(false);
   });
 
@@ -151,30 +170,44 @@ describe("ResourceManifestSchema", () => {
 
   it("validates nested author object requires name", () => {
     const base = createValidManifest();
-    expect(ResourceManifestSchema.safeParse({ ...base, author: {} }).success).toBe(false);
-    expect(ResourceManifestSchema.safeParse({ ...base, author: { name: "" } }).success).toBe(false);
-    expect(ResourceManifestSchema.safeParse({ ...base, author: { name: "Valid" } }).success).toBe(
-      true,
-    );
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, author: {} }).success,
+    ).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, author: { name: "" } })
+        .success,
+    ).toBe(false);
+    expect(
+      ResourceManifestSchema.safeParse({ ...base, author: { name: "Valid" } })
+        .success,
+    ).toBe(true);
   });
 
   it("validates nested checksum algorithm", () => {
     const base = createValidManifest();
     expect(
-      ResourceManifestSchema.safeParse({ ...base, checksum: { algorithm: "invalid", value: "x" } })
-        .success,
+      ResourceManifestSchema.safeParse({
+        ...base,
+        checksum: { algorithm: "invalid", value: "x" },
+      }).success,
     ).toBe(false);
     expect(
-      ResourceManifestSchema.safeParse({ ...base, checksum: { algorithm: "sha256", value: "abc" } })
-        .success,
+      ResourceManifestSchema.safeParse({
+        ...base,
+        checksum: { algorithm: "sha256", value: "abc" },
+      }).success,
     ).toBe(true);
     expect(
-      ResourceManifestSchema.safeParse({ ...base, checksum: { algorithm: "sha512", value: "abc" } })
-        .success,
+      ResourceManifestSchema.safeParse({
+        ...base,
+        checksum: { algorithm: "sha512", value: "abc" },
+      }).success,
     ).toBe(true);
     expect(
-      ResourceManifestSchema.safeParse({ ...base, checksum: { algorithm: "md5", value: "abc" } })
-        .success,
+      ResourceManifestSchema.safeParse({
+        ...base,
+        checksum: { algorithm: "md5", value: "abc" },
+      }).success,
     ).toBe(true);
   });
 });
@@ -206,22 +239,32 @@ describe("RegistryIndexSchema", () => {
     const cat = base.categories[0];
     expect(cat).toBeDefined();
     expect(
-      RegistryIndexSchema.safeParse({ ...base, categories: [{ ...cat!, resourceCount: -1 }] })
-        .success,
+      RegistryIndexSchema.safeParse({
+        ...base,
+        categories: [{ ...cat!, resourceCount: -1 }],
+      }).success,
     ).toBe(false);
     expect(
-      RegistryIndexSchema.safeParse({ ...base, categories: [{ ...cat!, resourceCount: 0 }] })
-        .success,
+      RegistryIndexSchema.safeParse({
+        ...base,
+        categories: [{ ...cat!, resourceCount: 0 }],
+      }).success,
     ).toBe(true);
   });
 
   it("validates tag entries require count >= 0", () => {
     const base = createValidIndex();
     expect(
-      RegistryIndexSchema.safeParse({ ...base, tags: [{ name: "t", count: -1 }] }).success,
+      RegistryIndexSchema.safeParse({
+        ...base,
+        tags: [{ name: "t", count: -1 }],
+      }).success,
     ).toBe(false);
     expect(
-      RegistryIndexSchema.safeParse({ ...base, tags: [{ name: "t", count: 0 }] }).success,
+      RegistryIndexSchema.safeParse({
+        ...base,
+        tags: [{ name: "t", count: 0 }],
+      }).success,
     ).toBe(true);
   });
 });

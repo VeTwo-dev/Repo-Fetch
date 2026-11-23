@@ -1,4 +1,9 @@
-import type { RepoIdentifier, DownloadResult, DownloadOptions, FetchOptions } from "../../types";
+import type {
+  RepoIdentifier,
+  DownloadResult,
+  DownloadOptions,
+  FetchOptions,
+} from "../../types";
 import { resolveRepoIdentifier, type ResolveRepoUrlOptions } from "../../utils";
 import { fetchFiles, fetchFolders, fetchRepo } from "../download";
 
@@ -10,7 +15,9 @@ export interface FetchFromConfigOptions
   fetchAll?: boolean;
 }
 
-export async function fetchFromConfig(options?: FetchFromConfigOptions): Promise<DownloadResult[]> {
+export async function fetchFromConfig(
+  options?: FetchFromConfigOptions,
+): Promise<DownloadResult[]> {
   let repo: RepoIdentifier;
 
   if (options?.repoUrl) {

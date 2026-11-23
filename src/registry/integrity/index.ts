@@ -1,7 +1,11 @@
 import { createHash } from "crypto";
 import fs from "fs-extra";
 import { resolve } from "pathe";
-import type { ResourceManifest, ResourceChecksum, IntegrityResult } from "../types";
+import type {
+  ResourceManifest,
+  ResourceChecksum,
+  IntegrityResult,
+} from "../types";
 import { ResourceManifestSchema } from "../schema";
 
 export async function verifyIntegrity(
@@ -11,7 +15,11 @@ export async function verifyIntegrity(
   const errors: string[] = [];
   const warningsList: string[] = [];
 
-  const checksumValid = await verifyChecksum(manifest, downloadPath, warningsList);
+  const checksumValid = await verifyChecksum(
+    manifest,
+    downloadPath,
+    warningsList,
+  );
   if (!checksumValid) {
     errors.push(`Checksum mismatch for ${manifest.name}@${manifest.version}`);
   }
@@ -23,7 +31,9 @@ export async function verifyIntegrity(
 
   const filesValid = await verifyDownloadedFiles(downloadPath);
   if (!filesValid) {
-    warningsList.push(`Some files may be missing or corrupted in ${downloadPath}`);
+    warningsList.push(
+      `Some files may be missing or corrupted in ${downloadPath}`,
+    );
   }
 
   return {
@@ -42,7 +52,9 @@ async function verifyChecksum(
   warningsList: string[],
 ): Promise<boolean> {
   if (manifest.checksum.algorithm === "md5") {
-    warningsList.push("MD5 checksums are considered insecure. Consider upgrading to SHA-256.");
+    warningsList.push(
+      "MD5 checksums are considered insecure. Consider upgrading to SHA-256.",
+    );
   }
 
   try {
@@ -112,12 +124,18 @@ export function computeHash(data: Buffer | string, algorithm: string): string {
   return createHash(algorithm).update(data).digest("hex");
 }
 
-export async function computeFileHash(filePath: string, algorithm = "sha256"): Promise<string> {
+export async function computeFileHash(
+  filePath: string,
+  algorithm = "sha256",
+): Promise<string> {
   const content = await fs.readFile(filePath);
   return computeHash(content, algorithm);
 }
 
-export async function computeDirectoryHash(dirPath: string, algorithm = "sha256"): Promise<string> {
+export async function computeDirectoryHash(
+  dirPath: string,
+  algorithm = "sha256",
+): Promise<string> {
   const files = await getAllFiles(dirPath);
   const hash = createHash(algorithm);
 

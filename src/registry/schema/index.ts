@@ -114,7 +114,14 @@ const VariableDefSchema = z.object({
 });
 
 const TransformDefSchema = z.object({
-  type: z.enum(["packageJson", "tsConfig", "imports", "routes", "config", "custom"]),
+  type: z.enum([
+    "packageJson",
+    "tsConfig",
+    "imports",
+    "routes",
+    "config",
+    "custom",
+  ]),
   target: z.string(),
   action: z.enum(["merge", "prepend", "append", "replace", "remove"]),
   data: z.unknown(),

@@ -2,7 +2,10 @@ import type { TreeItem, TreeNode, FilterOptions } from "../../types";
 import { flattenTree } from "../tree";
 import { simpleGlobMatch } from "../../utils";
 
-export function filterTreeItems(items: TreeItem[], options: FilterOptions): TreeItem[] {
+export function filterTreeItems(
+  items: TreeItem[],
+  options: FilterOptions,
+): TreeItem[] {
   return items.filter((item) => {
     if (options.foldersOnly && item.type !== "tree") {
       return false;
@@ -17,14 +20,18 @@ export function filterTreeItems(items: TreeItem[], options: FilterOptions): Tree
         return false;
       }
       const dotExt = ext.startsWith(".") ? ext : `.${ext}`;
-      const normalizedExtensions = options.extensions.map((e) => (e.startsWith(".") ? e : `.${e}`));
+      const normalizedExtensions = options.extensions.map((e) =>
+        e.startsWith(".") ? e : `.${e}`,
+      );
       if (!normalizedExtensions.includes(dotExt)) {
         return false;
       }
     }
 
     if (options.glob) {
-      const patterns = Array.isArray(options.glob) ? options.glob : [options.glob];
+      const patterns = Array.isArray(options.glob)
+        ? options.glob
+        : [options.glob];
       const excludePatterns: string[] = [];
       const includePatterns: string[] = [];
 
@@ -37,14 +44,18 @@ export function filterTreeItems(items: TreeItem[], options: FilterOptions): Tree
       }
 
       if (includePatterns.length > 0) {
-        const matches = includePatterns.some((p) => simpleGlobMatch(p, item.path));
+        const matches = includePatterns.some((p) =>
+          simpleGlobMatch(p, item.path),
+        );
         if (!matches) {
           return false;
         }
       }
 
       if (excludePatterns.length > 0) {
-        const excluded = excludePatterns.some((p) => simpleGlobMatch(p, item.path));
+        const excluded = excludePatterns.some((p) =>
+          simpleGlobMatch(p, item.path),
+        );
         if (excluded) {
           return false;
         }
@@ -77,7 +88,10 @@ export function filterTreeItems(items: TreeItem[], options: FilterOptions): Tree
   });
 }
 
-export function filterTreeNodes(nodes: TreeNode[], options: FilterOptions): TreeNode[] {
+export function filterTreeNodes(
+  nodes: TreeNode[],
+  options: FilterOptions,
+): TreeNode[] {
   const items: TreeItem[] = flattenTree(nodes).map((n) => ({
     path: n.path,
     type: n.type === "file" ? "blob" : "tree",

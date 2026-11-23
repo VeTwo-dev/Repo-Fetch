@@ -8,7 +8,9 @@ import {
   validateVariableValue,
 } from "../../src/registry/variables";
 
-function createManifestWithVariables(variables: VariableDef[] = []): ResourceManifest {
+function createManifestWithVariables(
+  variables: VariableDef[] = [],
+): ResourceManifest {
   return {
     id: "test",
     name: "Test",
@@ -48,15 +50,28 @@ function createManifestWithVariables(variables: VariableDef[] = []): ResourceMan
 describe("resolveVariables", () => {
   it("resolves from context when context provided", () => {
     const manifest = createManifestWithVariables([
-      { name: "projectName", type: "string", description: "Project name", required: true },
+      {
+        name: "projectName",
+        type: "string",
+        description: "Project name",
+        required: true,
+      },
     ]);
     const result = resolveVariables(manifest, { projectName: "my-app" });
-    expect(result).toEqual([{ name: "projectName", value: "my-app", source: "context" }]);
+    expect(result).toEqual([
+      { name: "projectName", value: "my-app", source: "context" },
+    ]);
   });
 
   it("falls back to default value when no context", () => {
     const manifest = createManifestWithVariables([
-      { name: "port", type: "number", description: "Port", required: false, defaultValue: 3000 },
+      {
+        name: "port",
+        type: "number",
+        description: "Port",
+        required: false,
+        defaultValue: 3000,
+      },
     ]);
     const result = resolveVariables(manifest);
     expect(result).toEqual([{ name: "port", value: 3000, source: "default" }]);
@@ -72,12 +87,19 @@ describe("resolveVariables", () => {
 
   it("resolves from env when VETWO_VAR_{NAME} is set", () => {
     const manifest = createManifestWithVariables([
-      { name: "apiKey", type: "string", description: "API key", required: true },
+      {
+        name: "apiKey",
+        type: "string",
+        description: "API key",
+        required: true,
+      },
     ]);
     process.env["VETWO_VAR_APIKEY"] = "secret123";
     try {
       const result = resolveVariables(manifest);
-      expect(result).toEqual([{ name: "apiKey", value: "secret123", source: "env" }]);
+      expect(result).toEqual([
+        { name: "apiKey", value: "secret123", source: "env" },
+      ]);
     } finally {
       delete process.env["VETWO_VAR_APIKEY"];
     }
@@ -85,12 +107,19 @@ describe("resolveVariables", () => {
 
   it("context takes priority over env", () => {
     const manifest = createManifestWithVariables([
-      { name: "apiKey", type: "string", description: "API key", required: true },
+      {
+        name: "apiKey",
+        type: "string",
+        description: "API key",
+        required: true,
+      },
     ]);
     process.env["VETWO_VAR_APIKEY"] = "from-env";
     try {
       const result = resolveVariables(manifest, { apiKey: "from-context" });
-      expect(result).toEqual([{ name: "apiKey", value: "from-context", source: "context" }]);
+      expect(result).toEqual([
+        { name: "apiKey", value: "from-context", source: "context" },
+      ]);
     } finally {
       delete process.env["VETWO_VAR_APIKEY"];
     }
@@ -98,7 +127,13 @@ describe("resolveVariables", () => {
 
   it("context takes priority over default", () => {
     const manifest = createManifestWithVariables([
-      { name: "port", type: "number", description: "Port", required: false, defaultValue: 3000 },
+      {
+        name: "port",
+        type: "number",
+        description: "Port",
+        required: false,
+        defaultValue: 3000,
+      },
     ]);
     const result = resolveVariables(manifest, { port: 8080 });
     expect(result).toEqual([{ name: "port", value: 8080, source: "context" }]);

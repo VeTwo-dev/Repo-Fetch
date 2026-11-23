@@ -46,10 +46,12 @@ When reporting a vulnerability, please include:
 ### Recommended Token Scopes
 
 **GitHub:**
+
 - `repo` - Full control of private repositories
 - `public_repo` - Access public repositories only (if needed)
 
 **GitLab:**
+
 - `read_repository` - Read repository files
 
 ### Environment Setup

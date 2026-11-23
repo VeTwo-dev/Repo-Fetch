@@ -19,13 +19,21 @@ describe("RepoIdentifierSchema", () => {
 
   it("rejects empty owner", () => {
     expect(() =>
-      RepoIdentifierSchema.parse({ provider: "github", owner: "", repo: "repo" }),
+      RepoIdentifierSchema.parse({
+        provider: "github",
+        owner: "",
+        repo: "repo",
+      }),
     ).toThrow();
   });
 
   it("rejects invalid provider", () => {
     expect(() =>
-      RepoIdentifierSchema.parse({ provider: "invalid", owner: "user", repo: "repo" }),
+      RepoIdentifierSchema.parse({
+        provider: "invalid",
+        owner: "user",
+        repo: "repo",
+      }),
     ).toThrow();
   });
 

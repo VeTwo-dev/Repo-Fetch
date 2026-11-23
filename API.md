@@ -100,19 +100,21 @@ npm install @vetwo/repo-fetch
 ## Quick Start
 
 ```typescript
-import { fetchFiles, browseRepository } from "@vetwo/repo-fetch";
+import { fetchFiles, browseRepository } from '@vetwo/repo-fetch';
 
 // Download specific files
 const results = await fetchFiles(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  ["README.md", "src/index.ts"],
-  { output: "./download", concurrency: 5 }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  ['README.md', 'src/index.ts'],
+  { output: './download', concurrency: 5 },
 );
 
 // Interactive browse and download
-const nodes = await browseRepository(
-  { owner: "octocat", repo: "hello-world", provider: "github" }
-);
+const nodes = await browseRepository({
+  owner: 'octocat',
+  repo: 'hello-world',
+  provider: 'github',
+});
 ```
 
 ---
@@ -126,23 +128,23 @@ Downloads the entire repository tree.
 ```typescript
 function fetchRepo(
   repo: RepoIdentifier,
-  options?: FetchOptions & DownloadOptions
-): Promise<DownloadResult[]>
+  options?: FetchOptions & DownloadOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `FetchOptions & DownloadOptions` | No | Combined options |
+| Parameter | Type                             | Required | Description           |
+| --------- | -------------------------------- | -------- | --------------------- |
+| `repo`    | `RepoIdentifier`                 | Yes      | Repository identifier |
+| `options` | `FetchOptions & DownloadOptions` | No       | Combined options      |
 
 **Example:**
 
 ```typescript
 const results = await fetchRepo(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  { output: "./download", concurrency: 10, overwrite: true }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  { output: './download', concurrency: 10, overwrite: true },
 );
 ```
 
@@ -156,25 +158,25 @@ Downloads specific files by path.
 function fetchFiles(
   repo: RepoIdentifier,
   paths: string[],
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult[]>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `paths` | `string[]` | Yes | Array of file paths to download |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter | Type                             | Required | Description                     |
+| --------- | -------------------------------- | -------- | ------------------------------- |
+| `repo`    | `RepoIdentifier`                 | Yes      | Repository identifier           |
+| `paths`   | `string[]`                       | Yes      | Array of file paths to download |
+| `options` | `DownloadOptions & FetchOptions` | No       | Download options                |
 
 **Example:**
 
 ```typescript
 const results = await fetchFiles(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  ["README.md", "package.json", "src/index.ts"],
-  { output: "./my-project" }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  ['README.md', 'package.json', 'src/index.ts'],
+  { output: './my-project' },
 );
 ```
 
@@ -188,25 +190,25 @@ Downloads entire folders recursively.
 function fetchFolders(
   repo: RepoIdentifier,
   folders: string[],
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult[]>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `folders` | `string[]` | Yes | Array of folder paths to download |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter | Type                             | Required | Description                       |
+| --------- | -------------------------------- | -------- | --------------------------------- |
+| `repo`    | `RepoIdentifier`                 | Yes      | Repository identifier             |
+| `folders` | `string[]`                       | Yes      | Array of folder paths to download |
+| `options` | `DownloadOptions & FetchOptions` | No       | Download options                  |
 
 **Example:**
 
 ```typescript
 const results = await fetchFolders(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  ["src", "tests"],
-  { output: "./download" }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  ['src', 'tests'],
+  { output: './download' },
 );
 ```
 
@@ -220,25 +222,25 @@ Downloads a single file.
 function downloadFile(
   repo: RepoIdentifier,
   filePath: string,
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `filePath` | `string` | Yes | Path to the file |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter  | Type                             | Required | Description           |
+| ---------- | -------------------------------- | -------- | --------------------- |
+| `repo`     | `RepoIdentifier`                 | Yes      | Repository identifier |
+| `filePath` | `string`                         | Yes      | Path to the file      |
+| `options`  | `DownloadOptions & FetchOptions` | No       | Download options      |
 
 **Example:**
 
 ```typescript
 const result = await downloadFile(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  "README.md",
-  { output: "./download" }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  'README.md',
+  { output: './download' },
 );
 ```
 
@@ -252,25 +254,25 @@ Downloads a folder and all its contents.
 function downloadFolder(
   repo: RepoIdentifier,
   folderPath: string,
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult[]>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `folderPath` | `string` | Yes | Path to the folder |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter    | Type                             | Required | Description           |
+| ------------ | -------------------------------- | -------- | --------------------- |
+| `repo`       | `RepoIdentifier`                 | Yes      | Repository identifier |
+| `folderPath` | `string`                         | Yes      | Path to the folder    |
+| `options`    | `DownloadOptions & FetchOptions` | No       | Download options      |
 
 **Example:**
 
 ```typescript
 const results = await downloadFolder(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  "src",
-  { output: "./download" }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  'src',
+  { output: './download' },
 );
 ```
 
@@ -284,28 +286,32 @@ Downloads selected nodes from a tree.
 function downloadSelection(
   nodes: TreeNode[],
   repo: RepoIdentifier,
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult[]>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Selected tree nodes |
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter | Type                             | Required | Description           |
+| --------- | -------------------------------- | -------- | --------------------- |
+| `nodes`   | `TreeNode[]`                     | Yes      | Selected tree nodes   |
+| `repo`    | `RepoIdentifier`                 | Yes      | Repository identifier |
+| `options` | `DownloadOptions & FetchOptions` | No       | Download options      |
 
 **Example:**
 
 ```typescript
-import { listRepositoryTree, selectAll, downloadSelection } from "@vetwo/repo-fetch";
+import {
+  listRepositoryTree,
+  selectAll,
+  downloadSelection,
+} from '@vetwo/repo-fetch';
 
 const nodes = await listRepositoryTree(repo);
 selectAll(nodes);
 
 const results = await downloadSelection(nodes, repo, {
-  output: "./download",
+  output: './download',
   concurrency: 10,
 });
 ```
@@ -320,29 +326,29 @@ Downloads an array of download items.
 function downloadItems(
   items: DownloadItem[],
   repo: RepoIdentifier,
-  options?: DownloadOptions & FetchOptions
-): Promise<DownloadResult[]>
+  options?: DownloadOptions & FetchOptions,
+): Promise<DownloadResult[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `items` | `DownloadItem[]` | Yes | Array of download items |
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `DownloadOptions & FetchOptions` | No | Download options |
+| Parameter | Type                             | Required | Description             |
+| --------- | -------------------------------- | -------- | ----------------------- |
+| `items`   | `DownloadItem[]`                 | Yes      | Array of download items |
+| `repo`    | `RepoIdentifier`                 | Yes      | Repository identifier   |
+| `options` | `DownloadOptions & FetchOptions` | No       | Download options        |
 
 **Example:**
 
 ```typescript
-import { downloadItems, getProvider } from "@vetwo/repo-fetch";
+import { downloadItems, getProvider } from '@vetwo/repo-fetch';
 
-const provider = getProvider("github");
+const provider = getProvider('github');
 const items = paths.map((path) => ({
   path,
   url: provider.getDownloadUrl(repo, path),
   size: 0,
-  type: "file" as const,
+  type: 'file' as const,
 }));
 
 const results = await downloadItems(items, repo);
@@ -359,23 +365,23 @@ Fetches and builds the repository tree.
 ```typescript
 function listRepositoryTree(
   repo: RepoIdentifier,
-  options?: FetchOptions
-): Promise<TreeNode[]>
+  options?: FetchOptions,
+): Promise<TreeNode[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `FetchOptions` | No | Fetch options |
+| Parameter | Type             | Required | Description           |
+| --------- | ---------------- | -------- | --------------------- |
+| `repo`    | `RepoIdentifier` | Yes      | Repository identifier |
+| `options` | `FetchOptions`   | No       | Fetch options         |
 
 **Example:**
 
 ```typescript
 const nodes = await listRepositoryTree(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  { branch: "main", token: process.env.GITHUB_TOKEN }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  { branch: 'main', token: process.env.GITHUB_TOKEN },
 );
 ```
 
@@ -386,14 +392,14 @@ const nodes = await listRepositoryTree(
 Builds a tree structure from flat tree items.
 
 ```typescript
-function buildTree(items: TreeItem[]): TreeNode[]
+function buildTree(items: TreeItem[]): TreeNode[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `items` | `TreeItem[]` | Yes | Flat array of tree items |
+| Parameter | Type         | Required | Description              |
+| --------- | ------------ | -------- | ------------------------ |
+| `items`   | `TreeItem[]` | Yes      | Flat array of tree items |
 
 **Returns:** Array of root `TreeNode` objects
 
@@ -404,14 +410,14 @@ function buildTree(items: TreeItem[]): TreeNode[]
 Flattens a tree structure into a flat array.
 
 ```typescript
-function flattenTree(nodes: TreeNode[]): TreeNode[]
+function flattenTree(nodes: TreeNode[]): TreeNode[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Root tree nodes |
+| Parameter | Type         | Required | Description     |
+| --------- | ------------ | -------- | --------------- |
+| `nodes`   | `TreeNode[]` | Yes      | Root tree nodes |
 
 **Returns:** Flat array of all nodes
 
@@ -422,22 +428,22 @@ function flattenTree(nodes: TreeNode[]): TreeNode[]
 Finds a node by its path.
 
 ```typescript
-function findNodeByPath(nodes: TreeNode[], path: string): TreeNode | undefined
+function findNodeByPath(nodes: TreeNode[], path: string): TreeNode | undefined;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Root tree nodes |
-| `path` | `string` | Yes | Path to find |
+| Parameter | Type         | Required | Description     |
+| --------- | ------------ | -------- | --------------- |
+| `nodes`   | `TreeNode[]` | Yes      | Root tree nodes |
+| `path`    | `string`     | Yes      | Path to find    |
 
 **Returns:** Matching node or `undefined`
 
 **Example:**
 
 ```typescript
-const node = findNodeByPath(nodes, "src/index.ts");
+const node = findNodeByPath(nodes, 'src/index.ts');
 if (node) {
   node.selected = true;
 }
@@ -450,14 +456,14 @@ if (node) {
 Gets all selected nodes from the tree.
 
 ```typescript
-function getSelectedNodes(nodes: TreeNode[]): TreeNode[]
+function getSelectedNodes(nodes: TreeNode[]): TreeNode[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Root tree nodes |
+| Parameter | Type         | Required | Description     |
+| --------- | ------------ | -------- | --------------- |
+| `nodes`   | `TreeNode[]` | Yes      | Root tree nodes |
 
 **Returns:** Array of selected nodes
 
@@ -468,15 +474,15 @@ function getSelectedNodes(nodes: TreeNode[]): TreeNode[]
 Selects or deselects all nodes.
 
 ```typescript
-function selectAll(nodes: TreeNode[], selected?: boolean): void
+function selectAll(nodes: TreeNode[], selected?: boolean): void;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Root tree nodes |
-| `selected` | `boolean` | No | Selection state (default: `true`) |
+| Parameter  | Type         | Required | Description                       |
+| ---------- | ------------ | -------- | --------------------------------- |
+| `nodes`    | `TreeNode[]` | Yes      | Root tree nodes                   |
+| `selected` | `boolean`    | No       | Selection state (default: `true`) |
 
 ---
 
@@ -485,14 +491,14 @@ function selectAll(nodes: TreeNode[], selected?: boolean): void
 Toggles a node's selection state.
 
 ```typescript
-function toggleNode(node: TreeNode): void
+function toggleNode(node: TreeNode): void;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `node` | `TreeNode` | Yes | Node to toggle |
+| Parameter | Type       | Required | Description    |
+| --------- | ---------- | -------- | -------------- |
+| `node`    | `TreeNode` | Yes      | Node to toggle |
 
 ---
 
@@ -505,16 +511,16 @@ Filters a repository based on filter options.
 ```typescript
 function filterRepository(
   items: TreeItem[],
-  options: FilterOptions
-): TreeItem[]
+  options: FilterOptions,
+): TreeItem[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `items` | `TreeItem[]` | Yes | Array of tree items |
-| `options` | `FilterOptions` | Yes | Filter options |
+| Parameter | Type            | Required | Description         |
+| --------- | --------------- | -------- | ------------------- |
+| `items`   | `TreeItem[]`    | Yes      | Array of tree items |
+| `options` | `FilterOptions` | Yes      | Filter options      |
 
 ---
 
@@ -523,18 +529,15 @@ function filterRepository(
 Filters tree items by various criteria.
 
 ```typescript
-function filterTreeItems(
-  items: TreeItem[],
-  options: FilterOptions
-): TreeItem[]
+function filterTreeItems(items: TreeItem[], options: FilterOptions): TreeItem[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `items` | `TreeItem[]` | Yes | Array of tree items |
-| `options` | `FilterOptions` | Yes | Filter options |
+| Parameter | Type            | Required | Description         |
+| --------- | --------------- | -------- | ------------------- |
+| `items`   | `TreeItem[]`    | Yes      | Array of tree items |
+| `options` | `FilterOptions` | Yes      | Filter options      |
 
 ---
 
@@ -543,29 +546,26 @@ function filterTreeItems(
 Filters tree nodes by various criteria.
 
 ```typescript
-function filterTreeNodes(
-  nodes: TreeNode[],
-  options: FilterOptions
-): TreeNode[]
+function filterTreeNodes(nodes: TreeNode[], options: FilterOptions): TreeNode[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Array of tree nodes |
-| `options` | `FilterOptions` | Yes | Filter options |
+| Parameter | Type            | Required | Description         |
+| --------- | --------------- | -------- | ------------------- |
+| `nodes`   | `TreeNode[]`    | Yes      | Array of tree nodes |
+| `options` | `FilterOptions` | Yes      | Filter options      |
 
 **Example:**
 
 ```typescript
-import { filterTreeNodes } from "@vetwo/repo-fetch";
+import { filterTreeNodes } from '@vetwo/repo-fetch';
 
 // Filter by extension
-const tsFiles = filterTreeNodes(nodes, { extensions: [".ts", ".tsx"] });
+const tsFiles = filterTreeNodes(nodes, { extensions: ['.ts', '.tsx'] });
 
 // Filter by glob
-const srcFiles = filterTreeNodes(nodes, { glob: "src/**" });
+const srcFiles = filterTreeNodes(nodes, { glob: 'src/**' });
 
 // Filter files only
 const files = filterTreeNodes(nodes, { filesOnly: true });
@@ -578,18 +578,15 @@ const files = filterTreeNodes(nodes, { filesOnly: true });
 Filters tree items by search query.
 
 ```typescript
-function filterBySearch(
-  items: TreeItem[],
-  query: string
-): TreeItem[]
+function filterBySearch(items: TreeItem[], query: string): TreeItem[];
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `items` | `TreeItem[]` | Yes | Array of tree items |
-| `query` | `string` | Yes | Search query |
+| Parameter | Type         | Required | Description         |
+| --------- | ------------ | -------- | ------------------- |
+| `items`   | `TreeItem[]` | Yes      | Array of tree items |
+| `query`   | `string`     | Yes      | Search query        |
 
 ---
 
@@ -600,23 +597,23 @@ function filterBySearch(
 Registers a new provider.
 
 ```typescript
-function registerProvider(name: ProviderName, provider: Provider): void
+function registerProvider(name: ProviderName, provider: Provider): void;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | `ProviderName` | Yes | Provider name |
-| `provider` | `Provider` | Yes | Provider instance |
+| Parameter  | Type           | Required | Description       |
+| ---------- | -------------- | -------- | ----------------- |
+| `name`     | `ProviderName` | Yes      | Provider name     |
+| `provider` | `Provider`     | Yes      | Provider instance |
 
 **Example:**
 
 ```typescript
-import { registerProvider } from "@vetwo/repo-fetch";
-import { MyCustomProvider } from "./my-provider";
+import { registerProvider } from '@vetwo/repo-fetch';
+import { MyCustomProvider } from './my-provider';
 
-registerProvider("custom", new MyCustomProvider());
+registerProvider('custom', new MyCustomProvider());
 ```
 
 ---
@@ -626,14 +623,14 @@ registerProvider("custom", new MyCustomProvider());
 Gets a registered provider by name.
 
 ```typescript
-function getProvider(name: ProviderName): Provider
+function getProvider(name: ProviderName): Provider;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | `ProviderName` | Yes | Provider name |
+| Parameter | Type           | Required | Description   |
+| --------- | -------------- | -------- | ------------- |
+| `name`    | `ProviderName` | Yes      | Provider name |
 
 **Returns:** Provider instance
 
@@ -648,16 +645,16 @@ Gets the provider for a repository.
 ```typescript
 function getProviderForRepo(
   repo: RepoIdentifier,
-  options?: FetchOptions
-): Provider
+  options?: FetchOptions,
+): Provider;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `FetchOptions` | No | Fetch options |
+| Parameter | Type             | Required | Description           |
+| --------- | ---------------- | -------- | --------------------- |
+| `repo`    | `RepoIdentifier` | Yes      | Repository identifier |
+| `options` | `FetchOptions`   | No       | Fetch options         |
 
 ---
 
@@ -666,14 +663,14 @@ function getProviderForRepo(
 Gets the provider from a repository input string.
 
 ```typescript
-async function getProviderFromInput(input: string): Promise<Provider>
+async function getProviderFromInput(input: string): Promise<Provider>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `input` | `string` | Yes | Repository input (URL or shorthand) |
+| Parameter | Type     | Required | Description                         |
+| --------- | -------- | -------- | ----------------------------------- |
+| `input`   | `string` | Yes      | Repository input (URL or shorthand) |
 
 ---
 
@@ -682,14 +679,14 @@ async function getProviderFromInput(input: string): Promise<Provider>
 Checks if a provider is registered.
 
 ```typescript
-function hasProvider(name: string): boolean
+function hasProvider(name: string): boolean;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | `string` | Yes | Provider name |
+| Parameter | Type     | Required | Description   |
+| --------- | -------- | -------- | ------------- |
+| `name`    | `string` | Yes      | Provider name |
 
 ---
 
@@ -698,7 +695,7 @@ function hasProvider(name: string): boolean
 Lists all registered providers.
 
 ```typescript
-function listProviders(): ProviderName[]
+function listProviders(): ProviderName[];
 ```
 
 **Returns:** Array of registered provider names
@@ -712,18 +709,15 @@ function listProviders(): ProviderName[]
 Generates a preview of a download.
 
 ```typescript
-function generatePreview(
-  nodes: TreeNode[],
-  destination: string
-): PreviewData
+function generatePreview(nodes: TreeNode[], destination: string): PreviewData;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Tree nodes |
-| `destination` | `string` | Yes | Destination path |
+| Parameter     | Type         | Required | Description      |
+| ------------- | ------------ | -------- | ---------------- |
+| `nodes`       | `TreeNode[]` | Yes      | Tree nodes       |
+| `destination` | `string`     | Yes      | Destination path |
 
 **Returns:** `PreviewData` with files, folders, total size, and estimated time
 
@@ -734,14 +728,14 @@ function generatePreview(
 Formats preview data for display.
 
 ```typescript
-function formatPreview(preview: PreviewData): string
+function formatPreview(preview: PreviewData): string;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `preview` | `PreviewData` | Yes | Preview data |
+| Parameter | Type          | Required | Description  |
+| --------- | ------------- | -------- | ------------ |
+| `preview` | `PreviewData` | Yes      | Preview data |
 
 **Returns:** Formatted string
 
@@ -754,16 +748,16 @@ Shows an interactive download preview.
 ```typescript
 async function previewDownload(
   nodes: TreeNode[],
-  destination: string
-): Promise<boolean>
+  destination: string,
+): Promise<boolean>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `nodes` | `TreeNode[]` | Yes | Tree nodes |
-| `destination` | `string` | Yes | Destination path |
+| Parameter     | Type         | Required | Description      |
+| ------------- | ------------ | -------- | ---------------- |
+| `nodes`       | `TreeNode[]` | Yes      | Tree nodes       |
+| `destination` | `string`     | Yes      | Destination path |
 
 **Returns:** `true` if confirmed, `false` if cancelled
 
@@ -778,25 +772,25 @@ Searches for files in a repository.
 ```typescript
 async function searchRepository(
   repo: RepoIdentifier,
-  options: SearchOptions
-): Promise<TreeItem[]>
+  options: SearchOptions,
+): Promise<TreeItem[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `SearchOptions` | Yes | Search options |
+| Parameter | Type             | Required | Description           |
+| --------- | ---------------- | -------- | --------------------- |
+| `repo`    | `RepoIdentifier` | Yes      | Repository identifier |
+| `options` | `SearchOptions`  | Yes      | Search options        |
 
 **Example:**
 
 ```typescript
-import { searchRepository } from "@vetwo/repo-fetch";
+import { searchRepository } from '@vetwo/repo-fetch';
 
 const results = await searchRepository(
-  { owner: "octocat", repo: "hello-world", provider: "github" },
-  { query: "index", caseSensitive: false }
+  { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+  { query: 'index', caseSensitive: false },
 );
 ```
 
@@ -811,33 +805,35 @@ Opens an interactive repository browser.
 ```typescript
 async function browseRepository(
   repo: RepoIdentifier,
-  options?: FetchOptions
-): Promise<TreeNode[]>
+  options?: FetchOptions,
+): Promise<TreeNode[]>;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `repo` | `RepoIdentifier` | Yes | Repository identifier |
-| `options` | `FetchOptions` | No | Fetch options |
+| Parameter | Type             | Required | Description           |
+| --------- | ---------------- | -------- | --------------------- |
+| `repo`    | `RepoIdentifier` | Yes      | Repository identifier |
+| `options` | `FetchOptions`   | No       | Fetch options         |
 
 **Returns:** Array of selected tree nodes
 
 **Example:**
 
 ```typescript
-import { browseRepository, downloadSelection } from "@vetwo/repo-fetch";
+import { browseRepository, downloadSelection } from '@vetwo/repo-fetch';
 
-const nodes = await browseRepository(
-  { owner: "octocat", repo: "hello-world", provider: "github" }
-);
+const nodes = await browseRepository({
+  owner: 'octocat',
+  repo: 'hello-world',
+  provider: 'github',
+});
 
 if (nodes.length > 0) {
   const results = await downloadSelection(
     nodes,
-    { owner: "octocat", repo: "hello-world", provider: "github" },
-    { output: "./download" }
+    { owner: 'octocat', repo: 'hello-world', provider: 'github' },
+    { output: './download' },
   );
 }
 ```
@@ -849,7 +845,7 @@ if (nodes.length > 0) {
 The cache module provides an LRU cache for storing repository data.
 
 ```typescript
-import { cache, CacheStore } from "@vetwo/repo-fetch";
+import { cache, CacheStore } from '@vetwo/repo-fetch';
 ```
 
 **Methods:**
@@ -877,7 +873,7 @@ const entries = cache.entries(): CacheEntry[];
 **Example:**
 
 ```typescript
-import { cache } from "@vetwo/repo-fetch";
+import { cache } from '@vetwo/repo-fetch';
 
 // Cache a tree for 1 hour
 const tree = await getTree(repo);
@@ -886,7 +882,7 @@ cache.set(`tree:${repo.owner}/${repo.repo}`, tree, 1000 * 60 * 60);
 // Retrieve cached tree
 const cached = cache.get(`tree:${repo.owner}/${repo.repo}`);
 if (cached) {
-  console.log("Using cached tree");
+  console.log('Using cached tree');
 }
 ```
 
@@ -899,25 +895,25 @@ if (cached) {
 Sets the global configuration.
 
 ```typescript
-function setConfig(config: Partial<Config>): void
+function setConfig(config: Partial<Config>): void;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `config` | `Partial<Config>` | Yes | Configuration options |
+| Parameter | Type              | Required | Description           |
+| --------- | ----------------- | -------- | --------------------- |
+| `config`  | `Partial<Config>` | Yes      | Configuration options |
 
 **Example:**
 
 ```typescript
-import { setConfig } from "@vetwo/repo-fetch";
+import { setConfig } from '@vetwo/repo-fetch';
 
 setConfig({
-  provider: "github",
+  provider: 'github',
   token: process.env.GITHUB_TOKEN,
   concurrency: 10,
-  output: "./downloads",
+  output: './downloads',
 });
 ```
 
@@ -928,7 +924,7 @@ setConfig({
 Gets the current configuration.
 
 ```typescript
-function getConfig(): Config
+function getConfig(): Config;
 ```
 
 **Returns:** Current configuration object
@@ -940,7 +936,7 @@ function getConfig(): Config
 Resets configuration to defaults.
 
 ```typescript
-function resetConfig(): void
+function resetConfig(): void;
 ```
 
 ---
@@ -950,14 +946,14 @@ function resetConfig(): void
 Defines and validates a configuration object.
 
 ```typescript
-function defineConfig(config: Config): Config
+function defineConfig(config: Config): Config;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `config` | `Config` | Yes | Configuration to validate |
+| Parameter | Type     | Required | Description               |
+| --------- | -------- | -------- | ------------------------- |
+| `config`  | `Config` | Yes      | Configuration to validate |
 
 **Returns:** Validated configuration object
 
@@ -966,10 +962,10 @@ function defineConfig(config: Config): Config
 **Example:**
 
 ```typescript
-import { defineConfig } from "@vetwo/repo-fetch";
+import { defineConfig } from '@vetwo/repo-fetch';
 
 const config = defineConfig({
-  provider: "github",
+  provider: 'github',
   token: process.env.GITHUB_TOKEN,
   concurrency: 10,
   timeout: 60000,
@@ -983,31 +979,31 @@ const config = defineConfig({
 The event system allows plugins to hook into the download lifecycle.
 
 ```typescript
-import { globalEmitter, EventEmitter } from "@vetwo/repo-fetch";
+import { globalEmitter, EventEmitter } from '@vetwo/repo-fetch';
 ```
 
 **Events:**
 
-| Event | Description |
-|-------|-------------|
-| `beforeBrowse` | Before repository browsing starts |
-| `afterBrowse` | After repository browsing completes |
-| `beforeDownload` | Before download starts |
-| `afterDownload` | After download completes |
-| `beforeWrite` | Before writing files |
-| `afterWrite` | After writing files |
-| `error` | When an error occurs |
+| Event            | Description                         |
+| ---------------- | ----------------------------------- |
+| `beforeBrowse`   | Before repository browsing starts   |
+| `afterBrowse`    | After repository browsing completes |
+| `beforeDownload` | Before download starts              |
+| `afterDownload`  | After download completes            |
+| `beforeWrite`    | Before writing files                |
+| `afterWrite`     | After writing files                 |
+| `error`          | When an error occurs                |
 
 **Methods:**
 
 ```typescript
 // Subscribe to an event
-globalEmitter.on("beforeDownload", (ctx) => {
-  console.log("Download starting:", ctx.data);
+globalEmitter.on('beforeDownload', (ctx) => {
+  console.log('Download starting:', ctx.data);
 });
 
 // Unsubscribe from an event
-globalEmitter.off("beforeDownload", handler);
+globalEmitter.off('beforeDownload', handler);
 
 // Register a plugin
 globalEmitter.registerPlugin(plugin);
@@ -1025,16 +1021,18 @@ globalEmitter.clear();
 **Example:**
 
 ```typescript
-import { globalEmitter } from "@vetwo/repo-fetch";
+import { globalEmitter } from '@vetwo/repo-fetch';
 
-globalEmitter.on("beforeDownload", (ctx) => {
+globalEmitter.on('beforeDownload', (ctx) => {
   const { repo, items } = ctx.data;
-  console.log(`Downloading ${items.length} files from ${repo.owner}/${repo.repo}`);
+  console.log(
+    `Downloading ${items.length} files from ${repo.owner}/${repo.repo}`,
+  );
 });
 
-globalEmitter.on("afterDownload", (ctx) => {
+globalEmitter.on('afterDownload', (ctx) => {
   const { results } = ctx.data;
-  const successful = results.filter(r => r.success).length;
+  const successful = results.filter((r) => r.success).length;
   console.log(`Downloaded ${successful} files successfully`);
 });
 ```
@@ -1061,18 +1059,18 @@ abstract class BasePlugin implements Plugin {
 **Example:**
 
 ```typescript
-import { BasePlugin } from "@vetwo/repo-fetch";
+import { BasePlugin } from '@vetwo/repo-fetch';
 
 class MyPlugin extends BasePlugin {
-  name = "my-plugin";
-  version = "1.0.0";
+  name = 'my-plugin';
+  version = '1.0.0';
 
   hooks = {
     beforeDownload: async (ctx) => {
-      console.log("Download starting:", ctx.data);
+      console.log('Download starting:', ctx.data);
     },
     afterDownload: async (ctx) => {
-      console.log("Download completed:", ctx.data);
+      console.log('Download completed:', ctx.data);
     },
   };
 }
@@ -1101,13 +1099,13 @@ class ProgressTracker {
 **Example:**
 
 ```typescript
-import { ProgressTracker } from "@vetwo/repo-fetch";
+import { ProgressTracker } from '@vetwo/repo-fetch';
 
 const tracker = new ProgressTracker();
 tracker.start(10, 1024 * 1024); // 10 files, 1MB
 
 // Update progress
-tracker.update("file1.txt", 1024);
+tracker.update('file1.txt', 1024);
 
 // Mark as complete
 tracker.succeed();
@@ -1122,14 +1120,14 @@ tracker.succeed();
 Resolves a repository input string to a `RepoIdentifier`.
 
 ```typescript
-function resolveRepository(input: string): RepoIdentifier
+function resolveRepository(input: string): RepoIdentifier;
 ```
 
 **Parameters:**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `input` | `string` | Yes | Repository input |
+| Parameter | Type     | Required | Description      |
+| --------- | -------- | -------- | ---------------- |
+| `input`   | `string` | Yes      | Repository input |
 
 **Returns:** `RepoIdentifier` object
 
@@ -1142,9 +1140,9 @@ function resolveRepository(input: string): RepoIdentifier
 **Example:**
 
 ```typescript
-import { resolveRepository } from "@vetwo/repo-fetch";
+import { resolveRepository } from '@vetwo/repo-fetch';
 
-const repo = resolveRepository("octocat/hello-world");
+const repo = resolveRepository('octocat/hello-world');
 // { owner: "octocat", repo: "hello-world", provider: "github" }
 ```
 
@@ -1155,7 +1153,7 @@ const repo = resolveRepository("octocat/hello-world");
 Alias for `resolveRepository`.
 
 ```typescript
-function parseRepositoryInput(input: string): RepoIdentifier
+function parseRepositoryInput(input: string): RepoIdentifier;
 ```
 
 ---
@@ -1174,7 +1172,7 @@ import {
   isValidProvider,
   buildFullUrl,
   pathJoin,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 ```
 
 ### normalizeRepoUrl
@@ -1182,7 +1180,7 @@ import {
 Normalizes a repository URL.
 
 ```typescript
-function normalizeRepoUrl(url: string): string
+function normalizeRepoUrl(url: string): string;
 ```
 
 ### parseRepoUrl
@@ -1190,7 +1188,7 @@ function normalizeRepoUrl(url: string): string
 Parses a repository URL into a `RepoIdentifier`.
 
 ```typescript
-function parseRepoUrl(input: string): RepoIdentifier
+function parseRepoUrl(input: string): RepoIdentifier;
 ```
 
 ### estimateDownloadTime
@@ -1198,7 +1196,7 @@ function parseRepoUrl(input: string): RepoIdentifier
 Estimates download time based on size and speed.
 
 ```typescript
-function estimateDownloadTime(bytes: number, speedBytesPerSec: number): number
+function estimateDownloadTime(bytes: number, speedBytesPerSec: number): number;
 ```
 
 ### formatBytes
@@ -1206,7 +1204,7 @@ function estimateDownloadTime(bytes: number, speedBytesPerSec: number): number
 Formats bytes to human-readable string.
 
 ```typescript
-function formatBytes(bytes: number): string
+function formatBytes(bytes: number): string;
 ```
 
 **Example:**
@@ -1221,7 +1219,7 @@ formatBytes(1048576); // "1.0 MB"
 Formats milliseconds to human-readable string.
 
 ```typescript
-function formatDuration(ms: number): string
+function formatDuration(ms: number): string;
 ```
 
 ### formatSpeed
@@ -1229,7 +1227,7 @@ function formatDuration(ms: number): string
 Formats bytes per second to human-readable string.
 
 ```typescript
-function formatSpeed(bytesPerSec: number): string
+function formatSpeed(bytesPerSec: number): string;
 ```
 
 ### computeHash
@@ -1237,7 +1235,7 @@ function formatSpeed(bytesPerSec: number): string
 Computes a hash for a value.
 
 ```typescript
-function computeHash(value: unknown): string
+function computeHash(value: unknown): string;
 ```
 
 ### isValidProvider
@@ -1245,7 +1243,7 @@ function computeHash(value: unknown): string
 Checks if a provider name is valid.
 
 ```typescript
-function isValidProvider(name: string): boolean
+function isValidProvider(name: string): boolean;
 ```
 
 ### buildFullUrl
@@ -1253,7 +1251,7 @@ function isValidProvider(name: string): boolean
 Builds a full URL from base and path.
 
 ```typescript
-function buildFullUrl(base: string, path: string): string
+function buildFullUrl(base: string, path: string): string;
 ```
 
 ### pathJoin
@@ -1261,7 +1259,7 @@ function buildFullUrl(base: string, path: string): string
 Joins path segments.
 
 ```typescript
-function pathJoin(...segments: string[]): string
+function pathJoin(...segments: string[]): string;
 ```
 
 ---
@@ -1284,7 +1282,7 @@ import {
   TimeoutError,
   ValidationError,
   ProviderNotImplementedError,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 ```
 
 ### RepoFetchError
@@ -1303,27 +1301,27 @@ class RepoFetchError extends Error {
 
 ### Error Classes
 
-| Error | Code | Description |
-|-------|------|-------------|
-| `RepositoryNotFoundError` | `REPOSITORY_NOT_FOUND` | Repository does not exist |
-| `BranchNotFoundError` | `BRANCH_NOT_FOUND` | Branch does not exist |
-| `PathNotFoundError` | `PATH_NOT_FOUND` | Path does not exist |
-| `RateLimitedError` | `RATE_LIMITED` | API rate limit exceeded |
-| `InvalidRepositoryError` | `INVALID_REPOSITORY` | Invalid repository reference |
-| `InvalidURLError` | `INVALID_URL` | Invalid URL |
-| `PermissionDeniedError` | `PERMISSION_DENIED` | Access denied |
-| `NetworkError` | `NETWORK_ERROR` | Network error |
-| `TimeoutError` | `TIMEOUT` | Request timeout |
-| `ValidationError` | `VALIDATION_ERROR` | Validation error |
-| `ProviderNotImplementedError` | `PROVIDER_NOT_IMPLEMENTED` | Provider not implemented |
+| Error                         | Code                       | Description                  |
+| ----------------------------- | -------------------------- | ---------------------------- |
+| `RepositoryNotFoundError`     | `REPOSITORY_NOT_FOUND`     | Repository does not exist    |
+| `BranchNotFoundError`         | `BRANCH_NOT_FOUND`         | Branch does not exist        |
+| `PathNotFoundError`           | `PATH_NOT_FOUND`           | Path does not exist          |
+| `RateLimitedError`            | `RATE_LIMITED`             | API rate limit exceeded      |
+| `InvalidRepositoryError`      | `INVALID_REPOSITORY`       | Invalid repository reference |
+| `InvalidURLError`             | `INVALID_URL`              | Invalid URL                  |
+| `PermissionDeniedError`       | `PERMISSION_DENIED`        | Access denied                |
+| `NetworkError`                | `NETWORK_ERROR`            | Network error                |
+| `TimeoutError`                | `TIMEOUT`                  | Request timeout              |
+| `ValidationError`             | `VALIDATION_ERROR`         | Validation error             |
+| `ProviderNotImplementedError` | `PROVIDER_NOT_IMPLEMENTED` | Provider not implemented     |
 
 **Example:**
 
 ```typescript
-import { fetchFiles, RepositoryNotFoundError } from "@vetwo/repo-fetch";
+import { fetchFiles, RepositoryNotFoundError } from '@vetwo/repo-fetch';
 
 try {
-  await fetchFiles(repo, ["README.md"]);
+  await fetchFiles(repo, ['README.md']);
 } catch (error) {
   if (error instanceof RepositoryNotFoundError) {
     console.error(`Repository not found: ${error.reason}`);
@@ -1362,7 +1360,7 @@ import type {
   EventName,
   LogLevel,
   ResolvedInput,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 ```
 
 ### RepoIdentifier
@@ -1374,7 +1372,7 @@ interface RepoIdentifier {
   repo: string;
   branch?: string;
   path?: string;
-  type?: "tree" | "blob";
+  type?: 'tree' | 'blob';
   ref?: string;
 }
 ```
@@ -1384,7 +1382,7 @@ interface RepoIdentifier {
 ```typescript
 interface TreeItem {
   path: string;
-  type: "blob" | "tree";
+  type: 'blob' | 'tree';
   sha: string;
   size: number;
   url: string;
@@ -1397,7 +1395,7 @@ interface TreeItem {
 interface TreeNode {
   name: string;
   path: string;
-  type: "file" | "directory";
+  type: 'file' | 'directory';
   sha: string;
   size: number;
   children: TreeNode[];
@@ -1467,12 +1465,13 @@ interface Config {
 Main class for interacting with the Vetwo Registry.
 
 ```typescript
-import { RegistryClient } from "@vetwo/repo-fetch";
+import { RegistryClient } from '@vetwo/repo-fetch';
 
-const client = new RegistryClient({ config: { baseUrl: "..." } });
+const client = new RegistryClient({ config: { baseUrl: '...' } });
 ```
 
 Methods:
+
 - `getIndex()` - Download and cache registry index
 - `search(options)` - Search registry resources
 - `getById(id)` - Get resource by ID
@@ -1484,7 +1483,10 @@ Methods:
 ### searchRegistry
 
 ```typescript
-function searchRegistry(index: RegistryIndex, options: SearchOptions): SearchResult[]
+function searchRegistry(
+  index: RegistryIndex,
+  options: SearchOptions,
+): SearchResult[];
 ```
 
 Fuzzy search with Levenshtein distance, tokenization, and keyword scoring.
@@ -1492,17 +1494,29 @@ Fuzzy search with Levenshtein distance, tokenization, and keyword scoring.
 ### searchByCategory / searchByTag / searchByType
 
 ```typescript
-function searchByCategory(index: RegistryIndex, category: string): RegistryResourceEntry[]
-function searchByTag(index: RegistryIndex, tag: string): RegistryResourceEntry[]
-function searchByType(index: RegistryIndex, type: ResourceType): RegistryResourceEntry[]
+function searchByCategory(
+  index: RegistryIndex,
+  category: string,
+): RegistryResourceEntry[];
+function searchByTag(
+  index: RegistryIndex,
+  tag: string,
+): RegistryResourceEntry[];
+function searchByType(
+  index: RegistryIndex,
+  type: ResourceType,
+): RegistryResourceEntry[];
 ```
 
 ### getCategories / getTags / getPopularResources
 
 ```typescript
-function getCategories(index: RegistryIndex): CategoryEntry[]
-function getTags(index: RegistryIndex): TagEntry[]
-function getPopularResources(index: RegistryIndex, limit?: number): RegistryResourceEntry[]
+function getCategories(index: RegistryIndex): CategoryEntry[];
+function getTags(index: RegistryIndex): TagEntry[];
+function getPopularResources(
+  index: RegistryIndex,
+  limit?: number,
+): RegistryResourceEntry[];
 ```
 
 ---
@@ -1512,7 +1526,7 @@ function getPopularResources(index: RegistryIndex, limit?: number): RegistryReso
 ### detectEnvironment
 
 ```typescript
-function detectEnvironment(): EnvironmentInfo
+function detectEnvironment(): EnvironmentInfo;
 ```
 
 Detects Node/Bun/Deno version, OS, architecture, package manager, framework, and VeTwo version.
@@ -1520,7 +1534,7 @@ Detects Node/Bun/Deno version, OS, architecture, package manager, framework, and
 ### checkCompatibility
 
 ```typescript
-function checkCompatibility(manifest: ResourceManifest): CompatibilityReport
+function checkCompatibility(manifest: ResourceManifest): CompatibilityReport;
 ```
 
 Checks runtime, framework, package manager, Node/Bun version, OS, architecture, and VeTwo version compatibility.
@@ -1532,7 +1546,10 @@ Checks runtime, framework, package manager, Node/Bun version, OS, architecture, 
 ### resolveVariables
 
 ```typescript
-function resolveVariables(manifest: ResourceManifest, context?: VariableContext): VariableResolution[]
+function resolveVariables(
+  manifest: ResourceManifest,
+  context?: VariableContext,
+): VariableResolution[];
 ```
 
 Resolves variables using chain: context → env (VETWO_VAR_*) → default → prompt
@@ -1540,7 +1557,10 @@ Resolves variables using chain: context → env (VETWO_VAR_*) → default → pr
 ### applyVariables
 
 ```typescript
-function applyVariables(template: string, variables: VariableResolution[]): string
+function applyVariables(
+  template: string,
+  variables: VariableResolution[],
+): string;
 ```
 
 Replaces `{{ varName }}` patterns in template strings.
@@ -1548,7 +1568,10 @@ Replaces `{{ varName }}` patterns in template strings.
 ### validateVariableValue
 
 ```typescript
-function validateVariableValue(variable: VariableDef, value: string | number | boolean): { valid: boolean; error?: string }
+function validateVariableValue(
+  variable: VariableDef,
+  value: string | number | boolean,
+): { valid: boolean; error?: string };
 ```
 
 ---
@@ -1558,7 +1581,11 @@ function validateVariableValue(variable: VariableDef, value: string | number | b
 ### applyTransforms
 
 ```typescript
-function applyTransforms(manifest: ResourceManifest, projectPath: string, variables: VariableResolution[]): Promise<TransformResult[]>
+function applyTransforms(
+  manifest: ResourceManifest,
+  projectPath: string,
+  variables: VariableResolution[],
+): Promise<TransformResult[]>;
 ```
 
 Applies transforms for packageJson, tsConfig, imports, routes, config, and custom types with backup/rollback support.
@@ -1570,7 +1597,10 @@ Applies transforms for packageJson, tsConfig, imports, routes, config, and custo
 ### verifyIntegrity
 
 ```typescript
-function verifyIntegrity(manifest: ResourceManifest, downloadPath: string): Promise<IntegrityResult>
+function verifyIntegrity(
+  manifest: ResourceManifest,
+  downloadPath: string,
+): Promise<IntegrityResult>;
 ```
 
 Verifies checksum, manifest schema, and downloaded files.
@@ -1578,10 +1608,16 @@ Verifies checksum, manifest schema, and downloaded files.
 ### computeHash / computeFileHash / computeDirectoryHash / generateChecksum
 
 ```typescript
-function computeHash(data: Buffer | string, algorithm: string): string
-function computeFileHash(filePath: string, algorithm?: string): Promise<string>
-function computeDirectoryHash(dirPath: string, algorithm?: string): Promise<string>
-function generateChecksum(filePath: string, algorithm?: "sha256" | "sha512" | "md5"): Promise<ResourceChecksum>
+function computeHash(data: Buffer | string, algorithm: string): string;
+function computeFileHash(filePath: string, algorithm?: string): Promise<string>;
+function computeDirectoryHash(
+  dirPath: string,
+  algorithm?: string,
+): Promise<string>;
+function generateChecksum(
+  filePath: string,
+  algorithm?: 'sha256' | 'sha512' | 'md5',
+): Promise<ResourceChecksum>;
 ```
 
 ---
@@ -1591,7 +1627,11 @@ function generateChecksum(filePath: string, algorithm?: "sha256" | "sha512" | "m
 ### executeLifecycleHooks
 
 ```typescript
-function executeLifecycleHooks(manifest: ResourceManifest, context: LifecycleContext, phase: "install" | "update" | "remove" | "generate"): Promise<LifecycleResult[]>
+function executeLifecycleHooks(
+  manifest: ResourceManifest,
+  context: LifecycleContext,
+  phase: 'install' | 'update' | 'remove' | 'generate',
+): Promise<LifecycleResult[]>;
 ```
 
 Executes hooks: beforeInstall, afterInstall, beforeUpdate, afterUpdate, beforeRemove, afterRemove, beforeGenerate, afterGenerate.
@@ -1599,9 +1639,15 @@ Executes hooks: beforeInstall, afterInstall, beforeUpdate, afterUpdate, beforeRe
 ### getAvailableHooks / hasHook / getHookDescription
 
 ```typescript
-function getAvailableHooks(manifest: ResourceManifest): LifecycleHookName[]
-function hasHook(manifest: ResourceManifest, hookName: LifecycleHookName): boolean
-function getHookDescription(manifest: ResourceManifest, hookName: LifecycleHookName): string
+function getAvailableHooks(manifest: ResourceManifest): LifecycleHookName[];
+function hasHook(
+  manifest: ResourceManifest,
+  hookName: LifecycleHookName,
+): boolean;
+function getHookDescription(
+  manifest: ResourceManifest,
+  hookName: LifecycleHookName,
+): string;
 ```
 
 ---
@@ -1611,12 +1657,29 @@ function getHookDescription(manifest: ResourceManifest, hookName: LifecycleHookN
 ### createReport / addInstalledResource / addError / addWarning / finalizeReport / formatReport
 
 ```typescript
-function createReport(): InstallationReport
-function addInstalledResource(report: InstallationReport, manifest: ResourceManifest, path: string, files: string[], checksumVerified: boolean): void
-function addWarning(report: InstallationReport, code: string, message: string, resource?: string): void
-function addError(report: InstallationReport, code: string, message: string, resource?: string, stack?: string): void
-function finalizeReport(report: InstallationReport): void
-function formatReport(report: InstallationReport): string
+function createReport(): InstallationReport;
+function addInstalledResource(
+  report: InstallationReport,
+  manifest: ResourceManifest,
+  path: string,
+  files: string[],
+  checksumVerified: boolean,
+): void;
+function addWarning(
+  report: InstallationReport,
+  code: string,
+  message: string,
+  resource?: string,
+): void;
+function addError(
+  report: InstallationReport,
+  code: string,
+  message: string,
+  resource?: string,
+  stack?: string,
+): void;
+function finalizeReport(report: InstallationReport): void;
+function formatReport(report: InstallationReport): string;
 ```
 
 ---
@@ -1626,7 +1689,7 @@ function formatReport(report: InstallationReport): string
 ### detectRepoFromGitRemote
 
 ```typescript
-function detectRepoFromGitRemote(): Promise<string | null>
+function detectRepoFromGitRemote(): Promise<string | null>;
 ```
 
 Detects repository URL from git remote origin.
@@ -1634,7 +1697,11 @@ Detects repository URL from git remote origin.
 ### resolveRepoUrl
 
 ```typescript
-function resolveRepoUrl(options?: { envVar?: string; noPrompt?: boolean; noAutoDetect?: boolean }): Promise<string | null>
+function resolveRepoUrl(options?: {
+  envVar?: string;
+  noPrompt?: boolean;
+  noAutoDetect?: boolean;
+}): Promise<string | null>;
 ```
 
 Resolution chain: .env → wizard prompt → auto-detect from git remote.
@@ -1642,7 +1709,9 @@ Resolution chain: .env → wizard prompt → auto-detect from git remote.
 ### fetchFromConfig
 
 ```typescript
-function fetchFromConfig(options?: FetchFromConfigOptions): Promise<FetchFromConfigResult>
+function fetchFromConfig(
+  options?: FetchFromConfigOptions,
+): Promise<FetchFromConfigResult>;
 ```
 
 Dev dependency helper for fetching from configured repository.
@@ -1654,9 +1723,12 @@ Dev dependency helper for fetching from configured repository.
 ### RegistryCache
 
 ```typescript
-import { RegistryCache } from "@vetwo/repo-fetch";
+import { RegistryCache } from '@vetwo/repo-fetch';
 
-const cache = new RegistryCache({ dir: "~/.vetwo/registry-cache", ttl: 3600000 });
+const cache = new RegistryCache({
+  dir: '~/.vetwo/registry-cache',
+  ttl: 3600000,
+});
 ```
 
 Methods: `getIndex()`, `setIndex()`, `getManifest()`, `setManifest()`, `hasIndex()`, `isExpired()`, `clear()`, `getStats()`
@@ -1678,19 +1750,19 @@ import {
   CACHE_TTL,
   MAX_FILE_SIZE,
   SUPPORTED_PROVIDERS,
-} from "@vetwo/repo-fetch";
+} from '@vetwo/repo-fetch';
 ```
 
-| Constant | Value | Description |
-|----------|-------|-------------|
-| `PACKAGE_NAME` | `"@vetwo/repo-fetch"` | Package name |
-| `PACKAGE_VERSION` | `"0.1.0"` | Package version |
-| `DEFAULT_OUTPUT_DIR` | `"./download"` | Default output directory |
-| `DEFAULT_TIMEOUT` | `30000` | Default timeout (30s) |
-| `DEFAULT_MAX_RETRIES` | `3` | Default retry count |
-| `DEFAULT_CONCURRENCY` | `5` | Default concurrency |
-| `GITHUB_API_BASE` | `"https://api.github.com"` | GitHub API base URL |
-| `GITHUB_RAW_BASE` | `"https://raw.githubusercontent.com"` | GitHub raw content base URL |
-| `CACHE_TTL` | `3600000` | Cache TTL (1 hour) |
-| `MAX_FILE_SIZE` | `104857600` | Max file size (100MB) |
-| `SUPPORTED_PROVIDERS` | `["github", "gitlab", ...]` | Supported providers |
+| Constant              | Value                                 | Description                 |
+| --------------------- | ------------------------------------- | --------------------------- |
+| `PACKAGE_NAME`        | `"@vetwo/repo-fetch"`                 | Package name                |
+| `PACKAGE_VERSION`     | `"0.1.0"`                             | Package version             |
+| `DEFAULT_OUTPUT_DIR`  | `"./download"`                        | Default output directory    |
+| `DEFAULT_TIMEOUT`     | `30000`                               | Default timeout (30s)       |
+| `DEFAULT_MAX_RETRIES` | `3`                                   | Default retry count         |
+| `DEFAULT_CONCURRENCY` | `5`                                   | Default concurrency         |
+| `GITHUB_API_BASE`     | `"https://api.github.com"`            | GitHub API base URL         |
+| `GITHUB_RAW_BASE`     | `"https://raw.githubusercontent.com"` | GitHub raw content base URL |
+| `CACHE_TTL`           | `3600000`                             | Cache TTL (1 hour)          |
+| `MAX_FILE_SIZE`       | `104857600`                           | Max file size (100MB)       |
+| `SUPPORTED_PROVIDERS` | `["github", "gitlab", ...]`           | Supported providers         |

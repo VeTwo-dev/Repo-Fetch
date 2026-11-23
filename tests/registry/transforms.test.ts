@@ -3,9 +3,15 @@ import fs from "fs-extra";
 import { resolve } from "pathe";
 import { tmpdir } from "os";
 import { applyTransforms } from "../../src/registry/transforms";
-import type { ResourceManifest, TransformDef, VariableResolution } from "../../src/registry/types";
+import type {
+  ResourceManifest,
+  TransformDef,
+  VariableResolution,
+} from "../../src/registry/types";
 
-function createManifestWithTransforms(transforms: TransformDef[] = []): ResourceManifest {
+function createManifestWithTransforms(
+  transforms: TransformDef[] = [],
+): ResourceManifest {
   return {
     id: "test",
     name: "Test",
@@ -184,7 +190,10 @@ describe("applyTransforms", () => {
 
   it("imports replace replaces string in file", async () => {
     await fs.ensureDir(resolve(tmpDir, "src"));
-    await fs.writeFile(resolve(tmpDir, "src/index.ts"), 'import { foo } from "./old";\n');
+    await fs.writeFile(
+      resolve(tmpDir, "src/index.ts"),
+      'import { foo } from "./old";\n',
+    );
     const manifest = createManifestWithTransforms([
       {
         type: "imports",
@@ -203,7 +212,10 @@ describe("applyTransforms", () => {
 
   it("imports prepend prepends content to file", async () => {
     await fs.ensureDir(resolve(tmpDir, "src"));
-    await fs.writeFile(resolve(tmpDir, "src/index.ts"), 'console.log("hello");\n');
+    await fs.writeFile(
+      resolve(tmpDir, "src/index.ts"),
+      'console.log("hello");\n',
+    );
     const manifest = createManifestWithTransforms([
       {
         type: "imports",
@@ -222,7 +234,10 @@ describe("applyTransforms", () => {
 
   it("imports append appends content to file", async () => {
     await fs.ensureDir(resolve(tmpDir, "src"));
-    await fs.writeFile(resolve(tmpDir, "src/index.ts"), 'console.log("hello");\n');
+    await fs.writeFile(
+      resolve(tmpDir, "src/index.ts"),
+      'console.log("hello");\n',
+    );
     const manifest = createManifestWithTransforms([
       {
         type: "imports",
@@ -236,7 +251,9 @@ describe("applyTransforms", () => {
 
     const content = await fs.readFile(resolve(tmpDir, "src/index.ts"), "utf-8");
     expect(content).toContain('console.log("cleanup")');
-    expect(content.indexOf("cleanup")).toBeGreaterThan(content.indexOf("hello"));
+    expect(content.indexOf("cleanup")).toBeGreaterThan(
+      content.indexOf("hello"),
+    );
   });
 
   it("imports replace fails if file doesn't exist", async () => {

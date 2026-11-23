@@ -1,5 +1,10 @@
 import { registerProvider, getProvider } from "@vetwo/repo-fetch";
-import type { RepoIdentifier, TreeItem, FetchOptions, Provider } from "@vetwo/repo-fetch";
+import type {
+  RepoIdentifier,
+  TreeItem,
+  FetchOptions,
+  Provider,
+} from "@vetwo/repo-fetch";
 
 class GitLabProvider implements Provider {
   readonly name = "gitlab";
@@ -11,7 +16,10 @@ class GitLabProvider implements Provider {
     defaultBranch: "main",
   };
 
-  async getTree(repo: RepoIdentifier, options?: FetchOptions): Promise<TreeItem[]> {
+  async getTree(
+    repo: RepoIdentifier,
+    options?: FetchOptions,
+  ): Promise<TreeItem[]> {
     // Implement GitLab tree API
     const url = `${this.config.apiBaseUrl}/projects/${encodeURIComponent(
       `${repo.owner}/${repo.repo}`,
@@ -22,7 +30,7 @@ class GitLabProvider implements Provider {
         "User-Agent": "@vetwo/repo-fetch",
       },
     });
-    const data = await response.json() as Array<Record<string, unknown>>;
+    const data = (await response.json()) as Array<Record<string, unknown>>;
     return data.map((item) => ({
       path: item.path as string,
       type: (item.type as string) === "tree" ? "tree" : "blob",
@@ -32,7 +40,11 @@ class GitLabProvider implements Provider {
     }));
   }
 
-  async getFile(repo: RepoIdentifier, path: string, options?: FetchOptions): Promise<import("stream").Readable | null> {
+  async getFile(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): Promise<import("stream").Readable | null> {
     // Implement GitLab file download
     const url = `${this.config.rawBaseUrl}/${repo.owner}/${repo.repo}/-/raw/${options?.branch ?? "main"}/${path}`;
     const response = await fetch(url);
@@ -40,7 +52,11 @@ class GitLabProvider implements Provider {
     return response.body as unknown as import("stream").Readable;
   }
 
-  getDownloadUrl(repo: RepoIdentifier, path: string, options?: FetchOptions): string {
+  getDownloadUrl(
+    repo: RepoIdentifier,
+    path: string,
+    options?: FetchOptions,
+  ): string {
     return `${this.config.rawBaseUrl}/${repo.owner}/${repo.repo}/-/raw/${options?.branch ?? "main"}/${path}`;
   }
 
@@ -55,9 +71,15 @@ class GitLabProvider implements Provider {
     return "main";
   }
 
-  async search(repo: RepoIdentifier, query: string, options?: FetchOptions): Promise<TreeItem[]> {
+  async search(
+    repo: RepoIdentifier,
+    query: string,
+    options?: FetchOptions,
+  ): Promise<TreeItem[]> {
     const tree = await this.getTree(repo, options);
-    return tree.filter((item) => item.path.includes(query) && item.type === "blob");
+    return tree.filter(
+      (item) => item.path.includes(query) && item.type === "blob",
+    );
   }
 
   async testConnection(token?: string): Promise<boolean> {

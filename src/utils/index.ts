@@ -9,10 +9,13 @@ export function normalizeRepoUrl(input: string): ResolvedInput {
   const githubFull =
     /^https?:\/\/(?:www\.)?github\.com\/([^/]+)\/([^/#@:]+)(?:\/(?:tree|blob)\/([^/]+)(?:\/(.+))?)?(?:\?.*)?$/;
   const gitlabFull = /^https?:\/\/(?:www\.)?gitlab\.com\/([^/]+)\/([^/#@:]+)/;
-  const bitbucketFull = /^https?:\/\/(?:www\.)?bitbucket\.org\/([^/]+)\/([^/#@:]+)/;
-  const azureFull = /^https?:\/\/(?:dev\.azure\.com\/([^/]+)\/([^/]+)\/git\/([^/#@:]+))/;
+  const bitbucketFull =
+    /^https?:\/\/(?:www\.)?bitbucket\.org\/([^/]+)\/([^/#@:]+)/;
+  const azureFull =
+    /^https?:\/\/(?:dev\.azure\.com\/([^/]+)\/([^/]+)\/git\/([^/#@:]+))/;
   const giteaFull = /^https?:\/\/(?:www\.)?gitea\.com\/([^/]+)\/([^/#@:]+)/;
-  const forgejoFull = /^https?:\/\/(?:www\.)?codeberg\.org\/([^/]+)\/([^/#@:]+)/;
+  const forgejoFull =
+    /^https?:\/\/(?:www\.)?codeberg\.org\/([^/]+)\/([^/#@:]+)/;
 
   // Shorthand patterns: user/repo, user/repo#branch, user/repo@branch, user/repo:branch
   const shorthand = /^([\w.-]+)\/([\w.-]+)(?:[#@:](\w[\w.-]*))?$/;
@@ -207,7 +210,9 @@ export function detectRepoFromGitRemote(cwd?: string): string | null {
       return `https://github.com/${httpsMatch[1]}/${httpsMatch[2]}`;
     }
 
-    const sshMatch = remote.match(/^git@github\.com:([^/]+)\/([^/#@:.]+)(?:\.git)?$/);
+    const sshMatch = remote.match(
+      /^git@github\.com:([^/]+)\/([^/#@:.]+)(?:\.git)?$/,
+    );
     if (sshMatch) {
       return `https://github.com/${sshMatch[1]}/${sshMatch[2]}`;
     }
@@ -225,7 +230,9 @@ export interface ResolveRepoUrlOptions {
   cwd?: string;
 }
 
-export async function resolveRepoUrl(options?: ResolveRepoUrlOptions): Promise<string | null> {
+export async function resolveRepoUrl(
+  options?: ResolveRepoUrlOptions,
+): Promise<string | null> {
   const envVarName = options?.envVar ?? "GITHUB_REPO_URL";
   const shouldPrompt = options?.prompt !== false;
   const shouldAutoDetect = options?.autoDetect !== false;

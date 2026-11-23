@@ -32,7 +32,10 @@ async function checkApi(): Promise<DoctorResult["api"]> {
     const res = await request(GITHUB_API_BASE, {
       headers: { "User-Agent": "@vetwo/repo-fetch" },
     });
-    const body: Record<string, unknown> = (await res.body.json()) as Record<string, unknown>;
+    const body: Record<string, unknown> = (await res.body.json()) as Record<
+      string,
+      unknown
+    >;
     const rateInfo = body["rate"] as Record<string, unknown> | undefined;
     return {
       status: "ok",
@@ -141,7 +144,9 @@ export function registerDoctorCommand(program: Command): void {
 
       const allOk = results.every((r) => r.status === "ok");
       console.log(
-        allOk ? `\n${pc.green("All checks passed!")}` : `\n${pc.yellow("Some checks failed")}`,
+        allOk
+          ? `\n${pc.green("All checks passed!")}`
+          : `\n${pc.yellow("Some checks failed")}`,
       );
     });
 }

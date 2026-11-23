@@ -3,7 +3,9 @@ import { RegistryClient } from "../../registry";
 import { logger } from "../../logger";
 
 export function registerRegistryCommands(program: Command): void {
-  const registry = program.command("registry").description("Vetwo Registry commands");
+  const registry = program
+    .command("registry")
+    .description("Vetwo Registry commands");
 
   registry
     .command("search <query>")
@@ -30,7 +32,9 @@ export function registerRegistryCommands(program: Command): void {
       ) => {
         try {
           const client = new RegistryClient({
-            config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+            config: options.registryUrl
+              ? { baseUrl: options.registryUrl }
+              : undefined,
             token: options.token,
           });
 
@@ -52,9 +56,13 @@ export function registerRegistryCommands(program: Command): void {
           for (const result of results) {
             const type = result.resource.type.padEnd(15);
             const score = `(${(result.score * 100).toFixed(0)}%)`;
-            console.log(`  ${type} ${result.resource.name}@${result.resource.version} ${score}`);
+            console.log(
+              `  ${type} ${result.resource.name}@${result.resource.version} ${score}`,
+            );
             console.log(`    ${result.resource.description}`);
-            console.log(`    by ${result.resource.author} | ${result.resource.license}`);
+            console.log(
+              `    by ${result.resource.author} | ${result.resource.license}`,
+            );
             console.log("");
           }
         } catch (error) {
@@ -95,7 +103,9 @@ export function registerRegistryCommands(program: Command): void {
       ) => {
         try {
           const client = new RegistryClient({
-            config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+            config: options.registryUrl
+              ? { baseUrl: options.registryUrl }
+              : undefined,
             token: options.token,
             offline: options.offline,
           });
@@ -134,7 +144,9 @@ export function registerRegistryCommands(program: Command): void {
       ) => {
         try {
           const client = new RegistryClient({
-            config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+            config: options.registryUrl
+              ? { baseUrl: options.registryUrl }
+              : undefined,
             token: options.token,
           });
 
@@ -161,9 +173,15 @@ export function registerRegistryCommands(program: Command): void {
           console.log(`  Repository:  ${manifest.repository}`);
           console.log(`  Homepage:    ${manifest.homepage}`);
           console.log("");
-          console.log(`  Runtimes:    ${manifest.supportedRuntimes.join(", ")}`);
-          console.log(`  Frameworks:  ${manifest.supportedFrameworks.join(", ")}`);
-          console.log(`  Pkg Manager: ${manifest.supportedPackageManagers.join(", ")}`);
+          console.log(
+            `  Runtimes:    ${manifest.supportedRuntimes.join(", ")}`,
+          );
+          console.log(
+            `  Frameworks:  ${manifest.supportedFrameworks.join(", ")}`,
+          );
+          console.log(
+            `  Pkg Manager: ${manifest.supportedPackageManagers.join(", ")}`,
+          );
           console.log("");
 
           if (manifest.dependencies.length > 0) {
@@ -178,7 +196,9 @@ export function registerRegistryCommands(program: Command): void {
             console.log("  Variables:");
             for (const v of manifest.variables) {
               const req = v.required ? "required" : "optional";
-              console.log(`    - ${v.name} (${v.type}, ${req}): ${v.description}`);
+              console.log(
+                `    - ${v.name} (${v.type}, ${req}): ${v.description}`,
+              );
             }
             console.log("");
           }
@@ -228,7 +248,9 @@ export function registerRegistryCommands(program: Command): void {
       }) => {
         try {
           const client = new RegistryClient({
-            config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+            config: options.registryUrl
+              ? { baseUrl: options.registryUrl }
+              : undefined,
             token: options.token,
           });
 
@@ -239,7 +261,9 @@ export function registerRegistryCommands(program: Command): void {
             resources = resources.filter((r) => r.type === options.type);
           }
           if (options.category) {
-            resources = resources.filter((r) => r.category === options.category);
+            resources = resources.filter(
+              (r) => r.category === options.category,
+            );
           }
 
           const limit = Number(options.limit) || 50;
@@ -272,7 +296,9 @@ export function registerRegistryCommands(program: Command): void {
     .action(async (options: { registryUrl?: string; token?: string }) => {
       try {
         const client = new RegistryClient({
-          config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+          config: options.registryUrl
+            ? { baseUrl: options.registryUrl }
+            : undefined,
           token: options.token,
         });
 
@@ -299,7 +325,9 @@ export function registerRegistryCommands(program: Command): void {
     .action(async (options: { registryUrl?: string; token?: string }) => {
       try {
         const client = new RegistryClient({
-          config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
+          config: options.registryUrl
+            ? { baseUrl: options.registryUrl }
+            : undefined,
           token: options.token,
         });
 
@@ -327,7 +355,9 @@ export function registerRegistryCommands(program: Command): void {
 
         console.log("\nRegistry Cache Statistics:");
         console.log(`  Size:        ${(stats.size / 1024).toFixed(1)} KB`);
-        console.log(`  Index Age:   ${(stats.indexAge / 1000 / 60).toFixed(1)} minutes`);
+        console.log(
+          `  Index Age:   ${(stats.indexAge / 1000 / 60).toFixed(1)} minutes`,
+        );
         console.log(`  Manifests:   ${stats.manifestCount}`);
         console.log("");
       } catch (error) {
@@ -356,69 +386,90 @@ export function registerRegistryCommands(program: Command): void {
     .option("--resource <id>", "Check compatibility with a specific resource")
     .option("--registry-url <url>", "Registry base URL")
     .option("--token <token>", "Authentication token")
-    .action(async (options: { resource?: string; registryUrl?: string; token?: string }) => {
-      try {
-        const { detectEnvironment } = await import("../../registry/compatibility");
-        const env = detectEnvironment();
+    .action(
+      async (options: {
+        resource?: string;
+        registryUrl?: string;
+        token?: string;
+      }) => {
+        try {
+          const { detectEnvironment } =
+            await import("../../registry/compatibility");
+          const env = detectEnvironment();
 
-        console.log("\nEnvironment:");
-        console.log(`  Node.js:      ${env.nodeVersion}`);
-        console.log(`  Bun:          ${env.bunVersion ?? "not installed"}`);
-        console.log(`  OS:           ${env.os}`);
-        console.log(`  Architecture: ${env.architecture}`);
-        console.log(`  Pkg Manager:  ${env.packageManager}`);
-        console.log(`  Framework:    ${env.framework}`);
-        console.log(`  Runtime:      ${env.runtime}`);
-        console.log("");
-
-        if (options.resource) {
-          const client = new RegistryClient({
-            config: options.registryUrl ? { baseUrl: options.registryUrl } : undefined,
-            token: options.token,
-          });
-
-          const entry = await client.getById(options.resource);
-          if (!entry) {
-            logger.error(`Resource "${options.resource}" not found`);
-            process.exit(1);
-          }
-
-          const manifest = await client.getManifest(entry);
-          const report = await client.checkCompatibility(manifest);
-
-          console.log(`Compatibility with ${manifest.name}@${manifest.version}:`);
-          console.log(`  Compatible: ${report.compatible ? "Yes" : "No"}`);
-          console.log(`  Runtime:    ${report.runtime.supported ? "OK" : "FAIL"}`);
-          console.log(`  Framework:  ${report.framework.supported ? "OK" : "WARN"}`);
-          console.log(`  Node.js:    ${report.nodeVersion.supported ? "OK" : "FAIL"}`);
-          console.log(`  OS:         ${report.os.supported ? "OK" : "FAIL"}`);
+          console.log("\nEnvironment:");
+          console.log(`  Node.js:      ${env.nodeVersion}`);
+          console.log(`  Bun:          ${env.bunVersion ?? "not installed"}`);
+          console.log(`  OS:           ${env.os}`);
+          console.log(`  Architecture: ${env.architecture}`);
+          console.log(`  Pkg Manager:  ${env.packageManager}`);
+          console.log(`  Framework:    ${env.framework}`);
+          console.log(`  Runtime:      ${env.runtime}`);
           console.log("");
 
-          if (report.warnings.length > 0) {
-            console.log("  Warnings:");
-            for (const w of report.warnings) {
-              console.log(`    - ${w}`);
+          if (options.resource) {
+            const client = new RegistryClient({
+              config: options.registryUrl
+                ? { baseUrl: options.registryUrl }
+                : undefined,
+              token: options.token,
+            });
+
+            const entry = await client.getById(options.resource);
+            if (!entry) {
+              logger.error(`Resource "${options.resource}" not found`);
+              process.exit(1);
+            }
+
+            const manifest = await client.getManifest(entry);
+            const report = await client.checkCompatibility(manifest);
+
+            console.log(
+              `Compatibility with ${manifest.name}@${manifest.version}:`,
+            );
+            console.log(`  Compatible: ${report.compatible ? "Yes" : "No"}`);
+            console.log(
+              `  Runtime:    ${report.runtime.supported ? "OK" : "FAIL"}`,
+            );
+            console.log(
+              `  Framework:  ${report.framework.supported ? "OK" : "WARN"}`,
+            );
+            console.log(
+              `  Node.js:    ${report.nodeVersion.supported ? "OK" : "FAIL"}`,
+            );
+            console.log(`  OS:         ${report.os.supported ? "OK" : "FAIL"}`);
+            console.log("");
+
+            if (report.warnings.length > 0) {
+              console.log("  Warnings:");
+              for (const w of report.warnings) {
+                console.log(`    - ${w}`);
+              }
+            }
+
+            if (report.errors.length > 0) {
+              console.log("  Errors:");
+              for (const e of report.errors) {
+                console.log(`    - ${e}`);
+              }
             }
           }
 
-          if (report.errors.length > 0) {
-            console.log("  Errors:");
-            for (const e of report.errors) {
-              console.log(`    - ${e}`);
-            }
-          }
+          console.log("");
+        } catch (error) {
+          logger.error(error instanceof Error ? error.message : String(error));
+          process.exit(1);
         }
-
-        console.log("");
-      } catch (error) {
-        logger.error(error instanceof Error ? error.message : String(error));
-        process.exit(1);
-      }
-    });
+      },
+    );
 }
 
 function getCategories(index: {
-  categories: Array<{ displayName: string; resourceCount: number; description: string }>;
+  categories: Array<{
+    displayName: string;
+    resourceCount: number;
+    description: string;
+  }>;
 }) {
   return index.categories;
 }

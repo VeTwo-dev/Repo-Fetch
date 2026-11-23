@@ -33,7 +33,16 @@ export class DependencyResolver {
     ];
 
     for (const dep of allDeps) {
-      this.resolveDependency(dep.id, dep.type, nodes, edges, visited, visiting, cycles, []);
+      this.resolveDependency(
+        dep.id,
+        dep.type,
+        nodes,
+        edges,
+        visited,
+        visiting,
+        cycles,
+        [],
+      );
     }
 
     const order = this.topologicalSort(nodes, edges);
@@ -104,10 +113,16 @@ export class DependencyResolver {
 
       for (const dep of deps) {
         edges.push({ from: id, to: dep.id, type: dep.type });
-        this.resolveDependency(dep.id, dep.type, nodes, edges, visited, visiting, cycles, [
-          ...path,
-          id,
-        ]);
+        this.resolveDependency(
+          dep.id,
+          dep.type,
+          nodes,
+          edges,
+          visited,
+          visiting,
+          cycles,
+          [...path, id],
+        );
       }
     }
 
@@ -115,7 +130,10 @@ export class DependencyResolver {
     visited.add(id);
   }
 
-  private topologicalSort(nodes: DependencyNode[], edges: DependencyEdge[]): string[] {
+  private topologicalSort(
+    nodes: DependencyNode[],
+    edges: DependencyEdge[],
+  ): string[] {
     const inDegree = new Map<string, number>();
     const adjacency = new Map<string, string[]>();
 

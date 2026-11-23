@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { setConfig, getConfig, resetConfig, validateConfig, defineConfig } from "../src/config";
+import {
+  setConfig,
+  getConfig,
+  resetConfig,
+  validateConfig,
+  defineConfig,
+} from "../src/config";
 import { ValidationError } from "../src/errors";
 
 describe("config", () => {
@@ -29,7 +35,9 @@ describe("config", () => {
   });
 
   it("validates provider", () => {
-    expect(() => validateConfig({ provider: "invalid" as never })).toThrow(ValidationError);
+    expect(() => validateConfig({ provider: "invalid" as never })).toThrow(
+      ValidationError,
+    );
   });
 
   it("validates concurrency range", () => {

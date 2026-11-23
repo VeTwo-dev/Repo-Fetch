@@ -108,7 +108,9 @@ export class RegistryClient {
       );
     }
 
-    logger.success(`Registry index downloaded: ${parsed.data.resources.length} resources`);
+    logger.success(
+      `Registry index downloaded: ${parsed.data.resources.length} resources`,
+    );
     return parsed.data;
   }
 
@@ -146,8 +148,14 @@ export class RegistryClient {
     }
   }
 
-  async getResourceManifest(resource: RegistryResourceEntry): Promise<ResourceManifest> {
-    const cachePath = resolve(this.config.cacheDir, "manifests", `${resource.id}.json`);
+  async getResourceManifest(
+    resource: RegistryResourceEntry,
+  ): Promise<ResourceManifest> {
+    const cachePath = resolve(
+      this.config.cacheDir,
+      "manifests",
+      `${resource.id}.json`,
+    );
 
     const cached = await this.readCachedManifest(cachePath);
     if (cached) {
@@ -163,7 +171,9 @@ export class RegistryClient {
         });
 
         if (!res.statusCode.toString().startsWith("2")) {
-          throw new NetworkError(`Failed to fetch manifest for ${resource.id}: ${res.statusCode}`);
+          throw new NetworkError(
+            `Failed to fetch manifest for ${resource.id}: ${res.statusCode}`,
+          );
         }
 
         return (await res.body.json()) as unknown;
@@ -183,7 +193,9 @@ export class RegistryClient {
     return parsed.data;
   }
 
-  private async readCachedManifest(path: string): Promise<ResourceManifest | null> {
+  private async readCachedManifest(
+    path: string,
+  ): Promise<ResourceManifest | null> {
     try {
       const exists = await fs.pathExists(path);
       if (!exists) {
@@ -202,7 +214,10 @@ export class RegistryClient {
     }
   }
 
-  private async writeCachedManifest(path: string, manifest: ResourceManifest): Promise<void> {
+  private async writeCachedManifest(
+    path: string,
+    manifest: ResourceManifest,
+  ): Promise<void> {
     try {
       await fs.ensureDir(resolve(path, ".."));
       await fs.writeJson(path, manifest, { spaces: 2 });

@@ -20,7 +20,9 @@ export function resetConfig(): void {
 export function validateConfig(config: Partial<Config>): void {
   if (
     config.provider &&
-    !SUPPORTED_PROVIDERS.includes(config.provider as (typeof SUPPORTED_PROVIDERS)[number])
+    !SUPPORTED_PROVIDERS.includes(
+      config.provider as (typeof SUPPORTED_PROVIDERS)[number],
+    )
   ) {
     throw new ValidationError(
       "provider",
@@ -28,7 +30,10 @@ export function validateConfig(config: Partial<Config>): void {
     );
   }
 
-  if (config.concurrency !== undefined && (config.concurrency < 1 || config.concurrency > 50)) {
+  if (
+    config.concurrency !== undefined &&
+    (config.concurrency < 1 || config.concurrency > 50)
+  ) {
     throw new ValidationError("concurrency", "Must be between 1 and 50");
   }
 

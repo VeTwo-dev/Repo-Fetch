@@ -74,7 +74,10 @@ export class RegistryCache {
     }
   }
 
-  async setManifest(resourceId: string, manifest: ResourceManifest): Promise<void> {
+  async setManifest(
+    resourceId: string,
+    manifest: ResourceManifest,
+  ): Promise<void> {
     await fs.ensureDir(this.manifestsDir);
     const path = resolve(this.manifestsDir, `${resourceId}.json`);
     await fs.writeJson(path, manifest, { spaces: 2 });
@@ -104,7 +107,11 @@ export class RegistryCache {
     await fs.remove(this.config.dir);
   }
 
-  async getStats(): Promise<{ size: number; indexAge: number; manifestCount: number }> {
+  async getStats(): Promise<{
+    size: number;
+    indexAge: number;
+    manifestCount: number;
+  }> {
     try {
       const indexExists = await fs.pathExists(this.indexPath);
       let indexAge = 0;

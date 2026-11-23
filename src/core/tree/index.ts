@@ -1,4 +1,9 @@
-import type { TreeItem, TreeNode, RepoIdentifier, FetchOptions } from "../../types";
+import type {
+  TreeItem,
+  TreeNode,
+  RepoIdentifier,
+  FetchOptions,
+} from "../../types";
 import { getProvider } from "../../providers";
 
 export function buildTree(items: TreeItem[]): TreeNode[] {
@@ -19,7 +24,11 @@ export function buildTree(items: TreeItem[]): TreeNode[] {
       }
       currentPath = currentPath ? `${currentPath}/${part}` : part;
       const isLast = i === parts.length - 1;
-      const type = isLast ? (item.type === "tree" ? "directory" : "file") : "directory";
+      const type = isLast
+        ? item.type === "tree"
+          ? "directory"
+          : "file"
+        : "directory";
 
       if (!map.has(currentPath)) {
         const node: TreeNode = {
@@ -67,7 +76,10 @@ export function flattenTree(nodes: TreeNode[]): TreeNode[] {
   return result;
 }
 
-export function findNodeByPath(nodes: TreeNode[], path: string): TreeNode | null {
+export function findNodeByPath(
+  nodes: TreeNode[],
+  path: string,
+): TreeNode | null {
   for (const node of flattenTree(nodes)) {
     if (node.path === path) {
       return node;
@@ -122,7 +134,10 @@ export function countFolders(nodes: TreeNode[]): number {
 }
 
 export function calculateTotalSize(nodes: TreeNode[]): number {
-  return getFileNodes(nodes).reduce((acc: number, n: TreeNode) => acc + n.size, 0);
+  return getFileNodes(nodes).reduce(
+    (acc: number, n: TreeNode) => acc + n.size,
+    0,
+  );
 }
 
 export async function listRepositoryTree(

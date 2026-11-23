@@ -99,7 +99,11 @@ async function transformPackageJson(
     switch (transform.action) {
       case "merge": {
         for (const [key, value] of Object.entries(data)) {
-          if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+          if (
+            typeof value === "object" &&
+            value !== null &&
+            !Array.isArray(value)
+          ) {
             pkg[key] = { ...(pkg[key] as Record<string, unknown>), ...value };
           } else {
             pkg[key] = value;
@@ -108,8 +112,12 @@ async function transformPackageJson(
         break;
       }
       case "prepend": {
-        const dependencies = pkg["dependencies"] as Record<string, string> | undefined;
-        const devDependencies = pkg["devDependencies"] as Record<string, string> | undefined;
+        const dependencies = pkg["dependencies"] as
+          | Record<string, string>
+          | undefined;
+        const devDependencies = pkg["devDependencies"] as
+          | Record<string, string>
+          | undefined;
         if (data["dependencies"] && dependencies) {
           pkg["dependencies"] = {
             ...(data["dependencies"] as Record<string, string>),
@@ -125,8 +133,12 @@ async function transformPackageJson(
         break;
       }
       case "append": {
-        const dependencies = pkg["dependencies"] as Record<string, string> | undefined;
-        const devDependencies = pkg["devDependencies"] as Record<string, string> | undefined;
+        const dependencies = pkg["dependencies"] as
+          | Record<string, string>
+          | undefined;
+        const devDependencies = pkg["devDependencies"] as
+          | Record<string, string>
+          | undefined;
         if (data["dependencies"] && dependencies) {
           pkg["dependencies"] = {
             ...dependencies,
@@ -150,13 +162,19 @@ async function transformPackageJson(
     }
 
     await fs.writeJson(targetPath, pkg, { spaces: 2 });
-    return successResult(transform, `Applied ${transform.action} to package.json`);
+    return successResult(
+      transform,
+      `Applied ${transform.action} to package.json`,
+    );
   } catch (err) {
     if (await fs.pathExists(backupPath)) {
       await fs.copy(backupPath, targetPath);
       await fs.remove(backupPath);
     }
-    return failResult(transform, err instanceof Error ? err.message : String(err));
+    return failResult(
+      transform,
+      err instanceof Error ? err.message : String(err),
+    );
   }
 }
 
@@ -179,8 +197,15 @@ async function transformTsConfig(
     switch (transform.action) {
       case "merge": {
         for (const [key, value] of Object.entries(data)) {
-          if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-            tsconfig[key] = { ...(tsconfig[key] as Record<string, unknown>), ...value };
+          if (
+            typeof value === "object" &&
+            value !== null &&
+            !Array.isArray(value)
+          ) {
+            tsconfig[key] = {
+              ...(tsconfig[key] as Record<string, unknown>),
+              ...value,
+            };
           } else {
             tsconfig[key] = value;
           }
@@ -194,17 +219,26 @@ async function transformTsConfig(
         break;
       }
       default:
-        return failResult(transform, `Unsupported action "${transform.action}" for tsConfig`);
+        return failResult(
+          transform,
+          `Unsupported action "${transform.action}" for tsConfig`,
+        );
     }
 
     await fs.writeJson(targetPath, tsconfig, { spaces: 2 });
-    return successResult(transform, `Applied ${transform.action} to tsconfig.json`);
+    return successResult(
+      transform,
+      `Applied ${transform.action} to tsconfig.json`,
+    );
   } catch (err) {
     if (await fs.pathExists(backupPath)) {
       await fs.copy(backupPath, targetPath);
       await fs.remove(backupPath);
     }
-    return failResult(transform, err instanceof Error ? err.message : String(err));
+    return failResult(
+      transform,
+      err instanceof Error ? err.message : String(err),
+    );
   }
 }
 
@@ -236,13 +270,22 @@ async function transformImports(
         break;
       }
       default:
-        return failResult(transform, `Unsupported action "${transform.action}" for imports`);
+        return failResult(
+          transform,
+          `Unsupported action "${transform.action}" for imports`,
+        );
     }
 
     await fs.writeFile(targetPath, content, "utf-8");
-    return successResult(transform, `Applied ${transform.action} to ${transform.target}`);
+    return successResult(
+      transform,
+      `Applied ${transform.action} to ${transform.target}`,
+    );
   } catch (err) {
-    return failResult(transform, err instanceof Error ? err.message : String(err));
+    return failResult(
+      transform,
+      err instanceof Error ? err.message : String(err),
+    );
   }
 }
 
@@ -286,7 +329,10 @@ async function transformConfig(
     await fs.writeJson(targetPath, config, { spaces: 2 });
     return successResult(transform, `Updated ${transform.target}`);
   } catch (err) {
-    return failResult(transform, err instanceof Error ? err.message : String(err));
+    return failResult(
+      transform,
+      err instanceof Error ? err.message : String(err),
+    );
   }
 }
 
@@ -295,10 +341,16 @@ async function transformCustom(
   _context: TransformContext,
 ): Promise<TransformResult> {
   logger.info(`Custom transform: ${transform.description ?? transform.target}`);
-  return successResult(transform, `Custom transform executed: ${transform.target}`);
+  return successResult(
+    transform,
+    `Custom transform executed: ${transform.target}`,
+  );
 }
 
-function successResult(transform: TransformDef, message: string): TransformResult {
+function successResult(
+  transform: TransformDef,
+  message: string,
+): TransformResult {
   return {
     type: transform.type,
     target: transform.target,

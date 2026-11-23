@@ -90,11 +90,16 @@ async function executeHook(
   }
 }
 
-export function getAvailableHooks(manifest: ResourceManifest): LifecycleHookName[] {
+export function getAvailableHooks(
+  manifest: ResourceManifest,
+): LifecycleHookName[] {
   return manifest.lifecycleHooks.map((h) => h.name);
 }
 
-export function hasHook(manifest: ResourceManifest, hookName: LifecycleHookName): boolean {
+export function hasHook(
+  manifest: ResourceManifest,
+  hookName: LifecycleHookName,
+): boolean {
   return manifest.lifecycleHooks.some((h) => h.name === hookName);
 }
 

@@ -1,8 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { detectEnvironment, checkCompatibility } from "../../src/registry/compatibility";
+import {
+  detectEnvironment,
+  checkCompatibility,
+} from "../../src/registry/compatibility";
 import type { ResourceManifest } from "../../src/registry/types";
 
-function createManifestWithCompat(overrides: Partial<ResourceManifest> = {}): ResourceManifest {
+function createManifestWithCompat(
+  overrides: Partial<ResourceManifest> = {},
+): ResourceManifest {
   return {
     id: "test",
     name: "Test",

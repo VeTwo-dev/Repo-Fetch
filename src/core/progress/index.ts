@@ -34,10 +34,14 @@ export class ProgressTracker {
     this.data.bytesDownloaded += bytes;
     this.data.elapsed = Date.now() - this.startTime;
     this.data.speed =
-      this.data.elapsed > 0 ? (this.data.bytesDownloaded / this.data.elapsed) * 1000 : 0;
+      this.data.elapsed > 0
+        ? (this.data.bytesDownloaded / this.data.elapsed) * 1000
+        : 0;
 
     const percent =
-      this.data.total > 0 ? Math.round((this.data.completed / this.data.total) * 100) : 0;
+      this.data.total > 0
+        ? Math.round((this.data.completed / this.data.total) * 100)
+        : 0;
 
     this.spinner.text = [
       `${pc.cyan(`${percent}%`)}`,

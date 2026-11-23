@@ -1,0 +1,42 @@
+# Bazel build for @vetwo/repo-fetch (internal link project).
+#
+# Minimal BUILD file to satisfy npm_link_all_packages() link target at root,
+# plus a real :build target so dependent packages can resolve its types.
+
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("//bazel/macros:bundle.bzl", "vetwo_bundle")
+
+npm_link_all_packages()
+
+vetwo_bundle(
+    name = "build",
+    srcs = glob(["src/**/*.ts"]) + [
+        "package.json",
+        "tsconfig.json",
+    ],
+    deps = [
+        ":node_modules/@types/node",
+        ":node_modules/typescript",
+        ":node_modules/tsup",
+    ],
+    config = "tsup.config.ts",
+    env = {
+        "VETWO_TSCONFIG_NO_ROOTDIR": "1",
+    },
+    tags = ["manual"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "package",
+    srcs = glob(["**"], exclude = ["node_modules/**", ".next/**", "dist/**"]),
+    visibility = ["//visibility:public"],
+)
+
+npm_package(
+    name = "pkg",
+    srcs = [":package"],
+    package = "@vetwo/repo-fetch",
+    visibility = ["//visibility:public"],
+)

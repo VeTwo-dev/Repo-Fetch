@@ -33,17 +33,20 @@ This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDU
 1. Fork the repository on GitHub
 
 2. Clone your fork locally:
+
    ```bash
    git clone https://github.com/your-username/repo-fetch.git
    cd repo-fetch
    ```
 
 3. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 4. Start development:
+
    ```bash
    pnpm dev
    ```
@@ -56,6 +59,7 @@ This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDU
 ## Project Overview
 
 `@vetwo/repo-fetch` is both:
+
 - A **GitHub folder downloader** — fetch specific files/folders without cloning entire repos
 - The **Vetwo Registry Client** — discover, install, and manage plugins, modules, templates, presets, generators, snippets, recipes, blueprints, integrations, adapters, examples, themes, and configurations
 
@@ -198,7 +202,7 @@ Include:
 - Single responsibility principle
 - Composition over inheritance
 - Clear, descriptive variable names
-- Comments explain *why*, not *what*
+- Comments explain _why_, not _what_
 
 ### File Organization
 
@@ -241,18 +245,18 @@ pnpm test -- tests/registry/search.test.ts
 
 ### Registry Test Suites
 
-| Suite | Tests | Coverage |
-|-------|-------|----------|
-| `schema.test.ts` | 13 | Schema validation, defaults, version regex |
-| `search.test.ts` | 19 | Fuzzy search, filtering, sorting |
-| `resolver.test.ts` | 10 | Dependencies, cycles, conflicts |
-| `compatibility.test.ts` | 7 | Environment detection, compatibility |
-| `variables.test.ts` | 16 | Resolution chain, validation |
-| `transforms.test.ts` | 16 | AST transforms, backup/rollback |
-| `integrity.test.ts` | 12 | Checksum verification |
-| `lifecycle.test.ts` | 9 | Hook execution |
-| `report.test.ts` | 14 | Installation report |
-| `cache.test.ts` | 12 | TTL-based caching |
+| Suite                   | Tests | Coverage                                   |
+| ----------------------- | ----- | ------------------------------------------ |
+| `schema.test.ts`        | 13    | Schema validation, defaults, version regex |
+| `search.test.ts`        | 19    | Fuzzy search, filtering, sorting           |
+| `resolver.test.ts`      | 10    | Dependencies, cycles, conflicts            |
+| `compatibility.test.ts` | 7     | Environment detection, compatibility       |
+| `variables.test.ts`     | 16    | Resolution chain, validation               |
+| `transforms.test.ts`    | 16    | AST transforms, backup/rollback            |
+| `integrity.test.ts`     | 12    | Checksum verification                      |
+| `lifecycle.test.ts`     | 9     | Hook execution                             |
+| `report.test.ts`        | 14    | Installation report                        |
+| `cache.test.ts`         | 12    | TTL-based caching                          |
 
 ## Documentation
 
@@ -300,6 +304,7 @@ pnpm test -- tests/registry/search.test.ts
 ### Registry Cache
 
 The registry cache uses TTL-based caching:
+
 - Index: 24 hours
 - Manifests: 1 hour
 
